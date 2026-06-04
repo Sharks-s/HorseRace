@@ -1,0 +1,38 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.badge--default {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-secondary);
+}
+
+.badge--teal {
+  background-color: #E0F2F1;
+  color: var(--color-secondary);
+}
+
+.badge--verified {
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.badge--warning {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.badge--danger {
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
+}

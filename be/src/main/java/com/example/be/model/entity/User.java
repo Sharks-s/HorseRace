@@ -8,8 +8,11 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,7 +21,7 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID) // Đảm bảo tự động sinh UUID chuẩn xác
     private UUID id;
 
     @Column(nullable = false)
@@ -56,10 +59,12 @@ public class User {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
 
+        // Mặc định đăng ký mới sẽ là Spectator (Khán giả) theo luồng thường
         if (role == null) {
-            role = Role.BUYER;
+            role = Role.SPECTATOR;
         }
 
+        // Mặc định tài khoản mới hoạt động luôn (hoặc đổi thành PENDING_APPROVAL nếu bạn muốn Admin duyệt)
         if (status == null) {
             status = UserStatus.ACTIVE;
         }

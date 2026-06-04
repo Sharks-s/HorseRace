@@ -1,7 +1,9 @@
 package com.example.be.model.enums;
 
 public enum Role {
-    BUYER,
-    SELLER,
-    ADMIN
+    ADMIN,
+    HORSE_OWNER,
+    JOCKEY,
+    REFEREE,
+    SPECTATOR
 }

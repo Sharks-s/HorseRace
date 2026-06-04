@@ -1,5 +1,6 @@
 package com.example.be.dto.request;
 
+import com.example.be.model.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,5 +15,6 @@ public class RegisterRequest {
     private String password;
 
     private String phoneNumber;
-}
 
+    private Role role;
+}
