@@ -1,7 +1,7 @@
 .register-container {
   height: 100vh;
   width: 100vw;
-  background-image: url("https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1920&q=80");
+  background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCXgTNJ62MO6xTWFx1JM6EwqN0jeeKNCQCVOR8V9xUamSGFIOhs_DJs7ByjbwOSOceGx-sYImlMmZTUiaWmUkpdE53isA0I-lqtJbX-rL4kq0kVXdHhQ7pfMT4LsIk2zIEChhYHtSzNMvwOUpTye0U-ntPygQUtj5EOqJ7sE4L0-ATEm21P-_8ncGKDoZ94ek3eR3dmvMQth4Jb13dNdx-2l8sjaO-cvajnMT61ATWHMsxlc1fdCxr_b-zUwwctxK8eCtEs_Eu0xg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -19,7 +19,8 @@
   width: 100%;
   height: 100%;
   max-height: min(850px, 92vh);
-  background-color: #ffffff;
+  /* XÓA background-color trắng để lộ nền container */
+  background-color: transparent;
   border-radius: 24px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   overflow: hidden;
@@ -32,9 +33,9 @@
   width: 50%;
   position: relative;
   height: 100%;
-  background-color: #0f172a;
-}
 
+  background-color: rgba(15, 23, 42, 0.4);
+}
 .register-bg-image {
   position: absolute;
   inset: 0;
@@ -47,10 +48,11 @@
 .register-overlay {
   position: absolute;
   inset: 0;
+  /* Hạ độ opacity của gradient xuống để nhìn xuyên qua rõ hơn */
   background: linear-gradient(
     135deg,
-    rgba(15, 23, 42, 0.95) 0%,
-    rgba(15, 23, 42, 0.5) 100%
+    rgba(15, 23, 42, 0.7) 0%,
+    rgba(15, 23, 42, 0.2) 100%
   );
   padding: max(1.5rem, 4vh);
   display: flex;
@@ -125,6 +127,11 @@
   justify-content: center;
   box-sizing: border-box;
   height: 100%;
+  /* THÊM: Lớp nền tối trong suốt cho form bên phải dễ đọc chữ trên nền ảnh */
+  background-color: rgba(255, 255, 255, 0.15);
+  /* THÊM: Hiệu ứng mờ kính (Blur) giúp form trông hiện đại và tách biệt với nền */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .register-form-container {
@@ -160,14 +167,15 @@
   display: block;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #334155;
+  color: #f1f5f9; /* Đổi sang màu trắng xám */
   margin-bottom: 0.25rem;
 }
 
 .register-input {
   width: 100%;
   padding: min(0.65rem, 1.3vh) 1rem;
-  background-color: #f8fafc;
+  /* Làm ô input trong suốt nhẹ */
+  background-color: rgba(255, 255, 255, 0.85);
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   font-size: 0.95rem;

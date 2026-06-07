@@ -26,11 +26,7 @@ const RegisterPage = () => {
       <div className="register-card">
         {/* Left Visual Pane - Đổi ảnh trường đua & nội dung thương hiệu */}
         <div className="register-visual-pane">
-          <img
-            src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80&w=2070"
-            alt="Horse Racing Track"
-            className="register-bg-image"
-          />
+          <img alt="Horse Racing Track" className="register-bg-image" />
           <div className="register-overlay">
             <div>
               <div className="register-logo-area">

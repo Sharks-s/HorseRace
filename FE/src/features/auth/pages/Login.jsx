@@ -18,7 +18,7 @@ const LoginPage = () => {
         {/* Left Visual Pane - Đổi ảnh và nội dung theo chủ đề Đua Ngựa */}
         <div className="login-visual-pane">
           <img
-            src="https://images.unsplash.com/photo-1599256621730-535171e28e50?auto=format&fit=crop&q=80&w=2070"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsEgMuszQnoXwKOiqNHdOHjC-2usZuTXzTuWciTVehNeDBItfYlBvWPmurH165aiJybVRW3T_ltW3p-P7Ox3JrQRfZ0NROKpALWU7TwAE0FzfBtoGYftwiUJGkdO80XYNREwi-wIPS0xtNgZff7Hz7bJ3HCCSRQwtfLEveopF4d38a8GqiXe1bzWVoSHHyYVK10jAPsHzLZjng5RU_8G7xSJQZQfYQZ7xEZdllL-q88beFKecpeLQE82hSTfnxLDw-DkzjBq-BEA"
             alt="Horse Racing Tournament"
             className="login-bg-image"
           />
