@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | TURF &amp; THOROUGHBRED</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Oswald:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#2b394d",
+                    "secondary-container": "#fed65b",
+                    "on-primary-fixed-variant": "#165132",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-error-container": "#93000a",
+                    "surface": "#f7f9fb",
+                    "on-error": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-secondary-container": "#745c00",
+                    "on-background": "#191c1e",
+                    "secondary-fixed-dim": "#e9c349",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "surface-tint": "#316948",
+                    "background": "#f7f9fb",
+                    "surface-variant": "#e0e3e5",
+                    "secondary-fixed": "#ffe088",
+                    "surface-container-highest": "#e0e3e5",
+                    "inverse-primary": "#98d4ac",
+                    "tertiary-fixed-dim": "#b9c7e0",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary": "#735c00",
+                    "on-surface-variant": "#404942",
+                    "surface-bright": "#f7f9fb",
+                    "tertiary": "#152436",
+                    "outline-variant": "#c0c9c0",
+                    "inverse-surface": "#2d3133",
+                    "primary-container": "#004225",
+                    "on-surface": "#191c1e",
+                    "surface-container": "#eceef0",
+                    "on-tertiary-container": "#94a3ba",
+                    "tertiary-fixed": "#d5e3fd",
+                    "outline": "#717971",
+                    "surface-dim": "#d8dadc",
+                    "on-secondary-fixed": "#241a00",
+                    "on-primary-container": "#75af89",
+                    "on-primary-fixed": "#002110",
+                    "surface-container-low": "#f2f4f6",
+                    "primary-fixed-dim": "#98d4ac",
+                    "on-tertiary-fixed-variant": "#3a485c",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#b4f0c7",
+                    "surface-container-high": "#e6e8ea",
+                    "primary": "#002a15",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-tertiary-fixed": "#0d1c2f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-margin": "24px",
+                    "section-gap": "48px",
+                    "base": "8px",
+                    "stack-sm": "4px",
+                    "gutter": "16px",
+                    "stack-md": "12px"
+            },
+            "fontFamily": {
+                    "label-bold": ["Inter"],
+                    "headline-lg": ["Oswald"],
+                    "headline-lg-mobile": ["Oswald"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Oswald"],
+                    "label-sm": ["Inter"],
+                    "display-lg": ["Oswald"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        vertical-align: middle;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #c0c9c0;
+        border-radius: 10px;
+      }
+      .split-bg-overlay {
+        background: linear-gradient(rgba(0, 42, 21, 0.4), rgba(0, 42, 21, 0.85));
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+      }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
+<main class="min-h-screen flex flex-col md:flex-row overflow-hidden">
+<!-- Left Side: Visual Anchor -->
+<section class="relative hidden md:flex md:w-1/2 lg:w-3/5 bg-primary overflow-hidden items-center justify-center">
+<div class="absolute inset-0 z-0">
+<img alt="Prestigious horse racing action" class="w-full h-full object-cover" data-alt="A dynamic, high-action photograph of a thoroughbred horse and jockey in mid-gallop on a pristine green turf track. The lighting is golden hour, creating long shadows and highlighting the powerful muscle definition of the horse. The style is professional sports photography with a cinematic depth of field, using the brand's deep racing green and championship gold tones in the environment. The atmosphere is prestigious, high-stakes, and focused on athletic excellence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsEgMuszQnoXwKOiqNHdOHjC-2usZuTXzTuWciTVehNeDBItfYlBvWPmurH165aiJybVRW3T_ltW3p-P7Ox3JrQRfZ0NROKpALWU7TwAE0FzfBtoGYftwiUJGkdO80XYNREwi-wIPS0xtNgZff7Hz7bJ3HCCSRQwtfLEveopF4d38a8GqiXe1bzWVoSHHyYVK10jAPsHzLZjng5RU_8G7xSJQZQfYQZ7xEZdllL-q88beFKecpeLQE82hSTfnxLDw-DkzjBq-BEA"/>
+<div class="absolute inset-0 split-bg-overlay"></div>
+</div>
+<!-- Branding Overlay -->
+<div class="relative z-10 p-12 text-center">
+<div class="mb-6 flex items-center justify-center gap-3">
+<span class="material-symbols-outlined text-secondary-container text-6xl" style="font-variation-settings: 'FILL' 1;">speed</span>
+<h1 class="font-display-lg text-display-lg text-secondary-container tracking-tighter uppercase">HorseRace</h1>
+</div>
+<p class="font-headline-md text-headline-md text-on-primary-container max-w-md mx-auto opacity-90">
+                    Digital Tournament Management
+                </p>
+<div class="mt-12 h-1 w-24 bg-secondary-container mx-auto rounded-full"></div>
+</div>
+<!-- Aesthetic Accent -->
+<div class="absolute bottom-8 left-8 border-l-4 border-secondary-container pl-4 opacity-70">
+<p class="font-label-bold text-label-bold text-surface-container-lowest tracking-widest uppercase">Est. 1884</p>
+<p class="font-label-sm text-label-sm text-on-primary-container">Championship Standards</p>
+</div>
+</section>
+<!-- Right Side: Login Form -->
+<section class="flex-1 flex flex-col items-center justify-center p-gutter md:p-12 lg:p-24 bg-surface min-h-screen">
+<!-- Mobile Header (Visible only on small screens) -->
+<div class="md:hidden mb-8 text-center">
+<div class="flex items-center justify-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">speed</span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">TURF &amp; THOROUGHBRED</h2>
+</div>
+</div>
+<div class="w-full max-w-md">
+<header class="mb-10">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Login</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Access your stable and racing stats</p>
+</header>
+<form class="space-y-6" onsubmit="return false">
+<!-- Email Field -->
+<div class="space-y-2">
+<label class="font-label-bold text-label-bold text-on-surface" for="email">Email Address</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-outline group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</div>
+<input class="w-full pl-11 pr-4 py-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md text-on-surface placeholder:text-outline-variant" id="email" name="email" placeholder="name@stable.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<label class="font-label-bold text-label-bold text-on-surface" for="password">Password</label>
+<a class="font-label-sm text-label-sm text-primary hover:underline transition-all" href="#">Forgot Password?</a>
+</div>
+<div class="relative group" id="password-container">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-outline group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</div>
+<input class="w-full pl-11 pr-12 py-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md text-on-surface placeholder:text-outline-variant" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute inset-y-0 right-0 pr-4 flex items-center text-outline hover:text-primary transition-colors" onclick="togglePassword()" type="button">
+<span class="material-symbols-outlined text-[20px]" id="eye-icon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Login Button -->
+<button class="w-full bg-secondary-container hover:bg-secondary-fixed transition-all duration-300 py-4 px-6 rounded-lg flex items-center justify-center gap-3 group active:scale-[0.98]" type="submit">
+<span class="font-label-bold text-label-bold text-on-secondary-container tracking-wider uppercase">LOGIN</span>
+<span class="material-symbols-outlined text-on-secondary-container group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</form>
+<footer class="mt-12 space-y-8 text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Don't have an account? 
+                        <a class="text-primary font-label-bold hover:underline" href="#">Sign Up</a>
+</p>
+<!-- Security Badge -->
+<div class="flex items-center justify-center gap-2 bg-surface-container-high py-2 px-4 rounded-full w-fit mx-auto">
+<span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">JWT Security Active</span>
+</div>
+</footer>
+</div>
+<!-- Contextual Footer Links -->
+<div class="absolute bottom-8 flex gap-6 text-outline font-label-sm text-label-sm">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Support</a>
+</div>
+</section>
+</main>
+<script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.innerText = 'visibility_off';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.innerText = 'visibility';
+            }
+        }
+
+        // Simple form interaction feedback
+        const loginBtn = document.querySelector('button[type="submit"]');
+        loginBtn.addEventListener('click', (e) => {
+            if (document.getElementById('email').value && document.getElementById('password').value) {
+                loginBtn.innerHTML = `
+                    <svg class="animate-spin h-5 w-5 text-on-secondary-container" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span class="font-label-bold text-label-bold text-on-secondary-container">VERIFYING...</span>
+                `;
+                setTimeout(() => {
+                    loginBtn.innerHTML = `
+                        <span class="font-label-bold text-label-bold text-on-secondary-container tracking-wider uppercase">LOGIN</span>
+                        <span class="material-symbols-outlined text-on-secondary-container">arrow_forward</span>
+                    `;
+                }, 2000);
+            }
+        });
+    </script>
+</body></html>

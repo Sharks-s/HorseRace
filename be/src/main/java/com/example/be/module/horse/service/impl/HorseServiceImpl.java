@@ -11,6 +11,7 @@ import com.example.be.module.horse.model.enums.HorseStatus;
 import com.example.be.module.horse.repository.HorseRepository;
 import com.example.be.module.horse.service.HorseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -28,10 +29,14 @@ public class HorseServiceImpl implements HorseService {
 	private final HorseRepository horseRepository;
 	private final UserRepository userRepository;
 
+	@Value("${app.horse.max-weight}")
+	private double maxHorseWeight;
+
 	@Override
 	public HorseResponse createHorse(HorseCreateRequest request) {
 		User owner = getCurrentUser();
 		validateHealthCertificateExpiry(request.getHealthCertExpiry());
+		validateWeightLimit(request.getWeight());
 
 		Horse horse = Horse.builder()
 				.name(request.getName())
@@ -71,6 +76,7 @@ public class HorseServiceImpl implements HorseService {
 		}
 
 		validateHealthCertificateExpiry(request.getHealthCertExpiry());
+		validateWeightLimit(request.getWeight());
 		horse.setName(request.getName());
 		horse.setBreed(request.getBreed());
 		horse.setAge(request.getAge());
@@ -102,6 +108,17 @@ public class HorseServiceImpl implements HorseService {
 		}
 		if (healthCertExpiry.isAfter(maxAllowed)) {
 			throw new IllegalArgumentException("BR-01: healthCertExpiry phải trong vòng 6 tháng kể từ hôm nay");
+		}
+	}
+
+	private void validateWeightLimit(Double weight) {
+		if (weight == null || weight <= 0) {
+			throw new IllegalArgumentException("BR-01: Cân nặng phải lớn hơn 0");
+		}
+
+		if (weight > maxHorseWeight) {
+			throw new IllegalArgumentException(
+					"BR-01: Cân nặng vượt quá giới hạn hạng cân cho phép (" + maxHorseWeight + " kg)");
 		}
 	}
 }

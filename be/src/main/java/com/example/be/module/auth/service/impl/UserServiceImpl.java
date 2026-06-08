@@ -64,6 +64,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}
 
 		Role dynamicRole = request.getRole() == null ? Role.SPECTATOR : request.getRole();
+		if (dynamicRole != Role.HORSE_OWNER && dynamicRole != Role.SPECTATOR) {
+			throw new IllegalArgumentException("Public registration only supports HORSE_OWNER or SPECTATOR role");
+		}
+
 		String verificationToken = UUID.randomUUID().toString();
 		String displayName = request.getFullName();
 		if (displayName == null || displayName.isBlank()) {

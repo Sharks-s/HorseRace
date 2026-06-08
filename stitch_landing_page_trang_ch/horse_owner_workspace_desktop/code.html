@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Horse Owner Workspace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Oswald:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#e9c349",
+                    "inverse-on-surface": "#eff1f3",
+                    "tertiary-fixed": "#d5e3fd",
+                    "secondary-container": "#fed65b",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary": "#735c00",
+                    "on-primary-fixed": "#002110",
+                    "secondary-fixed": "#ffe088",
+                    "primary-container": "#004225",
+                    "surface-container-highest": "#e0e3e5",
+                    "surface-bright": "#f7f9fb",
+                    "on-tertiary-fixed-variant": "#3a485c",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed": "#241a00",
+                    "outline-variant": "#c0c9c0",
+                    "tertiary-container": "#2b394d",
+                    "on-primary-container": "#75af89",
+                    "inverse-surface": "#2d3133",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-secondary-container": "#745c00",
+                    "tertiary-fixed-dim": "#b9c7e0",
+                    "outline": "#717971",
+                    "surface-container-high": "#e6e8ea",
+                    "on-secondary": "#ffffff",
+                    "surface-tint": "#316948",
+                    "tertiary": "#152436",
+                    "surface-variant": "#e0e3e5",
+                    "surface-container": "#eceef0",
+                    "surface": "#f7f9fb",
+                    "surface-container-low": "#f2f4f6",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#191c1e",
+                    "on-tertiary-fixed": "#0d1c2f",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#d8dadc",
+                    "inverse-primary": "#98d4ac",
+                    "on-primary-fixed-variant": "#165132",
+                    "on-surface-variant": "#404942",
+                    "primary-fixed-dim": "#98d4ac",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#b4f0c7",
+                    "on-background": "#191c1e",
+                    "primary": "#002a15",
+                    "on-tertiary-container": "#94a3ba",
+                    "background": "#f7f9fb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "4px",
+                    "section-gap": "48px",
+                    "stack-md": "12px",
+                    "gutter": "16px",
+                    "base": "8px",
+                    "container-margin": "24px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["Oswald"],
+                    "headline-md": ["Oswald"],
+                    "headline-lg": ["Oswald"],
+                    "label-sm": ["Inter"],
+                    "headline-lg-mobile": ["Oswald"],
+                    "label-bold": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen">
+<!-- TopAppBar (Desktop Navigation) -->
+<header class="bg-surface border-b border-outline-variant flex justify-between items-center w-full px-8 h-16 z-50 sticky top-0 shadow-sm">
+<div class="flex items-center gap-8">
+<h1 class="font-display-lg text-secondary font-bold tracking-tighter" style="font-size: 24px; line-height: 32px;">HorseRace</h1>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="font-label-bold text-on-surface hover:text-primary transition-colors py-2" href="#">Dashboard</a>
+<a class="font-label-bold text-primary border-b-2 border-primary py-2" href="#">My Stable</a>
+<a class="font-label-bold text-on-surface hover:text-primary transition-colors py-2" href="#">Races</a>
+<a class="font-label-bold text-on-surface hover:text-primary transition-colors py-2" href="#">Results</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="h-8 w-8 rounded-full overflow-hidden border-2 border-secondary bg-surface-container-high flex items-center justify-center cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="person">person</span>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="w-full max-w-7xl mx-auto px-8 py-10 flex flex-col gap-10">
+<!-- Profile Header -->
+<section class="flex justify-between items-end">
+<div class="flex flex-col gap-stack-sm">
+<p class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-wider text-xs">Owner Workspace</p>
+<h2 class="font-display-lg text-primary text-4xl leading-tight">Welcome back, Kingsley Stables</h2>
+</div>
+<button class="bg-secondary text-on-secondary px-5 py-2.5 rounded-lg font-label-bold flex items-center gap-2 hover:bg-secondary/90 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span> Add New Horse
+        </button>
+</section>
+<!-- Desktop Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+<!-- Left Section: My Stable Data Table -->
+<section class="lg:col-span-2 flex flex-col gap-4">
+<h3 class="font-headline-lg text-primary text-2xl">My Stable</h3>
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_12px_rgba(148,163,184,0.1)] border border-outline-variant/30 overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant/30">
+<tr>
+<th class="p-4 font-label-bold text-label-bold text-on-surface-variant">Horse</th>
+<th class="p-4 font-label-bold text-label-bold text-on-surface-variant">Details</th>
+<th class="p-4 font-label-bold text-label-bold text-on-surface-variant">Weight</th>
+<th class="p-4 font-label-bold text-label-bold text-on-surface-variant">Health Cert</th>
+<th class="p-4 font-label-bold text-label-bold text-on-surface-variant"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20">
+<!-- Horse Row 1 -->
+<tr class="hover:bg-surface/50 transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-lg bg-surface-container-high overflow-hidden shrink-0 border-l-4 border-[#10B981]">
+<img alt="Chestnut horse portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmwuTGm5OQ2ernHG4RGMIlzJlkPlbaVJ15_XF_pulaFdwxh3hGwsZmHwRMdmzS_LyJRGHSculoEPyEOxYDopO81wINx6ftFQo-Wd2Ng2VSYMcsRR_suinzTSB3nS5FUr70r2ohQNtUekRxmem77WQ4u8nXKlX5IU2D5mKNWicq3avjCume8Gqyef6vP0ZGre_tXpNazwr4RGNmWJHNUqcJVWivg0NK_XVAHnLfI4j4KrsCm8yEgoAAk8oajmpS5xIvxx79UAOv0g"/>
+</div>
+<span class="font-headline-md text-headline-md text-primary text-xl">Thunder Strike</span>
+</div>
+</td>
+<td class="p-4 font-body-md text-on-surface-variant">Stallion • 4 Yrs</td>
+<td class="p-4 font-label-bold text-on-surface">1,150 lbs</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-[#D1FAE5] text-[#065F46] font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] mr-1" data-icon="check_circle">check_circle</span> Valid
+                                </span>
+</td>
+<td class="p-4 text-right">
+<button class="h-8 w-8 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center hover:bg-secondary-container hover:text-on-secondary-container transition-colors ml-auto opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- Horse Row 2 -->
+<tr class="hover:bg-surface/50 transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-lg bg-surface-container-high overflow-hidden shrink-0 border-l-4 border-error">
+<img alt="Black horse portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjhaRuvK9zpFP5BZas4I3oR5sgGhvXrBdVe78RNiwyVExn6SR4QVCPVwcpIYnYVVpXwnrjKbthWAOd_p6wgwOmo5Mo62XaTr6h8O-GGeHovn-7XEyP9aLaF_LflN-UoWNnZwTTlUOpnViPXBbcnzNehMnl7Vm5Xc_HZlVtli07oUsNaC6Q5ziMQ6Oj9LXKQHMQExPXVZRn4cmxw9VzA2YNkPGVhTQdB4pycGj5lQ3jgFTiJhNYeUhVbEYVzv1oX2GhOA12eCtzpQ"/>
+</div>
+<span class="font-headline-md text-headline-md text-primary text-xl">Midnight Run</span>
+</div>
+</td>
+<td class="p-4 font-body-md text-on-surface-variant">Mare • 3 Yrs</td>
+<td class="p-4 font-label-bold text-on-surface">1,080 lbs</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] mr-1" data-icon="warning">warning</span> Expired
+                                </span>
+</td>
+<td class="p-4 text-right">
+<button class="h-8 w-8 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center hover:bg-surface-container-high transition-colors ml-auto opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- Horse Row 3 -->
+<tr class="hover:bg-surface/50 transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-lg bg-surface-container-high overflow-hidden shrink-0 flex items-center justify-center border-l-4 border-[#10B981]">
+<span class="material-symbols-outlined text-surface-variant text-2xl" data-icon="pets">pets</span>
+</div>
+<span class="font-headline-md text-headline-md text-primary text-xl">Golden Hoof</span>
+</div>
+</td>
+<td class="p-4 font-body-md text-on-surface-variant">Gelding • 5 Yrs</td>
+<td class="p-4 font-label-bold text-on-surface">1,210 lbs</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-[#D1FAE5] text-[#065F46] font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] mr-1" data-icon="check_circle">check_circle</span> Valid
+                                </span>
+</td>
+<td class="p-4 text-right">
+<button class="h-8 w-8 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center hover:bg-surface-container-high transition-colors ml-auto opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Right Section: Upcoming Tournaments -->
+<section class="lg:col-span-1 flex flex-col gap-4">
+<h3 class="font-headline-lg text-primary text-2xl">Upcoming Tournaments</h3>
+<div class="flex flex-col gap-6">
+<!-- Race Entry 1 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_12px_rgba(148,163,184,0.1)] border border-outline-variant/30 overflow-hidden flex flex-col">
+<div class="bg-primary text-on-primary p-5 flex justify-between items-center">
+<div>
+<h4 class="font-headline-md text-headline-md text-xl">Royal Ascot Invitational</h4>
+<p class="font-body-md text-body-md text-on-primary/80 text-sm opacity-90 mt-1">Turf • 1.5 Miles • Grade 1</p>
+</div>
+<div class="text-right">
+<p class="font-display-lg text-display-lg text-secondary-fixed text-2xl">$500k</p>
+<p class="font-label-sm text-label-sm text-on-primary/70">Purse</p>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-4 bg-white">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-bold text-label-bold text-sm border-b border-outline-variant/20 pb-4">
+<span class="material-symbols-outlined text-[18px]" data-icon="calendar_month">calendar_month</span>
+                            Oct 12, 2024 • 14:30 GMT
+                        </div>
+<div class="flex flex-col gap-3 pt-1">
+<button class="w-full bg-secondary text-on-secondary font-label-bold text-label-bold py-3.5 rounded-lg shadow-sm hover:bg-secondary/90 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="how_to_reg">how_to_reg</span>
+                                Register Horse
+                            </button>
+<button class="w-full bg-transparent border-2 border-primary text-primary font-label-bold text-label-bold py-3.5 rounded-lg hover:bg-surface-container-lowest transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="person_add">person_add</span>
+                                Hire Jockey
+                            </button>
+</div>
+</div>
+</div>
+<!-- Race Entry 2 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_12px_rgba(148,163,184,0.1)] border border-outline-variant/30 overflow-hidden flex flex-col">
+<div class="bg-primary text-on-primary p-5 flex justify-between items-center">
+<div>
+<h4 class="font-headline-md text-headline-md text-xl">Dubai World Cup Prep</h4>
+<p class="font-body-md text-body-md text-on-primary/80 text-sm opacity-90 mt-1">Dirt • 1.25 Miles • Grade 2</p>
+</div>
+<div class="text-right">
+<p class="font-display-lg text-display-lg text-secondary-fixed text-2xl">$250k</p>
+<p class="font-label-sm text-label-sm text-on-primary/70">Purse</p>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-4 bg-white">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-bold text-label-bold text-sm border-b border-outline-variant/20 pb-4">
+<span class="material-symbols-outlined text-[18px]" data-icon="calendar_month">calendar_month</span>
+                            Nov 05, 2024 • 18:00 GST
+                        </div>
+<div class="flex flex-col gap-3 pt-1">
+<button class="w-full bg-secondary text-on-secondary font-label-bold text-label-bold py-3.5 rounded-lg shadow-sm hover:bg-secondary/90 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="how_to_reg">how_to_reg</span>
+                                Register Horse
+                            </button>
+<button class="w-full bg-transparent border-2 border-primary text-primary font-label-bold text-label-bold py-3.5 rounded-lg hover:bg-surface-container-lowest transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="person_add">person_add</span>
+                                Hire Jockey
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>

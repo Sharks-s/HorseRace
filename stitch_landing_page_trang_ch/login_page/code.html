@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Turf &amp; Thoroughbred Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#191c1e",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#eceef0",
+                        "on-background": "#191c1e",
+                        "surface-container-low": "#f2f4f6",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#002a15",
+                        "tertiary-container": "#2b394d",
+                        "on-primary-container": "#75af89",
+                        "background": "#f7f9fb",
+                        "on-tertiary-container": "#94a3ba",
+                        "surface-tint": "#316948",
+                        "secondary-fixed-dim": "#e9c349",
+                        "tertiary-fixed": "#d5e3fd",
+                        "primary-fixed-dim": "#98d4ac",
+                        "on-secondary-container": "#745c00",
+                        "tertiary-fixed-dim": "#b9c7e0",
+                        "on-surface-variant": "#404942",
+                        "inverse-surface": "#2d3133",
+                        "error-container": "#ffdad6",
+                        "outline": "#717971",
+                        "inverse-primary": "#98d4ac",
+                        "secondary": "#735c00",
+                        "surface": "#f7f9fb",
+                        "on-primary-fixed-variant": "#165132",
+                        "secondary-container": "#fed65b",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#f7f9fb",
+                        "tertiary": "#152436",
+                        "surface-dim": "#d8dadc",
+                        "inverse-on-surface": "#eff1f3",
+                        "secondary-fixed": "#ffe088",
+                        "primary-fixed": "#b4f0c7",
+                        "on-primary-fixed": "#002110",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-high": "#e6e8ea",
+                        "on-tertiary-fixed-variant": "#3a485c",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#0d1c2f",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-secondary-fixed": "#241a00",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#004225",
+                        "outline-variant": "#c0c9c0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "12px",
+                        "section-gap": "48px",
+                        "base": "8px",
+                        "stack-sm": "4px",
+                        "gutter": "16px",
+                        "container-margin": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Oswald"],
+                        "headline-lg": ["Oswald"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Oswald"],
+                        "body-lg": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "display-lg": ["Oswald"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-bold": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-gradient {
+            background: linear-gradient(to bottom, rgba(0, 42, 21, 0.4), rgba(0, 42, 21, 0.9));
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md text-body-md overflow-x-hidden">
+<!-- Top Navigation Anchor (Suppressed based on Transactional Rule but placeholder header exists for Brand) -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-center px-gutter h-16 bg-transparent">
+<h1 class="font-headline-md text-headline-md-mobile font-bold tracking-tight text-white drop-shadow-md">HORSERACE</h1>
+</header>
+<main class="flex-grow flex flex-col items-center justify-start pb-section-gap">
+<!-- Hero Section -->
+<div class="relative w-full h-[353px] md:h-[397px] overflow-hidden">
+<img alt="Thoroughbred racing" class="absolute inset-0 w-full h-full object-cover" data-alt="A cinematic, low-angle shot of powerful thoroughbred horses galloping through a morning mist on a prestigious turf track. The lighting is dramatic and warm, with golden hour sunlight filtering through the dust kicked up by hooves. The color palette features rich racing greens and deep earthy tones, creating a prestigious and high-energy atmosphere consistent with professional equestrian sports photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_2EZn-2QeimttzLT3PHjodDi9BlMLyevh-qo6k5k0LXz96OohwVQlCGSwCZr-0fBAzTEvxmrMIrfrIDqLoc-7eTq4Jjgcip2VcvxgdcEcB-G6jcGmpqNwRVxBbakfcYsHu0CiDGcdiyZOWwLzqmE71tLnWEJjHUw5ODtqig4H3xAwgbSbs8uZKQxaq_1B5u0p_W4OBe50vqoDIkPrDWafFTNal4hDpMRdmDY1X2Uj52TIEwI1_3tZtXmJV5rnp_7g2A8BUiWk2g"/>
+<div class="absolute inset-0 hero-gradient flex flex-col items-center justify-center pt-8">
+<span class="material-symbols-outlined text-secondary-container text-6xl mb-2 drop-shadow-lg" data-icon="speed">speed</span>
+<p class="text-white font-headline-lg-mobile text-headline-lg-mobile tracking-widest uppercase opacity-90">Elite Turf Racing</p>
+</div>
+</div>
+<!-- Login Card -->
+<div class="w-full px-container-margin -mt-16 z-10">
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_10px_25px_rgba(0,0,0,0.1)] p-8 flex flex-col border border-outline-variant/30">
+<div class="mb-8">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-1">Login</h2>
+<p class="text-on-surface-variant font-label-sm text-label-sm">Access your stable and racing stats</p>
+</div>
+<form class="space-y-6" onsubmit="event.preventDefault();">
+<!-- Email Field -->
+<div class="space-y-2">
+<label class="font-label-bold text-label-bold text-on-surface" for="email">Email Address</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-4 text-on-surface-variant" data-icon="mail">mail</span>
+<input class="w-full pl-12 pr-4 py-3 rounded-lg border border-outline focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all bg-white text-on-surface" id="email" placeholder="owner@thoroughbred.com" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<label class="font-label-bold text-label-bold text-on-surface" for="password">Password</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-4 text-on-surface-variant" data-icon="lock">lock</span>
+<input class="w-full pl-12 pr-12 py-3 rounded-lg border border-outline focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all bg-white text-on-surface" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 text-on-surface-variant hover:text-primary transition-colors" onclick="togglePassword()" type="button">
+<span class="material-symbols-outlined" data-icon="visibility" id="eye-icon">visibility</span>
+</button>
+</div>
+<div class="flex justify-end">
+<a class="font-label-sm text-label-sm text-on-primary-fixed-variant hover:underline" href="#">Forgot Password?</a>
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full py-4 bg-secondary-container text-on-secondary-container font-label-bold text-label-bold rounded-lg shadow-md hover:opacity-90 active:scale-95 transition-all uppercase tracking-wider flex items-center justify-center gap-2">
+                        Login
+                        <span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</form>
+<div class="mt-8 text-center">
+<p class="text-on-surface-variant font-body-md text-body-md">
+                        Don't have an account? 
+                        <a class="text-primary font-bold hover:underline" href="#">Sign Up</a>
+</p>
+</div>
+</div>
+</div>
+<!-- Security Badge -->
+<div class="mt-8 flex flex-col items-center gap-2 opacity-60">
+<div class="flex items-center gap-1.5 px-3 py-1 bg-surface-container-high rounded-full">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="verified_user" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-tight uppercase">JWT Security Active</span>
+</div>
+<p class="text-[10px] text-on-surface-variant font-label-sm">Secured by Thoroughbred Systems v2.4</p>
+</div>
+</main>
+<!-- Bottom Navigation Suppressed for Login (Transactional Rule) -->
+<script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.innerText = 'visibility_off';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.innerText = 'visibility';
+            }
+        }
+
+        // Simple button interaction feedback
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.add('scale-95');
+                setTimeout(() => this.classList.remove('scale-95'), 150);
+            });
+        });
+    </script>
+</body></html>
