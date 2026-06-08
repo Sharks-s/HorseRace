@@ -1,0 +1,153 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="use_case_view" name="Use Case Diagram">
+    <mxGraphModel dx="1400" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <mxCell id="SystemBoundary" value="Horse Racing Tournament Management System (MVP)" style="swimlane;whiteSpace=wrap;html=1;fontStyle=1;align=center;verticalAlign=top;fillColor=#f8f9fa;strokeColor=#232f3e;fontColor=#232f3e;dashed=0;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="240" y="40" width="680" height="820" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ActAdmin" value="Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="180" width="30" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ActOwner" value="Horse Owner" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="440" width="30" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ActJockey" value="Jockey" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="700" width="30" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ActReferee" value="Race Referee" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="980" y="260" width="30" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ActSpectator" value="Spectator" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="980" y="580" width="30" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="UC_Admin_Accounts" value="Quản lý tài khoản&#xa;và phân quyền" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="280" y="80" width="180" height="65" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="UC_Admin_Tournament" value="Tạo và quản lý&#xa;giải đấu (vòng đua)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="280" y="160" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="UC_Admin_Approve" value="Duyệt hồ sơ ngựa&#xa;&amp; Phân công trọng tài" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="280" y="240" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="UC_Admin_Publish" value="Công bố kết quả&#xa;thi đấu chính thức" style="ellipse;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="280" y="320" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="UC_Owner_Horse" value="Thêm và quản lý&#xa;hồ sơ ngựa" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="280" y="410" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="UC_Owner_Hire" value="Giao dịch thuê Jockey&#xa;(Gửi &amp; phản hồi lời mời)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="450" y="490" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="UC_Owner_Confirm" value="Xác nhận tham gia&#xa;giải đấu" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="280" y="570" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="UC_Jockey_Profile" value="Cập nhật hồ sơ&#xa;&amp; năng lực cá nhân" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="280" y="670" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="UC_Jockey_Schedule" value="Theo dõi lịch đua&#xa;&amp; thành tích cá nhân" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="280" y="750" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="UC_Ref_Check" value="Kiểm tra &amp; Xác nhận&#xa;điều kiện của ngựa (BR-01)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="690" y="160" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="UC_Ref_Violation" value="Ghi nhận lỗi vi phạm&#xa;trong quá trình đua" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="690" y="240" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="UC_Ref_Submit" value="Lập biên bản thi đấu&#xa;&amp; Submit kết quả (BR-05)" style="ellipse;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="690" y="320" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="UC_Spec_Register" value="Đăng ký tài khoản&#xa;(Khán giả/Chủ ngựa)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="690" y="550" width="190" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="UC_Spec_View" value="Xem lịch đua, kết quả&#xa;&amp; Bảng xếp hạng trực tiếp" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="690" y="640" width="190" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="L_Admin1" edge="1" parent="1" source="ActAdmin" target="UC_Admin_Accounts" style="endArrow=none;html=1;rounded=0;strokeColor=#9673a6;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L_Admin2" edge="1" parent="1" source="ActAdmin" target="UC_Admin_Tournament" style="endArrow=none;html=1;rounded=0;strokeColor=#9673a6;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L_Admin3" edge="1" parent="1" source="ActAdmin" target="UC_Admin_Approve" style="endArrow=none;html=1;rounded=0;strokeColor=#9673a6;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L_Admin4" edge="1" parent="1" source="ActAdmin" target="UC_Admin_Publish" style="endArrow=none;html=1;rounded=0;strokeColor=#9673a6;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="L_Owner1" edge="1" parent="1" source="ActOwner" target="UC_Owner_Horse" style="endArrow=none;html=1;rounded=0;strokeColor=#6c8ebf;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L_Owner2" edge="1" parent="1" source="ActOwner" target="UC_Owner_Hire" style="endArrow=none;html=1;rounded=0;strokeColor=#6c8ebf;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L_Owner3" edge="1" parent="1" source="ActOwner" target="UC_Owner_Confirm" style="endArrow=none;html=1;rounded=0;strokeColor=#6c8ebf;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L_Owner4" edge="1" parent="1" source="ActOwner" target="UC_Spec_View" style="endArrow=none;html=1;rounded=0;strokeColor=#6c8ebf;dashed=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="L_Jockey1" edge="1" parent="1" source="ActJockey" target="UC_Jockey_Profile" style="endArrow=none;html=1;rounded=0;strokeColor=#82b366;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L_Jockey2" edge="1" parent="1" source="ActJockey" target="UC_Owner_Hire" style="endArrow=none;html=1;rounded=0;strokeColor=#82b366;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L_Jockey3" edge="1" parent="1" source="ActJockey" target="UC_Jockey_Schedule" style="endArrow=none;html=1;rounded=0;strokeColor=#82b366;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="L_Ref1" edge="1" parent="1" source="ActReferee" target="UC_Ref_Check" style="endArrow=none;html=1;rounded=0;strokeColor=#d79b00;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L_Ref2" edge="1" parent="1" source="ActReferee" target="UC_Ref_Violation" style="endArrow=none;html=1;rounded=0;strokeColor=#d79b00;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L_Ref3" edge="1" parent="1" source="ActReferee" target="UC_Ref_Submit" style="endArrow=none;html=1;rounded=0;strokeColor=#d79b00;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="L_Spec1" edge="1" parent="1" source="ActSpectator" target="UC_Spec_Register" style="endArrow=none;html=1;rounded=0;strokeColor=#d6b656;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L_Spec2" edge="1" parent="1" source="ActSpectator" target="UC_Spec_View" style="endArrow=none;html=1;rounded=0;strokeColor=#d6b656;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Rel_Include_BR05" edge="1" parent="1" source="UC_Admin_Publish" target="UC_Ref_Submit" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;strokeColor=#ff0000;fontColor=#ff0000;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Lbl_Include" value="«include»&#xa;(BR-05)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Rel_Include_BR05">
+          <mxGeometry x="0.1" relative="1" as="geometry">
+            <mxPoint x="-20" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
