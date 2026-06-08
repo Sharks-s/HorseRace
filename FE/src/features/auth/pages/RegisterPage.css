@@ -159,6 +159,17 @@
   margin-bottom: min(1.5rem, 3vh);
 }
 
+.register-info-banner {
+  margin-bottom: min(1rem, 2vh);
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  background: rgba(34, 211, 238, 0.14);
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  color: #e0f2fe;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
 .register-input-group {
   margin-bottom: min(0.85rem, 1.8vh);
 }
@@ -182,6 +193,16 @@
   color: #0f172a;
   outline: none;
   box-sizing: border-box;
+}
+
+.register-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #0f172a 50%), linear-gradient(135deg, #0f172a 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(50% - 3px), calc(100% - 12px) calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 2.25rem;
 }
 
 .register-input-hint {

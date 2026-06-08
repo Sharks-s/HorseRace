@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
         @Bean
@@ -66,6 +68,7 @@ public class SecurityConfig {
                                                 .requestMatchers(
                                                                 "/api/auth/register",
                                                                 "/api/auth/login",
+                                                                "/api/auth/verify-email",
                                                                 "/api/pricing/plans",
                                                                 "/api/pricing/orders",
                                                                 "/h2-console/**",

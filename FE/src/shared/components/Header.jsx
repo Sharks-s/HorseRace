@@ -1,22 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Header.css";
 
 export function Header() {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    // Đọc thông tin user từ localStorage
+  const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("user");
-    if (savedUser) {
-      try {
-        setUser(JSON.parse(savedUser));
-      } catch (e) {
-        console.error("Error parsing user data:", e);
-      }
+
+    if (!savedUser) {
+      return null;
     }
-  }, []);
+
+    try {
+      return JSON.parse(savedUser);
+    } catch (error) {
+      console.error("Error parsing user data:", error);
+      return null;
+    }
+  });
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -56,7 +57,7 @@ export function Header() {
               {/* 1. ADMIN: Quản lý giải, duyệt hồ sơ, phân công */}
               {user.role === "ADMIN" && (
                 <NavLink
-                  to="/admin/dashboard"
+                  to="/admin/users"
                   className={({ isActive }) =>
                     `nav-link ${isActive ? "active" : ""}`
                   }
@@ -123,7 +124,7 @@ export function Header() {
                   className="role-value"
                   style={{ fontWeight: "bold", marginRight: "8px" }}
                 >
-                  {user.fullName || user.email}
+                  {user.username || user.fullName || user.email}
                 </span>
                 <span
                   className="role-value"

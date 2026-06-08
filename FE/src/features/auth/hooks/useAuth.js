@@ -5,9 +5,8 @@ import { toast } from "../../../shared/components/Toast"; // <-- 1. Import file 
 
 export const useAuth = () => {
   // --- Các State dùng chung hoặc riêng ---
-  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -33,6 +32,8 @@ export const useAuth = () => {
         setTimeout(() => {
           if (result.data.role === "ADMIN") {
             navigate("/admin");
+          } else if (result.data.role === "HORSE_OWNER") {
+            navigate("/owner/horses");
           } else {
             navigate("/");
           }
@@ -63,15 +64,14 @@ export const useAuth = () => {
     setIsLoading(true);
     try {
       const result = await authService.register({
-        fullName,
+        username,
         email,
         password,
-        phoneNumber,
         role, // <-- Truyền thêm role vào API payload gửi lên Backend
       });
 
       if (result.success) {
-        toast.success("Đăng ký tài khoản thành công!");
+        toast.success("Đăng ký thành công. Vui lòng kiểm tra email để xác nhận tài khoản.");
         setTimeout(() => {
           navigate("/login");
         }, 1200);
@@ -88,10 +88,10 @@ export const useAuth = () => {
         // Nếu data trả về trực tiếp là chuỗi chữ (như "Email already exists")
         else if (typeof error.response.data === "string") {
           // Bạn có thể để nguyên tiếng Anh hoặc dịch sang tiếng Việt tùy ý:
-          if (error.response.data === "Email already exists") {
+          if (error.response.data === "Username already exists") {
+            errorMessage = "Username này đã được sử dụng trên hệ thống!";
+          } else if (error.response.data === "Email already exists") {
             errorMessage = "Email này đã được sử dụng trên hệ thống!";
-          } else if (error.response.data === "Phone number already exists") {
-            errorMessage = "Số điện thoại này đã được sử dụng!";
           } else {
             errorMessage = error.response.data; // Hiển thị trực tiếp chuỗi lỗi từ BE
           }
@@ -105,12 +105,10 @@ export const useAuth = () => {
 
   // --- Trả về tất cả các biến và hàm cho cả 2 trang sử dụng ---
   return {
-    fullName,
-    setFullName,
+    username,
+    setUsername,
     email,
     setEmail,
-    phoneNumber,
-    setPhoneNumber,
     password,
     setPassword,
     isLoading,

@@ -31,6 +31,12 @@ public class AuthController {
 		return ResponseEntity.ok(ApiResponse.success(response));
 	}
 
+	@GetMapping("/verify-email")
+	public ResponseEntity<ApiResponse<String>> verifyEmail(@RequestParam String token) {
+		String response = userService.verifyEmail(token);
+		return ResponseEntity.ok(ApiResponse.success(response));
+	}
+
 	@PostMapping("/login")
 	public ResponseEntity<ApiResponse<AuthResponse>> login(
 			@Valid @RequestBody LoginRequest request,

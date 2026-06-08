@@ -5,12 +5,10 @@ import "./RegisterPage.css";
 const RegisterPage = () => {
   // Giả định hook useAuth của bạn có hỗ trợ thêm role hoặc bạn có thể tự quản lý bằng useState
   const {
-    fullName,
-    setFullName,
+    username,
+    setUsername,
     email,
     setEmail,
-    phoneNumber,
-    setPhoneNumber,
     password,
     setPassword,
     isLoading,
@@ -34,12 +32,11 @@ const RegisterPage = () => {
                 <span className="register-brand-name">HorseRace</span>
               </div>
               <h1 className="register-brand-title">
-                Hệ Thống Quản Lý Giải Đua Ngũ Số Hóa.
+                Hệ Thống Quản Lý Giải Đua Số Hóa.
               </h1>
               <p className="register-brand-desc">
-                Tham gia vào hệ thống điều hành giải đấu chuyên nghiệp. Quản lý
-                hồ sơ, tối ưu hóa lịch thi đấu và cập nhật kết quả thời gian
-                thực (Real-time).
+                Tạo tài khoản để theo dõi giải đấu, xác nhận email và truy cập
+                đúng vai trò trong hệ thống.
               </p>
             </div>
 
@@ -59,19 +56,27 @@ const RegisterPage = () => {
           <div className="register-form-container">
             <h2 className="register-title">Đăng ký tài khoản</h2>
             <p className="register-subtitle">
-              Tạo tài khoản để tham gia hệ thống đua ngựa.
+              Chỉ cần username, email và mật khẩu. Link xác nhận sẽ được gửi
+              ngay sau khi tạo tài khoản.
             </p>
+
+            <div className="register-info-banner">
+              Tài khoản mới sẽ ở trạng thái chờ xác nhận email trước khi kích
+              hoạt.
+            </div>
 
             {/* Bổ sung tham số role vào submit nếu hook useAuth của bạn có xử lý nó */}
             <form onSubmit={(e) => handleRegisterSubmit(e, role)}>
               <div className="register-input-group">
-                <label className="register-label">Họ và tên</label>
+                <label className="register-label">Tên đăng nhập</label>
                 <input
                   type="text"
-                  placeholder="Nguyễn Văn A"
+                  placeholder="horseowner123"
                   className="register-input"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  minLength={3}
+                  autoComplete="username"
                   required
                 />
               </div>
@@ -84,18 +89,7 @@ const RegisterPage = () => {
                   className="register-input"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="register-input-group">
-                <label className="register-label">Số điện thoại</label>
-                <input
-                  type="tel"
-                  placeholder="090 123 4567"
-                  className="register-input"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  autoComplete="email"
                   required
                 />
               </div>
@@ -106,26 +100,12 @@ const RegisterPage = () => {
                   Bạn tham gia với vai trò
                 </label>
                 <select
-                  className="register-input"
+                  className="register-input register-select"
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  style={{
-                    width: "100%",
-                    padding: "10px",
-                    borderRadius: "6px",
-                    border: "1px solid #cbd5e1",
-                    background: "white",
-                  }}
                 >
-                  <option value="SPECTATOR">
-                    Spectator (Khán giả xem lịch & kết quả)
-                  </option>
-                  <option value="HORSE_OWNER">
-                    Horse Owner (Chủ ngựa đăng ký thi đấu)
-                  </option>
-                  <option value="JOCKEY">
-                    Jockey (Người cưỡi ngựa điều khiển)
-                  </option>
+                  <option value="SPECTATOR">Spectator</option>
+                  <option value="HORSE_OWNER">Horse Owner</option>
                 </select>
               </div>
 
@@ -137,8 +117,13 @@ const RegisterPage = () => {
                   className="register-input"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  minLength={8}
+                  autoComplete="new-password"
                   required
                 />
+                <p className="register-input-hint">
+                  Mật khẩu tối thiểu 8 ký tự.
+                </p>
               </div>
 
               <button

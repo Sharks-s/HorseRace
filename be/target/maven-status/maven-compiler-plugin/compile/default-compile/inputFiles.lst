@@ -1,17 +1,50 @@
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\BeApplication.java
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\common\config\OpenApiConfig.java
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\common\config\SecurityConfig.java
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\common\controller\HealthController.java
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\common\dto\response\ApiResponse.java
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\common\exception\GlobalExceptionHandler.java
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\module\auth\controller\AuthController.java
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\module\auth\dto\request\LoginRequest.java
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\module\auth\dto\request\RegisterRequest.java
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\module\auth\dto\response\AuthResponse.java
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\module\auth\model\entity\User.java
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\module\auth\model\enums\Role.java
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\module\auth\model\enums\UserStatus.java
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\module\auth\repository\UserRepository.java
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\module\auth\service\impl\UserServiceImpl.java
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\module\auth\service\UserService.java
-C:\Users\PC 2024\Desktop\IdeaProjects\swd\HorseRace\be\src\main\java\com\example\be\ServletInitializer.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\BeApplication.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\common\config\OpenApiConfig.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\common\config\SecurityConfig.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\common\controller\HealthController.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\common\dto\response\ApiResponse.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\common\exception\GlobalExceptionHandler.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\common\service\EmailService.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\common\service\impl\EmailServiceImpl.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\admin\controller\AdminUserController.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\admin\dto\request\UpdateUserRoleRequest.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\admin\dto\request\UpdateUserStatusRequest.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\admin\dto\response\UserAdminResponse.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\admin\service\AdminUserService.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\admin\service\impl\AdminUserServiceImpl.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\controller\AuthController.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\dto\request\LoginRequest.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\dto\request\RegisterRequest.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\dto\response\AuthResponse.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\model\entity\User.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\model\enums\Role.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\model\enums\UserStatus.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\repository\UserRepository.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\service\impl\UserServiceImpl.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\service\UserService.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\controller\HorseController.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\dto\request\HorseCreateRequest.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\dto\request\HorseUpdateRequest.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\dto\response\HorseResponse.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\model\entity\Horse.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\model\enums\HorseStatus.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\repository\HorseRepository.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\service\HorseService.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\service\impl\HorseServiceImpl.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\controller\RaceController.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\controller\TournamentController.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\dto\request\RaceRequest.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\dto\request\TournamentRequest.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\dto\response\RaceResponse.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\dto\response\TournamentResponse.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\model\entity\Race.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\model\entity\Tournament.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\model\enums\RaceStatus.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\model\enums\TournamentStatus.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\repository\RaceRepository.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\repository\TournamentRepository.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\service\impl\RaceServiceImpl.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\service\impl\TournamentServiceImpl.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\service\RaceService.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\service\TournamentService.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\ServletInitializer.java
