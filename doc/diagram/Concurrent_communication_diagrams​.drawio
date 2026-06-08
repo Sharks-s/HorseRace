@@ -1,0 +1,253 @@
+<mxfile host="app.diagrams.net" pages="2">
+  <diagram name="Referee&#39;s result" id="eQItTll_dYeK8orK28nh">
+    <mxGraphModel dx="1278" dy="783" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="vNtSKatdycn9kNeh5W9N-1" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="PostgreSQL" vertex="1">
+          <mxGeometry height="138" width="310" x="1298" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-2" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=#fff;strokeColor=#333;fontColor=light-dark(#333333,#cccccc);dashed=1;dashPattern=5 5;" value="Spring Boot Backend" vertex="1">
+          <mxGeometry height="318" width="1223" x="864" y="178" as="geometry" />
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-3" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Web Portal Frontend" vertex="1">
+          <mxGeometry height="124" width="1713" x="374" y="651" as="geometry" />
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-4" parent="1" style="ellipse;aspect=fixed;strokeWidth=2;whiteSpace=wrap;fillColor=#f9f;strokeColor=#333;fontColor=light-dark(#333333,#cccccc);" value="Race Referee" vertex="1">
+          <mxGeometry height="110" width="110" x="20" y="658" as="geometry" />
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-5" parent="1" style="ellipse;aspect=fixed;strokeWidth=2;whiteSpace=wrap;fillColor=#bbf;strokeColor=#333;fontColor=light-dark(#333333,#cccccc);" value="Admin" vertex="1">
+          <mxGeometry height="60" width="60" x="2285" y="683" as="geometry" />
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-6" parent="1" style="ellipse;aspect=fixed;strokeWidth=2;whiteSpace=wrap;fillColor=#bfb;strokeColor=#333;fontColor=light-dark(#333333,#cccccc);" value="Spectator" vertex="1">
+          <mxGeometry height="84" width="84" x="1918" y="531" as="geometry" />
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-7" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Referee Dashboard UI" vertex="1">
+          <mxGeometry height="54" width="215" x="399" y="686" as="geometry" />
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-8" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Admin Dashboard UI" vertex="1">
+          <mxGeometry height="54" width="204" x="1858" y="686" as="geometry" />
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-9" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Spectator Live UI" vertex="1">
+          <mxGeometry height="54" width="183" x="1362" y="686" as="geometry" />
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-10" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Result Module" vertex="1">
+          <mxGeometry height="54" width="160" x="889" y="283" as="geometry" />
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-11" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Scheduling &amp; Tournament Module" vertex="1">
+          <mxGeometry height="78" width="260" x="1345.5" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-12" parent="1" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=10;strokeWidth=2;whiteSpace=wrap;fillColor=#f96;strokeColor=#333;fontColor=light-dark(#333333,#cccccc);" value="Database" vertex="1">
+          <mxGeometry height="68" width="81" x="1413" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-13" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="" vertex="1">
+          <mxGeometry x="1453" y="266" as="geometry" />
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-14" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="" vertex="1">
+          <mxGeometry x="1960" y="288" as="geometry" />
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-15" edge="1" parent="1" source="vNtSKatdycn9kNeh5W9N-4" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.49;rounded=0;" target="vNtSKatdycn9kNeh5W9N-7" value="1: submitReport.vòng_đua.">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-16" edge="1" parent="1" source="vNtSKatdycn9kNeh5W9N-7" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.49;entryX=0.45;entryY=1.01;rounded=0;" target="vNtSKatdycn9kNeh5W9N-10" value="2: POST /api/results/submit">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="864" y="713" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-18" edge="1" parent="1" source="vNtSKatdycn9kNeh5W9N-10" style="curved=1;startArrow=none;endArrow=classic;exitX=1;exitY=0.25;rounded=0;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;startFill=0;endFill=1;" target="vNtSKatdycn9kNeh5W9N-10" value="[Concurrent] 5.1: calculateRanking.Strategy">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1150" y="270" />
+              <mxPoint x="1230" y="290" />
+              <mxPoint x="1170" y="360" />
+            </Array>
+            <mxPoint x="1320" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-20" edge="1" parent="1" source="vNtSKatdycn9kNeh5W9N-10" style="curved=1;startArrow=none;endArrow=block;exitX=0.89;exitY=0.01;entryX=0.01;entryY=1.01;rounded=0;" target="vNtSKatdycn9kNeh5W9N-12" value="4: saveReport &amp; updateRaceResult">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1173" y="222" />
+              <mxPoint x="1298" y="222" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-21" edge="1" parent="1" source="vNtSKatdycn9kNeh5W9N-10" style="curved=1;startArrow=none;endArrow=block;exitX=0.96;exitY=1.01;entryX=0;entryY=0.5;rounded=0;" target="vNtSKatdycn9kNeh5W9N-11" value="[Concurrent] 5.2: notifyStatusChange">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1173" y="384" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-22" edge="1" parent="1" source="vNtSKatdycn9kNeh5W9N-11" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0.41;entryY=-0.01;rounded=0;" target="vNtSKatdycn9kNeh5W9N-8" value="6: pushNotification">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1733" y="384" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-23" edge="1" parent="1" source="vNtSKatdycn9kNeh5W9N-8" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.49;entryX=-0.01;entryY=0.49;rounded=0;" target="vNtSKatdycn9kNeh5W9N-5" value="7: công_bố_kết_quả">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-24" edge="1" parent="1" source="vNtSKatdycn9kNeh5W9N-10" style="curved=1;startArrow=none;endArrow=block;exitX=0.74;exitY=1.01;entryX=0.41;entryY=-0.01;rounded=0;" target="vNtSKatdycn9kNeh5W9N-9" value="[Real-time] 6.1: pushLiveResult">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1173" y="452" />
+              <mxPoint x="1298" y="452" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vNtSKatdycn9kNeh5W9N-25" edge="1" parent="1" source="vNtSKatdycn9kNeh5W9N-9" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.49;entryX=0;entryY=0.81;rounded=0;" target="vNtSKatdycn9kNeh5W9N-6" value="7.1: xem_bảng_xếp_hạng_mới">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1733" y="713" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="FLClAiHzmsDmm6H0MqiI" name="Jockey&#39;s register">
+    <mxGraphModel dx="1202" dy="736" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="hN9x4fPodDvWEdhetpoT-1" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="PostgreSQL" vertex="1">
+          <mxGeometry height="138" width="258" x="1400" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-2" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Spring Boot Backend" vertex="1">
+          <mxGeometry height="400" width="1139" x="857" y="178" as="geometry" />
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-3" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Web Portal Frontend" vertex="1">
+          <mxGeometry height="156" width="1281" x="377" y="598" as="geometry" />
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-4" parent="1" style="ellipse;aspect=fixed;strokeWidth=2;whiteSpace=wrap;fillColor=#fbc;strokeColor=#333;fontColor=light-dark(#333333,#cccccc);" value="Horse Owner" vertex="1">
+          <mxGeometry height="107" width="107" x="20" y="635" as="geometry" />
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-5" parent="1" style="ellipse;aspect=fixed;strokeWidth=2;whiteSpace=wrap;fillColor=#cff;strokeColor=#333;fontColor=light-dark(#333333,#cccccc);" value="Jockey" vertex="1">
+          <mxGeometry height="64" width="64" x="1907" y="651" as="geometry" />
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-6" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Owner Dashboard UI" vertex="1">
+          <mxGeometry height="54" width="205" x="402" y="661" as="geometry" />
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-7" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Jockey Dashboard UI" vertex="1">
+          <mxGeometry height="54" width="208" x="1425" y="656" as="geometry" />
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-8" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=#fff;strokeColor=#333;fontColor=light-dark(#333333,#cccccc);" value="Registration Module" vertex="1">
+          <mxGeometry height="54" width="202" x="882" y="375" as="geometry" />
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-9" parent="1" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=10;strokeWidth=2;whiteSpace=wrap;fillColor=#f96;strokeColor=#333;fontColor=light-dark(#333333,#cccccc);" value="Database" vertex="1">
+          <mxGeometry height="68" width="81" x="1488" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-10" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="" vertex="1">
+          <mxGeometry x="1528" y="402" as="geometry" />
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-11" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="" vertex="1">
+          <mxGeometry x="1939" y="424" as="geometry" />
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-12" edge="1" parent="1" source="hN9x4fPodDvWEdhetpoT-4" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.39;entryX=0.07;entryY=0.01;rounded=0;" target="hN9x4fPodDvWEdhetpoT-6" value="1: gửi_yêu_cầu_thuê_Jockey">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="252" y="649" />
+              <mxPoint x="377" y="649" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-13" edge="1" parent="1" source="hN9x4fPodDvWEdhetpoT-6" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.2;entryX=0.43;entryY=1.01;rounded=0;" target="hN9x4fPodDvWEdhetpoT-8" value="2: POST /api/registrations/request">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="732" y="651" />
+              <mxPoint x="857" y="651" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-14" edge="1" parent="1" source="hN9x4fPodDvWEdhetpoT-8" style="curved=1;startArrow=none;endArrow=block;exitX=0.25;exitY=0;entryX=0.09;entryY=1.01;rounded=0;exitDx=0;exitDy=0;" target="hN9x4fPodDvWEdhetpoT-9" value="[Concurrent] 3.1: checkHorseHealth.BR-01">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1242" y="222" />
+              <mxPoint x="1400" y="222" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-15" edge="1" parent="1" source="hN9x4fPodDvWEdhetpoT-8" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=0;entryX=0.23;entryY=1.01;rounded=0;exitDx=0;exitDy=0;" target="hN9x4fPodDvWEdhetpoT-9" value="[Concurrent] 3.2: checkJockeyLimit.BR-02">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1242" y="290" />
+              <mxPoint x="1400" y="290" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-17" edge="1" parent="1" source="hN9x4fPodDvWEdhetpoT-8" style="curved=1;startArrow=none;endArrow=block;entryX=1;entryY=0.75;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryDx=0;entryDy=0;endFill=1;" target="hN9x4fPodDvWEdhetpoT-8" value="[Concurrent] 3.3: checkClosingTime.BR-04">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1250" y="402" />
+            </Array>
+            <mxPoint x="1528" y="402" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-19" edge="1" parent="1" source="hN9x4fPodDvWEdhetpoT-8" style="curved=1;startArrow=none;endArrow=block;exitX=0.95;exitY=1.01;entryX=0.42;entryY=0.01;rounded=0;" target="hN9x4fPodDvWEdhetpoT-7" value="4: notifyJockeyInvitation">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1242" y="478" />
+              <mxPoint x="1400" y="478" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-20" edge="1" parent="1" source="hN9x4fPodDvWEdhetpoT-7" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.18;entryX=0;entryY=0.44;rounded=0;" target="hN9x4fPodDvWEdhetpoT-5" value="5: nhận_lời_mời">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1657" y="661" />
+              <mxPoint x="1782" y="661" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-21" edge="1" parent="1" source="hN9x4fPodDvWEdhetpoT-5" style="curved=1;startArrow=none;endArrow=block;exitX=0;exitY=0.58;entryX=1;entryY=0.84;rounded=0;" target="hN9x4fPodDvWEdhetpoT-7" value="6: acceptInvitation">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1782" y="705" />
+              <mxPoint x="1657" y="705" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-22" edge="1" parent="1" source="hN9x4fPodDvWEdhetpoT-7" style="curved=1;startArrow=none;endArrow=block;exitX=0.38;exitY=0.01;entryX=0.76;entryY=1.01;rounded=0;" target="hN9x4fPodDvWEdhetpoT-8" value="7: PUT /api/registrations/confirm">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1400" y="534" />
+              <mxPoint x="1242" y="534" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-23" edge="1" parent="1" source="hN9x4fPodDvWEdhetpoT-8" style="curved=1;startArrow=none;endArrow=block;exitX=0.75;exitY=0;entryX=0.3;entryY=1.01;rounded=0;exitDx=0;exitDy=0;" target="hN9x4fPodDvWEdhetpoT-9" value="8: updateRegistrationStatus.Confirmed.">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1242" y="358" />
+              <mxPoint x="1400" y="358" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-24" edge="1" parent="1" source="hN9x4fPodDvWEdhetpoT-8" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=1;entryY=0.67;rounded=0;exitDx=0;exitDy=0;" target="hN9x4fPodDvWEdhetpoT-6" value="9: notifyConfirmation">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="857" y="707" />
+              <mxPoint x="732" y="707" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hN9x4fPodDvWEdhetpoT-25" edge="1" parent="1" source="hN9x4fPodDvWEdhetpoT-6" style="curved=1;startArrow=none;endArrow=block;exitX=0;exitY=0.88;entryX=1;entryY=0.57;rounded=0;" target="hN9x4fPodDvWEdhetpoT-4" value="10: theo_dõi_lịch_đua">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="377" y="713" />
+              <mxPoint x="252" y="713" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
