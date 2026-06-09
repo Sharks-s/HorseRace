@@ -57,6 +57,15 @@ public class Horse {
 	@Column(nullable = false)
 	private LocalDateTime updatedAt;
 
+	@Column(columnDefinition = "TEXT")
+	private String reviewNote;
+
+	private LocalDateTime reviewedAt;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "reviewed_by_id")
+	private User reviewedBy;
+
 	@PrePersist
 	protected void onCreate() {
 		createdAt = LocalDateTime.now();

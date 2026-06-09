@@ -78,12 +78,12 @@ const AdminUsersPage = () => {
             <span className="material-symbols-outlined">group</span>
             <span>Users</span>
           </a>
-          <a className="admin-nav-link" href="#roles">
-            <span className="material-symbols-outlined">admin_panel_settings</span>
-            <span>Roles</span>
+          <a className="admin-nav-link" href="/admin/horses">
+            <span className="material-symbols-outlined">fact_check</span>
+            <span>Horse Review</span>
           </a>
           <a className="admin-nav-link" href="#access">
-            <span className="material-symbols-outlined">fact_check</span>
+            <span className="material-symbols-outlined">admin_panel_settings</span>
             <span>Access</span>
           </a>
         </nav>

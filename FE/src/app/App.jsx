@@ -8,6 +8,8 @@ import HorseRaceApp from "../pages/LandingPage";
 import AdminUsersPage from "../features/admin/pages/UserManagementPage";
 import HorseManagementPage from "../features/owner/pages/HorseManagementPage";
 import VerifyEmailPage from "../features/auth/pages/VerifyEmailPage";
+import HorseReviewPage from "../features/admin/pages/HorseReviewPage";
+import JockeyWorkspacePage from "../features/jockey/pages/JockeyWorkspacePage";
 import "../styles/fonts.css";
 import "../styles/theme.css";
 import "../styles/globals.css";
@@ -25,8 +27,11 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/admin" element={<AdminUsersPage />} />
           <Route path="/admin/users" element={<AdminUsersPage />} />
+          <Route path="/admin/horses" element={<HorseReviewPage />} />
           <Route path="/owner" element={<HorseManagementPage />} />
           <Route path="/owner/horses" element={<HorseManagementPage />} />
+          <Route path="/jockey" element={<JockeyWorkspacePage />} />
+          <Route path="/jockey/workspace" element={<JockeyWorkspacePage />} />
         </Route>
 
         {/* Public Routes with Layout */}

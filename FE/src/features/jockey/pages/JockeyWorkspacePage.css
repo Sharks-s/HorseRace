@@ -1,0 +1,411 @@
+.jockey-shell {
+  min-height: 100vh;
+  background: #f7f9fb;
+  color: #191c1e;
+  font-family: "Inter", sans-serif;
+}
+
+.jockey-topbar {
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #f7f9fb;
+  border-bottom: 1px solid #c0c9c0;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+}
+
+.jockey-brand {
+  color: #735c00;
+  font-family: "Oswald", sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.jockey-nav {
+  display: flex;
+  gap: 24px;
+  font-weight: 800;
+}
+
+.jockey-nav a {
+  padding: 20px 0;
+  color: #191c1e;
+}
+
+.jockey-nav-active {
+  color: #002a15 !important;
+  border-bottom: 2px solid #002a15;
+}
+
+.jockey-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 2px solid #fed65b;
+  background: #e0e3e5;
+  display: grid;
+  place-items: center;
+  color: #404942;
+}
+
+.jockey-main {
+  width: min(1280px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 40px 0 56px;
+  display: grid;
+  gap: 36px;
+}
+
+.jockey-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 18px;
+}
+
+.jockey-hero p,
+.jockey-card-header p {
+  margin: 0 0 4px;
+  color: #404942;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.jockey-hero h1,
+.jockey-card-header h2,
+.jockey-rule-header h3 {
+  margin: 0;
+  color: #002a15;
+  font-family: "Oswald", sans-serif;
+}
+
+.jockey-hero h1 {
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+.jockey-hero-badge {
+  min-width: 152px;
+  min-height: 92px;
+  background: #002a15;
+  color: #ffffff;
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 4px 10px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.16);
+}
+
+.jockey-hero-badge .material-symbols-outlined {
+  color: #fed65b;
+  font-size: 34px;
+}
+
+.jockey-hero-badge strong {
+  color: #fed65b;
+  font-family: "Oswald", sans-serif;
+  font-size: 32px;
+}
+
+.jockey-hero-badge small {
+  grid-column: 1 / -1;
+  color: #eff1f3;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.jockey-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(340px, 0.85fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.jockey-left,
+.jockey-side {
+  display: grid;
+  gap: 20px;
+}
+
+.jockey-side {
+  position: sticky;
+  top: 88px;
+}
+
+.jockey-card,
+.jockey-ranking,
+.jockey-limit-card {
+  background: #ffffff;
+  border: 1px solid rgba(192, 201, 192, 0.55);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+  padding: 20px;
+}
+
+.jockey-card-header {
+  border-bottom: 1px solid rgba(192, 201, 192, 0.55);
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+}
+
+.jockey-card-header h2 {
+  font-size: 28px;
+}
+
+.jockey-form {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.jockey-form label,
+.jockey-limit-card label {
+  display: grid;
+  gap: 6px;
+}
+
+.jockey-form span,
+.jockey-limit-card label span {
+  color: #191c1e;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.jockey-form input,
+.jockey-form textarea,
+.jockey-limit-card input {
+  width: 100%;
+  border: 1px solid #c0c9c0;
+  border-radius: 8px;
+  background: #f7f9fb;
+  color: #191c1e;
+  padding: 0 12px;
+  outline: none;
+}
+
+.jockey-form input,
+.jockey-limit-card input {
+  min-height: 42px;
+}
+
+.jockey-form textarea {
+  resize: vertical;
+  min-height: 100px;
+  padding: 12px;
+  font-family: "Inter", sans-serif;
+}
+
+.jockey-form input:focus,
+.jockey-form textarea:focus,
+.jockey-limit-card input:focus {
+  border-color: #735c00;
+  box-shadow: 0 0 0 2px rgba(115, 92, 0, 0.16);
+}
+
+.jockey-form-wide {
+  grid-column: 1 / -1;
+}
+
+.jockey-form button,
+.jockey-limit-card button {
+  min-height: 44px;
+  border-radius: 8px;
+  background: #735c00;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 18px;
+  font-weight: 800;
+}
+
+.jockey-schedule-list {
+  display: grid;
+  gap: 12px;
+}
+
+.jockey-race-card {
+  border: 1px solid rgba(192, 201, 192, 0.55);
+  border-radius: 12px;
+  background: #f7f9fb;
+  padding: 14px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+}
+
+.jockey-race-code {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  background: #004225;
+  color: #fed65b;
+  display: grid;
+  place-items: center;
+}
+
+.jockey-race-card h3,
+.jockey-race-card p {
+  margin: 0;
+}
+
+.jockey-race-card h3 {
+  color: #002a15;
+  font-family: "Oswald", sans-serif;
+  font-size: 22px;
+}
+
+.jockey-race-card p,
+.jockey-race-card span,
+.jockey-race-horse small {
+  color: #404942;
+}
+
+.jockey-race-horse {
+  text-align: right;
+}
+
+.jockey-race-horse strong {
+  display: block;
+  color: #191c1e;
+}
+
+.jockey-ranking-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.jockey-ranking-grid div {
+  min-height: 96px;
+  border-radius: 12px;
+  background: #f2f4f6;
+  border: 1px solid rgba(192, 201, 192, 0.55);
+  padding: 14px;
+}
+
+.jockey-ranking-grid span {
+  color: #404942;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.jockey-ranking-grid strong {
+  display: block;
+  margin-top: 8px;
+  color: #002a15;
+  font-family: "Oswald", sans-serif;
+  font-size: 30px;
+}
+
+.jockey-rule-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.jockey-rule-header > .material-symbols-outlined {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #004225;
+  color: #fed65b;
+  display: grid;
+  place-items: center;
+}
+
+.jockey-rule-header h3 {
+  font-size: 26px;
+}
+
+.jockey-rule-header p {
+  margin: 3px 0 0;
+  color: #404942;
+}
+
+.jockey-limit-card {
+  display: grid;
+  gap: 14px;
+}
+
+.jockey-limit-result {
+  border-radius: 12px;
+  padding: 14px;
+  display: grid;
+  gap: 4px;
+}
+
+.jockey-limit-result strong {
+  font-family: "Oswald", sans-serif;
+  font-size: 30px;
+}
+
+.jockey-limit-ok {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.jockey-limit-bad {
+  background: #ffdad6;
+  color: #93000a;
+}
+
+.jockey-empty {
+  border-radius: 12px;
+  border: 1px dashed #c0c9c0;
+  color: #404942;
+  padding: 24px;
+  text-align: center;
+}
+
+@media (max-width: 980px) {
+  .jockey-nav {
+    display: none;
+  }
+
+  .jockey-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .jockey-side {
+    position: static;
+  }
+}
+
+@media (max-width: 720px) {
+  .jockey-topbar {
+    padding: 0 18px;
+  }
+
+  .jockey-main {
+    width: min(100% - 32px, 760px);
+    padding-top: 28px;
+  }
+
+  .jockey-hero {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .jockey-form,
+  .jockey-race-card,
+  .jockey-ranking-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .jockey-race-horse {
+    text-align: left;
+  }
+}

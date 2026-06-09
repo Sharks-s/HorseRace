@@ -26,6 +26,9 @@ public class HorseResponse {
 	private String ownerEmail;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
+	private String reviewNote;
+	private LocalDateTime reviewedAt;
+	private UUID reviewedById;
 
 	public static HorseResponse fromEntity(Horse horse) {
 		User owner = horse.getOwner();
@@ -41,6 +44,9 @@ public class HorseResponse {
 				owner.getUsername(),
 				owner.getEmail(),
 				horse.getCreatedAt(),
-				horse.getUpdatedAt());
+				horse.getUpdatedAt(),
+				horse.getReviewNote(),
+				horse.getReviewedAt(),
+				horse.getReviewedBy() == null ? null : horse.getReviewedBy().getId());
 	}
 }
