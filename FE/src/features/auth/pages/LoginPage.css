@@ -100,6 +100,32 @@
   width: min(430px, 100%);
 }
 
+.login-home-button {
+  width: fit-content;
+  min-height: 38px;
+  border-radius: 999px;
+  border: 1px solid #c0c9c0;
+  background: #ffffff;
+  color: #002a15;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  margin-bottom: 22px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.login-home-button .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.login-home-button:hover {
+  border-color: #002a15;
+  box-shadow: 0 2px 8px rgba(0, 42, 21, 0.12);
+}
+
 .login-title {
   margin: 0;
   font-family: "Oswald", sans-serif;

@@ -46,6 +46,14 @@ const LoginPage = () => {
           </div>
 
           <div className="login-form-container">
+            <button
+              type="button"
+              className="login-home-button"
+              onClick={() => navigate("/")}
+            >
+              <span className="material-symbols-outlined">arrow_back</span>
+              Back to homepage
+            </button>
             <h2 className="login-title">Login</h2>
             <p className="login-subtitle">Access your stable and racing stats</p>
 

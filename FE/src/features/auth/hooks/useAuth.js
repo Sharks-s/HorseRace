@@ -73,7 +73,7 @@ export const useAuth = () => {
       });
 
       if (result.success) {
-        toast.success("Đăng ký thành công. Vui lòng kiểm tra email để xác nhận tài khoản.");
+        toast.success("Đăng ký thành công. Bạn có thể đăng nhập ngay.");
         setTimeout(() => {
           navigate("/login");
         }, 1200);

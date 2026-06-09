@@ -241,7 +241,8 @@ const JockeyWorkspacePage = () => {
                 <input type="date" value={limitDate} onChange={(event) => setLimitDate(event.target.value)} />
               </label>
               <button type="button" onClick={checkDailyRaceLimit}>
-                checkDailyRaceLimit()
+                <span className="material-symbols-outlined">fact_check</span>
+                Check Daily Race Limit
               </button>
               {dailyLimit && (
                 <div className={`jockey-limit-result ${dailyLimit.withinLimit ? "jockey-limit-ok" : "jockey-limit-bad"}`}>
