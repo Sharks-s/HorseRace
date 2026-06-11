@@ -18,6 +18,7 @@ public class PreRaceHorseInspectionResponse {
 	private UUID raceId;
 	private String raceName;
 	private LocalDateTime raceStartTime;
+	private Double distanceFactor;
 	private UUID tournamentId;
 	private String tournamentName;
 	private UUID horseId;
@@ -55,6 +56,7 @@ public class PreRaceHorseInspectionResponse {
 				.raceId(race.getId())
 				.raceName(race.getName())
 				.raceStartTime(race.getStartTime())
+				.distanceFactor(race.getDistanceFactor())
 				.tournamentId(race.getTournament().getId())
 				.tournamentName(race.getTournament().getName())
 				.horseId(horse.getId())

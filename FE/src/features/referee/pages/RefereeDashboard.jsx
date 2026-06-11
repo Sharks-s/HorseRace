@@ -85,6 +85,10 @@ const RefereeDashboard = () => {
             <span className="material-symbols-outlined">fact_check</span>
             Pre-race
           </a>
+          <a href="/referee/violations">
+            <span className="material-symbols-outlined">flag</span>
+            Violations
+          </a>
           <a href="/referee/reports">
             <span className="material-symbols-outlined">assignment</span>
             Reports

@@ -42,6 +42,18 @@ public class RaceResult {
 	private Integer placement;
 
 	@Column(nullable = false)
+	private Double finishTime;
+
+	@Column(nullable = false)
+	private Integer rank;
+
+	@Column(nullable = false)
+	private Double score;
+
+	@Column(nullable = false)
+	private Boolean violationFlag;
+
+	@Column(nullable = false)
 	private Double points;
 
 	@Column(nullable = false, updatable = false)
@@ -52,6 +64,15 @@ public class RaceResult {
 		createdAt = LocalDateTime.now();
 		if (points == null) {
 			points = calculatePoints(placement);
+		}
+		if (rank == null) {
+			rank = placement;
+		}
+		if (placement == null) {
+			placement = rank;
+		}
+		if (violationFlag == null) {
+			violationFlag = false;
 		}
 	}
 

@@ -11,6 +11,8 @@ import VerifyEmailPage from "../features/auth/pages/VerifyEmailPage";
 import HorseReviewPage from "../features/admin/pages/HorseReviewPage";
 import JockeyWorkspacePage from "../features/jockey/pages/JockeyWorkspacePage";
 import RefereeDashboard from "../features/referee/pages/RefereeDashboard";
+import RefereeViolationsPage from "../features/referee/pages/RefereeViolationsPage";
+import RefereeReportForm from "../features/referee/pages/RefereeReportForm";
 import "../styles/fonts.css";
 import "../styles/theme.css";
 import "../styles/globals.css";
@@ -35,6 +37,8 @@ function App() {
           <Route path="/jockey/workspace" element={<JockeyWorkspacePage />} />
           <Route path="/referee" element={<RefereeDashboard />} />
           <Route path="/referee/pre-race" element={<RefereeDashboard />} />
+          <Route path="/referee/violations" element={<RefereeViolationsPage />} />
+          <Route path="/referee/reports" element={<RefereeReportForm />} />
         </Route>
 
         {/* Public Routes with Layout */}

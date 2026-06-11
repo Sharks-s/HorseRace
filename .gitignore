@@ -26,3 +26,4 @@ dist-ssr
 */.idea/*
 */.venv
 */.mvn/*
+be/target/
