@@ -10,6 +10,7 @@ import HorseManagementPage from "../features/owner/pages/HorseManagementPage";
 import VerifyEmailPage from "../features/auth/pages/VerifyEmailPage";
 import HorseReviewPage from "../features/admin/pages/HorseReviewPage";
 import JockeyWorkspacePage from "../features/jockey/pages/JockeyWorkspacePage";
+import RefereeDashboard from "../features/referee/pages/RefereeDashboard";
 import "../styles/fonts.css";
 import "../styles/theme.css";
 import "../styles/globals.css";
@@ -32,6 +33,8 @@ function App() {
           <Route path="/owner/horses" element={<HorseManagementPage />} />
           <Route path="/jockey" element={<JockeyWorkspacePage />} />
           <Route path="/jockey/workspace" element={<JockeyWorkspacePage />} />
+          <Route path="/referee" element={<RefereeDashboard />} />
+          <Route path="/referee/pre-race" element={<RefereeDashboard />} />
         </Route>
 
         {/* Public Routes with Layout */}
