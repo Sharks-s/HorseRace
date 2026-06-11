@@ -36,6 +36,8 @@ export const useAuth = () => {
             navigate("/owner/horses");
           } else if (result.data.role === "JOCKEY") {
             navigate("/jockey");
+          } else if (result.data.role === "REFEREE") {
+            navigate("/referee");
           } else {
             navigate("/");
           }

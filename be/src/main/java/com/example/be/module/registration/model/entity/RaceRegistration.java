@@ -43,9 +43,18 @@ public class RaceRegistration {
 	@JoinColumn(name = "jockey_id")
 	private User jockey;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "inspected_by_id")
+	private User inspectedBy;
+
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private RaceRegistrationStatus status;
+
+	@Column(columnDefinition = "TEXT")
+	private String inspectionNote;
+
+	private LocalDateTime inspectedAt;
 
 	@Column(nullable = false, updatable = false)
 	private LocalDateTime createdAt;

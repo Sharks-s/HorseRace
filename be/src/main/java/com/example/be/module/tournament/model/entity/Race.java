@@ -1,5 +1,6 @@
 package com.example.be.module.tournament.model.entity;
 
+import com.example.be.module.auth.model.entity.User;
 import com.example.be.module.tournament.model.enums.RaceStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -25,6 +26,10 @@ public class Race {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tournament_id", nullable = false)
     private Tournament tournament;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "referee_id")
+    private User referee;
 
     @Column(nullable = false)
     private String name;

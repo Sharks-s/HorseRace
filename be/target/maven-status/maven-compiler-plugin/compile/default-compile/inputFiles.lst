@@ -50,6 +50,12 @@ C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\notification\cont
 C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\notification\dto\response\NotificationResponse.java
 C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\notification\model\entity\Notification.java
 C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\notification\repository\NotificationRepository.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\referee\controller\RefereeInspectionController.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\referee\dto\request\HorseInspectionDecision.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\referee\dto\request\InspectHorseRequest.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\referee\dto\response\PreRaceHorseInspectionResponse.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\referee\service\impl\RefereeInspectionServiceImpl.java
+C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\referee\service\RefereeInspectionService.java
 C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\registration\model\entity\RaceRegistration.java
 C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\registration\model\enums\RaceRegistrationStatus.java
 C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\registration\repository\RaceRegistrationRepository.java
