@@ -72,6 +72,72 @@ Hiện tại, quá trình tổ chức giải đua ngựa đang gặp nhiều kh�
 | Spectator    | Đăng ký tài khoản                                               |
 | Spectator    | Xem thông tin giải đấu, lịch đua và bảng xếp hạng trực tiếp     |
 
+## 3.2 Sơ đồ Use Case (Use Case Diagram)
+
+```mermaid
+graph TD
+  %% Actors Definition
+  subgraph Actors [Tác nhân]
+    A[Admin]
+    O[Horse Owner]
+    J[Jockey]
+    R[Race Referee]
+    S[Spectator]
+  end
+
+  %% Use Cases Definition
+  subgraph System [Horse Racing System Boundary - MVP]
+    %% Admin Use Cases
+    UC_A1(Quản lý tài khoản & Phân quyền)
+    UC_A2(Tạo & Quản lý giải đấu / Vòng đua)
+    UC_A3(Duyệt hồ sơ ngựa & Phân công trọng tài)
+    UC_A4(Công bố kết quả thi đấu chính thức)
+
+    %% Owner Use Cases
+    UC_O1(Quản lý hồ sơ ngựa)
+    UC_O2(Thuê Jockey / Gửi & Phản hồi lời mời)
+    UC_O3(Xác nhận tham gia giải đấu)
+
+    %% Jockey Use Cases
+    UC_J1(Cập nhật hồ sơ & Năng lực cá nhân)
+    UC_J2(Xem & Quản lý lịch đua / Thành tích cá nhân)
+
+    %% Referee Use Cases
+    UC_R1(Kiểm tra & Xác nhận điều kiện ngựa trước đua - BR-01)
+    UC_R2(Ghi nhận lỗi vi phạm trong trận đua)
+    UC_R3(Lập biên bản thi đấu & Submit kết quả - BR-05)
+
+    %% Spectator Use Cases
+    UC_S1(Đăng ký tài khoản)
+    UC_S2(Xem lịch đua, kết quả & Bảng xếp hạng trực tiếp)
+  end
+
+  %% Associations
+  A --> UC_A1
+  A --> UC_A2
+  A --> UC_A3
+  A --> UC_A4
+
+  O --> UC_O1
+  O --> UC_O2
+  O --> UC_O3
+  O --> UC_S2
+
+  J --> UC_J1
+  J --> UC_O2
+  J --> UC_J2
+
+  R --> UC_R1
+  R --> UC_R2
+  R --> UC_R3
+
+  S --> UC_S1
+  S --> UC_S2
+
+  %% Relationships between Use Cases
+  UC_A4 -.->|"<<include>> (BR-05)"| UC_R3
+```
+
 ---
 
 # 4. Yêu Cầu Phi Chức Năng & Kiến Trúc (Non-Functional Requirements)
@@ -91,6 +157,51 @@ Các module chính:
 * Dễ phát triển trong thời gian ngắn.
 * Đơn giản hơn Microservices.
 * Dễ bảo trì và mở rộng.
+
+### Sơ đồ cấu trúc thành phần (Structured Component View)
+
+```mermaid
+graph TB
+  subgraph Client_Applications [Ứng dụng phía Client]
+    React_OJ["React Web App: Owner/Jockey"]
+    React_A["React Web App: Admin"]
+    React_R["React Web App: Referee"]
+    React_S["React Web App: Spectator"]
+  end
+
+  subgraph Monolith [HorseRacingSystem Backend - Modular Monolith]
+    subgraph Ports [Cổng Giao Tiếp / Ports]
+      PortReg[SessionAuthPort - Reg]
+      PortAdmin[SessionAuthPort - Admin]
+      PortRef[SessionAuthPort - Referee]
+      PortSpec[PublicViewPort - Spectator]
+    end
+
+    subgraph Modules [Các Module Nghiệp Vụ]
+      RegMod["registrationModule (RegistrationService)<br/>• BR-01: Health Cert Check<br/>• BR-04: 48h Deadline Rule"]
+      RaceMod["tournamentModule (RacingCoreService)<br/>• Quản lý lịch trình và giải đấu"]
+      StrategyMod["calculationStrategy (BR-03: Formula)<br/>• Strategy Pattern tính điểm xếp hạng"]
+      JudgeMod["judgingModule (RefereeReportService)<br/>• BR-02: Jockey Limit<br/>• BR-05: Official Submit"]
+
+      RaceMod -.-> StrategyMod
+    end
+
+    PortReg --> RegMod
+    PortAdmin --> RaceMod
+    PortRef --> JudgeMod
+    RaceMod --> PortSpec
+  end
+
+  %% Connections
+  React_OJ --> PortReg
+  React_A --> PortAdmin
+  React_R --> PortRef
+  PortSpec --> React_S
+
+  %% Core Inter-Module Communications
+  RegMod -- "verifyRaceAvailability() [delegate]" --> RaceMod
+  JudgeMod -- "triggerOfficialResult() [delegate]" --> RaceMod
+```
 
 ## 4.2 Backend
 
@@ -125,7 +236,127 @@ Mục tiêu:
 * Bảo vệ tài khoản người dùng.
 * Giảm nguy cơ tấn công phổ biến trên Web Portal.
 
-## 4.5 Deployment
+## 4.5 Sơ đồ lớp (Class Diagram)
+
+```mermaid
+classDiagram
+  class HorseOwner {
+    +String ownerID
+    +String name
+    +String contactInfo
+    +registerHorse(horseData)
+    +createRegistration(raceID, horseID, jockeyID)
+  }
+
+  class Horse {
+    +String horseID
+    +String name
+    +String breed
+    +Int age
+    +Float weight
+    +Date healthCertExpiry
+    +String status
+    +isEligibleForRace(maxWeight) : Boolean
+  }
+
+  class Jockey {
+    +String jockeyID
+    +String licenseNo
+    +String name
+    +Float weight
+    +Int ranking
+    +String status
+    +checkDailyRaceLimit() : Boolean
+  }
+
+  class Registration {
+    +String regID
+    +String horseID
+    +String jockeyID
+    +String raceID
+    +String ownerID
+    +DateTime confirmedAt
+    +String status
+    +validateDeadline(raceDate) : Boolean
+  }
+
+  class Tournament {
+    +String tournamentID
+    +String name
+    +Date startDate
+    +Date endDate
+    +String status
+    +calculateGlobalRanking()
+  }
+
+  class Race {
+    +String raceID
+    +String tournamentID
+    +Int round
+    +DateTime date
+    +Float distance
+    +String track
+    +String status
+    +closeRegistration()
+  }
+
+  class Admin {
+    +String adminID
+    +String name
+    +createTournament()
+    +scheduleRace()
+    +assignReferee(raceID, refereeID)
+    +publishOfficialResult(raceID)
+  }
+
+  class RaceReferee {
+    +String refereeID
+    +String name
+    +inspectHorse(horseID) : Boolean
+    +submitReport(raceID, violations)
+  }
+
+  class RefereeReport {
+    +String reportID
+    +String raceID
+    +String refereeID
+    +List~String~ violations
+    +Boolean confirmedResult
+    +DateTime submittedAt
+  }
+
+  class RaceResult {
+    +String resultID
+    +String raceID
+    +String horseID
+    +String jockeyID
+    +Float finishTime
+    +Int rank
+    +Boolean violationFlag
+  }
+
+  class Spectator {
+    +String spectatorID
+    +String name
+    +viewLiveResults(raceID)
+    +viewRankings(tournamentID)
+  }
+
+  %% Relationships
+  HorseOwner "1" --> "*" Horse : owns
+  HorseOwner "1" --> "*" Registration : creates
+  Horse "1" --> "*" Registration : registers for
+  Jockey "1" --> "*" Registration : assigned to
+  Tournament "1" *-- "*" Race : contains
+  Admin "1" --> "*" Tournament : manages
+  Admin "1" --> "*" Race : schedules
+  Race "1" o-- "*" Registration : includes
+  RaceReferee "1" --> "*" RefereeReport : submits
+  Race "1" -- "1" RefereeReport : has
+  Race "1" -- "*" RaceResult : has
+```
+
+## 4.6 Deployment
 
 Sử dụng:
 
@@ -140,6 +371,12 @@ Triển khai trên:
 Mục tiêu:
 
 * Hỗ trợ Admin và Giảng viên truy cập đánh giá hệ thống.
+
+---
+
+> [!NOTE]
+> Chi tiết toàn bộ luồng nghiệp vụ động (giao tiếp đồng thời & sơ đồ tuần tự sequence) được định nghĩa chi tiết tại tài liệu [bussiness_flow.md](file:///c:/Users/PC%202024/Desktop/IdeaProjects/swd/HorseRace/doc/bussiness_flow.md).
+
 
 ---
 
