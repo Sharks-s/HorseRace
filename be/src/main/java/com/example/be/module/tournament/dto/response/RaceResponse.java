@@ -20,6 +20,9 @@ public class RaceResponse {
     private Double distanceFactor;
     private RaceStatus status;
 
+    private UUID refereeId;
+    private String refereeName;
+
     public static RaceResponse fromEntity(Race r) {
         return RaceResponse.builder()
                 .id(r.getId())
@@ -28,6 +31,8 @@ public class RaceResponse {
                 .startTime(r.getStartTime())
                 .distanceFactor(r.getDistanceFactor())
                 .status(r.getStatus())
+                .refereeId(r.getReferee() != null ? r.getReferee().getId() : null)
+                .refereeName(r.getReferee() != null ? r.getReferee().getFullName() : null)
                 .build();
     }
 }

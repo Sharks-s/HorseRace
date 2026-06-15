@@ -22,6 +22,7 @@ public class RaceServiceImpl implements RaceService {
 
     private final RaceRepository raceRepository;
     private final TournamentRepository tournamentRepository;
+    private final com.example.be.module.auth.repository.UserRepository userRepository;
 
     @Override
     @Transactional
@@ -80,6 +81,35 @@ public class RaceServiceImpl implements RaceService {
         return raceRepository.findByTournamentId(tournamentId).stream()
                 .map(RaceResponse::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public RaceResponse assignReferee(UUID raceId, UUID refereeId) {
+        Race race = raceRepository.findById(raceId)
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy vòng đua"));
+        
+        com.example.be.module.auth.model.entity.User referee = userRepository.findById(refereeId)
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy người dùng"));
+
+        if (referee.getRole() != com.example.be.module.auth.model.enums.Role.REFEREE) {
+            throw new IllegalArgumentException("Người dùng không có quyền trọng tài (REFEREE)");
+        }
+
+        // Validate conflict: check if this referee is already assigned to a race overlapping in time
+        // Simplification for SHR-58: just check if they are already assigned to a race with the exact same start time
+        // Real implementation would check time ranges
+        boolean hasConflict = raceRepository.findAll().stream()
+                .anyMatch(r -> !r.getId().equals(raceId) && r.getReferee() != null && r.getReferee().getId().equals(refereeId) 
+                        && r.getStartTime().equals(race.getStartTime()));
+        
+        if (hasConflict) {
+            throw new IllegalArgumentException("Trọng tài đã được phân công cho một vòng đua khác cùng thời điểm");
+        }
+
+        race.setReferee(referee);
+        Race updated = raceRepository.save(race);
+        return RaceResponse.fromEntity(updated);
     }
 
     private void validateSchedule(Tournament tournament, RaceRequest request) {

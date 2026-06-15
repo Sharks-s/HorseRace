@@ -12,4 +12,5 @@ public interface RaceService {
     void deleteRace(UUID id);
     RaceResponse getRace(UUID id);
     List<RaceResponse> getRacesByTournament(UUID tournamentId);
+    RaceResponse assignReferee(UUID raceId, UUID refereeId);
 }

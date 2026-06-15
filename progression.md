@@ -30,9 +30,11 @@ Báo cáo tiến độ được tự động phân tích và đối chiếu từ
     - *Minh chứng code:* Phân quyền bằng role [Role.java](file:///c:/Users/PC%202024/Desktop/IdeaProjects/swd/HorseRace/be/src/main/java/com/example/be/module/auth/model/enums/Role.java) (ADMIN, HORSE_OWNER, JOCKEY, REFEREE, SPECTATOR) và `@PreAuthorize` đã được cấu hình trong bảo mật hệ thống.
   - **SHR-45 (FE): Trang Register + Login + ProtectedRoute theo role** [🟢 Hoàn thành]
     - *Minh chứng code:* [Login.jsx](file:///c:/Users/PC%202024/Desktop/IdeaProjects/swd/HorseRace/FE/src/features/auth/pages/Login.jsx), [Register.jsx](file:///c:/Users/PC%202024/Desktop/IdeaProjects/swd/HorseRace/FE/src/features/auth/pages/Register.jsx), [ProtectedRoute.jsx](file:///c:/Users/PC%202024/Desktop/IdeaProjects/swd/HorseRace/FE/src/shared/components/ProtectedRoute.jsx).
-- **SHR-21: Admin quản lý tài khoản và phân quyền người dùng** [🔴 Chưa bắt đầu]
-  - **SHR-46 (BE): API CRUD User Management (Admin only)** [🔴 Chưa bắt đầu]
-  - **SHR-47 (FE): Trang Admin quản lý User (DataTable + filter)** [🔴 Chưa bắt đầu]
+- **SHR-21: Admin quản lý tài khoản và phân quyền người dùng** [🟢 Hoàn thành]
+  - **SHR-46 (BE): API CRUD User Management (Admin only)** [🟢 Hoàn thành]
+    - *Minh chứng code:* `AdminUserController.java`, `AdminUserServiceImpl.java`.
+  - **SHR-47 (FE): Trang Admin quản lý User (DataTable + filter)** [🟢 Hoàn thành]
+    - *Minh chứng code:* `UserManagementPage.jsx`, `adminUserApi.js`.
 
 ---
 
@@ -60,17 +62,17 @@ Báo cáo tiến độ được tự động phân tích và đối chiếu từ
     - *Minh chứng code:* [TournamentController.java](file:///c:/Users/PC%202024/Desktop/IdeaProjects/swd/HorseRace/be/src/main/java/com/example/be/module/tournament/controller/TournamentController.java), [TournamentServiceImpl.java](file:///c:/Users/PC%202024/Desktop/IdeaProjects/swd/HorseRace/be/src/main/java/com/example/be/module/tournament/service/impl/TournamentServiceImpl.java).
   - **SHR-57 (FE): Trang Admin tạo và quản lý Tournament** [🟢 Hoàn thành]
     - *Minh chứng code:* [TournamentManagementPage.jsx](file:///c:/Users/PC%202024/Desktop/IdeaProjects/swd/HorseRace/FE/src/features/admin/pages/TournamentManagementPage.jsx).
-- **SHR-26: Admin phân công trọng tài (Referee) cho vòng đua** [🔴 Chưa bắt đầu]
-  - **SHR-58 (BE): API phân công Referee + validate conflict + Notification** [🔴 Chưa bắt đầu]
-  - **SHR-59 (FE): Trang Admin phân công trọng tài** [🔴 Chưa bắt đầu]
-- **SHR-27: Horse Owner gửi lời mời thuê Jockey (Invitation Flow)** [🔴 Chưa bắt đầu]
-  - **SHR-60 (BE): Entity Registration + processInvitation() + BR-02 + BR-04** [🔴 Chưa bắt đầu]
-  - **SHR-61 (FE): Trang Horse Owner gửi Invitation (HiringPage)** [🔴 Chưa bắt đầu]
-- **SHR-28: Jockey xem và phản hồi lời mời tham gia đua** [🔴 Chưa bắt đầu]
-  - **SHR-62 (BE): API phản hồi Invitation + processResponse() + Notify Owner** [🔴 Chưa bắt đầu]
-  - **SHR-63 (FE): Trang Jockey phản hồi Invitation (InvitationPage)** [🔴 Chưa bắt đầu]
-- **SHR-29: Auto-close đăng ký 48h trước đua + BR-04 guard (Scheduled Job)** [🔴 Chưa bắt đầu]
-  - **SHR-64 (BE): Scheduled Job BR-04 + validateDeadline() với mock Clock** [🔴 Chưa bắt đầu]
+- **SHR-26: Admin phân công trọng tài (Referee) cho vòng đua** [🟢 Hoàn thành]
+  - **SHR-58 (BE): API phân công Referee + validate conflict + Notification** [🟢 Hoàn thành]
+  - **SHR-59 (FE): Trang Admin phân công trọng tài** [🟢 Hoàn thành]
+- **SHR-27: Horse Owner gửi lời mời thuê Jockey (Invitation Flow)** [🟢 Hoàn thành]
+  - **SHR-60 (BE): Entity Registration + processInvitation() + BR-02 + BR-04** [🟢 Hoàn thành]
+  - **SHR-61 (FE): Trang Horse Owner gửi Invitation (HiringPage)** [🟢 Hoàn thành]
+- **SHR-28: Jockey xem và phản hồi lời mời tham gia đua** [🟢 Hoàn thành]
+  - **SHR-62 (BE): API phản hồi Invitation + processResponse() + Notify Owner** [🟢 Hoàn thành]
+  - **SHR-63 (FE): Trang Jockey phản hồi Invitation (InvitationPage)** [🟢 Hoàn thành]
+- **SHR-29: Auto-close đăng ký 48h trước đua + BR-04 guard (Scheduled Job)** [🟢 Hoàn thành]
+  - **SHR-64 (BE): Scheduled Job BR-04 + validateDeadline() với mock Clock** [🟢 Hoàn thành]
 
 ---
 

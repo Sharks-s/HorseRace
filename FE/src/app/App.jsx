@@ -6,7 +6,10 @@ import Register from "../features/auth/pages/Register";
 import ProtectedRoute from "../shared/components/ProtectedRoute";
 import HorseRaceApp from "../pages/LandingPage";
 import AdminDashboard from "../features/admin/pages/AdminDashboard";
+import UserManagementPage from "../features/admin/pages/UserManagementPage";
 import TournamentManagementPage from "../features/admin/pages/TournamentManagementPage";
+import HiringPage from "../features/owner/pages/HiringPage";
+import InvitationPage from "../features/jockey/pages/InvitationPage";
 import "../styles/fonts.css";
 import "../styles/theme.css";
 import "../styles/globals.css";
@@ -22,7 +25,10 @@ function App() {
         {/* Protected Routes with Layout */}
         <Route element={<ProtectedRoute />}>
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/users" element={<UserManagementPage />} />
           <Route path="/admin/tournaments" element={<TournamentManagementPage />} />
+          <Route path="/owner/hiring" element={<HiringPage />} />
+          <Route path="/jockey/invitations" element={<InvitationPage />} />
         </Route>
 
         {/* Public Routes with Layout */}
