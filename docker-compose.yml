@@ -15,7 +15,7 @@ services:
     restart: always
 
   be:
-    image: ghcr.io/lamphuoc-nguyen/horserace-be:latest
+    image: ghcr.io/Sharks-s/horserace-be:latest
     build:
       context: ./be
       dockerfile: Dockerfile
@@ -37,7 +37,7 @@ services:
     restart: always
 
   fe:
-    image: ghcr.io/lamphuoc-nguyen/horserace-fe:latest
+    image: ghcr.io/Sharks-s/horserace-fe:latest
     build:
       context: ./FE
       dockerfile: Dockerfile
