@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Oswald:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#e9c349",
+                        "inverse-on-surface": "#eff1f3",
+                        "tertiary-fixed": "#d5e3fd",
+                        "secondary-container": "#fed65b",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#735c00",
+                        "on-primary-fixed": "#002110",
+                        "secondary-fixed": "#ffe088",
+                        "primary-container": "#004225",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-bright": "#f7f9fb",
+                        "on-tertiary-fixed-variant": "#3a485c",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#241a00",
+                        "outline-variant": "#c0c9c0",
+                        "tertiary-container": "#2b394d",
+                        "on-primary-container": "#75af89",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-secondary-container": "#745c00",
+                        "tertiary-fixed-dim": "#b9c7e0",
+                        "outline": "#717971",
+                        "surface-container-high": "#e6e8ea",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#316948",
+                        "tertiary": "#152436",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container": "#eceef0",
+                        "surface": "#f7f9fb",
+                        "surface-container-low": "#f2f4f6",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#191c1e",
+                        "on-tertiary-fixed": "#0d1c2f",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "inverse-primary": "#98d4ac",
+                        "on-primary-fixed-variant": "#165132",
+                        "on-surface-variant": "#404942",
+                        "primary-fixed-dim": "#98d4ac",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#b4f0c7",
+                        "on-background": "#191c1e",
+                        "primary": "#002a15",
+                        "on-tertiary-container": "#94a3ba",
+                        "background": "#f7f9fb"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "4px",
+                        "section-gap": "48px",
+                        "stack-md": "12px",
+                        "gutter": "16px",
+                        "base": "8px",
+                        "container-margin": "24px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Oswald"],
+                        "headline-md": ["Oswald"],
+                        "headline-lg": ["Oswald"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Oswald"],
+                        "label-bold": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-bold": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md h-screen overflow-hidden flex">
+<!-- Left Sidebar Navigation -->
+<aside class="w-[280px] bg-surface-container-lowest border-r border-outline-variant hidden md:flex flex-col flex-shrink-0 z-20">
+<div class="h-16 flex items-center px-container-margin border-b border-outline-variant">
+<h1 class="font-display-lg text-[28px] leading-tight text-secondary font-bold tracking-tighter">HorseRace</h1>
+</div>
+<nav class="flex-1 py-6 px-4 flex flex-col gap-2 overflow-y-auto no-scrollbar">
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-xl px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">dashboard</span>
+<span class="font-label-bold text-label-bold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface hover:bg-surface-container rounded-xl px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">group</span>
+<span class="font-label-bold text-label-bold">Users</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface hover:bg-surface-container rounded-xl px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">emoji_events</span>
+<span class="font-label-bold text-label-bold">Tournaments</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface hover:bg-surface-container rounded-xl px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">leaderboard</span>
+<span class="font-label-bold text-label-bold">Results</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
+<!-- TopAppBar -->
+<header class="bg-surface border-b border-outline-variant flex justify-between md:justify-end items-center w-full px-container-margin h-16 z-10 sticky top-0 flex-shrink-0">
+<div class="flex items-center gap-gutter md:hidden">
+<span aria-label="Menu" class="material-symbols-outlined text-primary cursor-pointer hover:bg-surface-container-high transition-colors p-2 rounded-full">menu</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-secondary font-bold tracking-tighter">Admin Portal</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden cursor-pointer hover:opacity-80 transition-opacity">
+<img alt="User profile avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKgpp6xEBxdA5z9XY0dUuekf1yES-zI8bF0itNruirPuxLJ5SfuEaVi1gY3xEUGmCE-ellGvPR2bZYB-GKawiOW9ABxX7qHotVGDgcQrZdEpo2Hzq6e4KzGzKjq5731h3AQfWmt9hMDw4kgWZDzcTC5lRsWTKKCIFcto_N9plll9I1reUVT8wnsVr2SODJyQPaPrOJYKD30cS8UFPqRgMuyTh6irvykShZ79bP6Ys8EWEq4G7qM0OQtan-TYYbNX92jT-ane-pvg"/>
+</div>
+</div>
+</header>
+<main class="p-4 md:p-container-margin w-full flex flex-col gap-section-gap">
+<!-- Top Stats Row -->
+<section class="w-full">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter w-full">
+<!-- Stat Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-[0_4px_12px_rgba(15,23,42,0.1)] border border-outline-variant/30 flex flex-col gap-stack-md relative overflow-hidden group hover:-translate-y-[2px] transition-transform">
+<div class="absolute -right-4 -top-4 text-surface-container-highest opacity-50 group-hover:text-tertiary-fixed transition-colors">
+<span class="material-symbols-outlined text-[80px]" style="font-variation-settings: 'FILL' 1;">pets</span>
+</div>
+<div class="relative z-10">
+<p class="font-body-md text-body-md text-on-surface-variant mb-1">Total Horses</p>
+<p class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold">1,248</p>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-[0_4px_12px_rgba(15,23,42,0.1)] border border-outline-variant/30 flex flex-col gap-stack-md relative overflow-hidden group hover:-translate-y-[2px] transition-transform">
+<div class="absolute -right-4 -top-4 text-surface-container-highest opacity-50 group-hover:text-secondary-fixed transition-colors">
+<span class="material-symbols-outlined text-[80px]" style="font-variation-settings: 'FILL' 1;">sports_kabaddi</span>
+</div>
+<div class="relative z-10">
+<p class="font-body-md text-body-md text-on-surface-variant mb-1">Active Jockeys</p>
+<p class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold">412</p>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-[0_4px_12px_rgba(15,23,42,0.1)] border border-outline-variant/30 flex flex-col gap-stack-md relative overflow-hidden group hover:-translate-y-[2px] transition-transform">
+<div class="absolute -right-4 -top-4 text-surface-container-highest opacity-50 group-hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-[80px]" style="font-variation-settings: 'FILL' 1;">timer</span>
+</div>
+<div class="relative z-10">
+<p class="font-body-md text-body-md text-on-surface-variant mb-1">Ongoing Races</p>
+<p class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold">14</p>
+</div>
+</div>
+<!-- Stat Card 4 (New) -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-[0_4px_12px_rgba(15,23,42,0.1)] border border-outline-variant/30 flex flex-col gap-stack-md relative overflow-hidden group hover:-translate-y-[2px] transition-transform">
+<div class="absolute -right-4 -top-4 text-surface-container-highest opacity-50 group-hover:text-error-container transition-colors">
+<span class="material-symbols-outlined text-[80px]" style="font-variation-settings: 'FILL' 1;">fact_check</span>
+</div>
+<div class="relative z-10">
+<p class="font-body-md text-body-md text-on-surface-variant mb-1">Pending Approvals</p>
+<p class="font-headline-lg-mobile text-headline-lg-mobile text-error font-bold">24</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Dual Pane Layout -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-gutter items-start">
+<!-- Left Pane: Pending Registrations Data Table -->
+<div class="lg:col-span-2 flex flex-col gap-stack-md">
+<h2 class="font-headline-md text-headline-md text-on-surface border-b border-outline-variant pb-2">Pending Horse Registrations</h2>
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(15,23,42,0.1)] border border-outline-variant/30 overflow-hidden overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container text-on-surface-variant font-label-bold text-label-bold border-b border-outline-variant/30">
+<tr>
+<th class="py-3 px-4 whitespace-nowrap">Horse Name</th>
+<th class="py-3 px-4 whitespace-nowrap">Owner</th>
+<th class="py-3 px-4 whitespace-nowrap">Status</th>
+<th class="py-3 px-4 whitespace-nowrap text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20">
+<tr class="hover:bg-surface-container-lowest/50 transition-colors">
+<td class="py-3 px-4 font-label-bold text-on-surface whitespace-nowrap">Thunderstrike</td>
+<td class="py-3 px-4 font-body-md text-on-surface-variant whitespace-nowrap">Kingsway Stables</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<span class="inline-flex bg-error-container text-on-error-container font-label-sm text-label-sm px-2 py-1 rounded-full items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span> Pending Health
+                                    </span>
+</td>
+<td class="py-3 px-4 whitespace-nowrap text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="bg-primary text-on-primary font-label-bold text-label-sm px-3 py-1.5 rounded hover:opacity-90 transition-opacity">Approve</button>
+<button class="border border-outline-variant text-on-surface-variant font-label-bold text-label-sm px-3 py-1.5 rounded hover:bg-surface-container transition-colors">Reject</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest/50 transition-colors">
+<td class="py-3 px-4 font-label-bold text-on-surface whitespace-nowrap">Midnight Runner</td>
+<td class="py-3 px-4 font-body-md text-on-surface-variant whitespace-nowrap">Blue Ribbon Farms</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<span class="inline-flex bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded-full items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">info</span> Doc Review
+                                    </span>
+</td>
+<td class="py-3 px-4 whitespace-nowrap text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="bg-primary text-on-primary font-label-bold text-label-sm px-3 py-1.5 rounded hover:opacity-90 transition-opacity">Approve</button>
+<button class="border border-outline-variant text-on-surface-variant font-label-bold text-label-sm px-3 py-1.5 rounded hover:bg-surface-container transition-colors">Reject</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest/50 transition-colors">
+<td class="py-3 px-4 font-label-bold text-on-surface whitespace-nowrap">Star Gazer</td>
+<td class="py-3 px-4 font-body-md text-on-surface-variant whitespace-nowrap">Oakridge Equestrian</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<span class="inline-flex bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-2 py-1 rounded-full items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">hourglass_empty</span> Age Verification
+                                    </span>
+</td>
+<td class="py-3 px-4 whitespace-nowrap text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="bg-primary text-on-primary font-label-bold text-label-sm px-3 py-1.5 rounded hover:opacity-90 transition-opacity">Approve</button>
+<button class="border border-outline-variant text-on-surface-variant font-label-bold text-label-sm px-3 py-1.5 rounded hover:bg-surface-container transition-colors">Reject</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right Pane: Referee Assignment -->
+<div class="lg:col-span-1 flex flex-col gap-stack-md">
+<h2 class="font-headline-md text-headline-md text-on-surface border-b border-outline-variant pb-2">Referee Assignment</h2>
+<div class="flex flex-col gap-stack-sm">
+<!-- Race Row 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-[0_4px_12px_rgba(15,23,42,0.1)] border border-outline-variant/30 flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<div class="bg-tertiary-container text-on-tertiary-container w-10 h-10 rounded-lg flex items-center justify-center font-headline-md text-[18px]">
+                                R1
+                            </div>
+<div>
+<h3 class="font-label-bold text-label-bold text-on-surface leading-tight">Grand National Sprint</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">14:00 • 1200m Dirt</p>
+</div>
+</div>
+<div class="w-full">
+<select class="w-full bg-surface border border-outline-variant rounded-lg px-3 py-2 font-body-md text-[14px] text-on-surface focus:ring-primary focus:border-primary">
+<option value="">Assign Referee...</option>
+<option value="ref1">John Smith</option>
+<option value="ref2">Sarah Davies</option>
+<option value="ref3">Michael O'Connor</option>
+</select>
+</div>
+</div>
+<!-- Race Row 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-[0_4px_12px_rgba(15,23,42,0.1)] border border-outline-variant/30 flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<div class="bg-tertiary-container text-on-tertiary-container w-10 h-10 rounded-lg flex items-center justify-center font-headline-md text-[18px]">
+                                R2
+                            </div>
+<div>
+<h3 class="font-label-bold text-label-bold text-on-surface leading-tight">Derby Qualifier Heat B</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">15:30 • 1600m Turf</p>
+</div>
+</div>
+<div class="w-full">
+<select class="w-full bg-surface border border-outline-variant rounded-lg px-3 py-2 font-body-md text-[14px] text-on-surface focus:ring-primary focus:border-primary">
+<option value="">Assign Referee...</option>
+<option value="ref1">John Smith</option>
+<option value="ref2">Sarah Davies</option>
+<option value="ref3">Michael O'Connor</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Mobile Bottom Nav (Visible only on mobile to maintain functionality if requested, though desktop-first implies removing it. Keeping a hidden version just in case, or removing entirely as sidebar replaces it.) -->
+<nav class="md:hidden bg-primary shadow-[0_-4px_12px_rgba(0,0,0,0.1)] fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 pb-safe rounded-t-xl">
+<a class="flex flex-col items-center justify-center bg-secondary text-on-secondary rounded-xl px-3 py-1 scale-95 duration-200" href="#">
+<span class="material-symbols-outlined text-[24px]">dashboard</span>
+<span class="font-label-sm text-[10px] mt-1">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-primary-container px-3 py-1 hover:bg-primary-container/50 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined text-[24px]">group</span>
+<span class="font-label-sm text-[10px] mt-1">Users</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-primary-container px-3 py-1 hover:bg-primary-container/50 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined text-[24px]">emoji_events</span>
+<span class="font-label-sm text-[10px] mt-1">Tournaments</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-primary-container px-3 py-1 hover:bg-primary-container/50 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined text-[24px]">leaderboard</span>
+<span class="font-label-sm text-[10px] mt-1">Results</span>
+</a>
+</nav>
+</body></html>

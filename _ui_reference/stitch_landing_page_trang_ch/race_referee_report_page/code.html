@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Referee Report Interface</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Oswald:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#e9c349",
+                        "inverse-on-surface": "#eff1f3",
+                        "tertiary-fixed": "#d5e3fd",
+                        "secondary-container": "#fed65b",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#735c00",
+                        "on-primary-fixed": "#002110",
+                        "secondary-fixed": "#ffe088",
+                        "primary-container": "#004225",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-bright": "#f7f9fb",
+                        "on-tertiary-fixed-variant": "#3a485c",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#241a00",
+                        "outline-variant": "#c0c9c0",
+                        "tertiary-container": "#2b394d",
+                        "on-primary-container": "#75af89",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-secondary-container": "#745c00",
+                        "tertiary-fixed-dim": "#b9c7e0",
+                        "outline": "#717971",
+                        "surface-container-high": "#e6e8ea",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#316948",
+                        "tertiary": "#152436",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container": "#eceef0",
+                        "surface": "#f7f9fb",
+                        "surface-container-low": "#f2f4f6",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#191c1e",
+                        "on-tertiary-fixed": "#0d1c2f",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "inverse-primary": "#98d4ac",
+                        "on-primary-fixed-variant": "#165132",
+                        "on-surface-variant": "#404942",
+                        "primary-fixed-dim": "#98d4ac",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#b4f0c7",
+                        "on-background": "#191c1e",
+                        "primary": "#002a15",
+                        "on-tertiary-container": "#94a3ba",
+                        "background": "#f7f9fb"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        "stack-sm": "4px",
+                        "section-gap": "48px",
+                        "stack-md": "12px",
+                        "gutter": "16px",
+                        "base": "8px",
+                        "container-margin": "24px"
+                    },
+                    fontFamily: {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Oswald"],
+                        "headline-md": ["Oswald"],
+                        "headline-lg": ["Oswald"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Oswald"],
+                        "label-bold": ["Inter"]
+                    },
+                    fontSize: {
+                        "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+                        "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "display-lg": ["48px", { lineHeight: "56px", fontWeight: "700" }],
+                        "headline-md": ["24px", { lineHeight: "32px", fontWeight: "500" }],
+                        "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "600" }],
+                        "label-sm": ["12px", { lineHeight: "16px", fontWeight: "500" }],
+                        "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                        "label-bold": ["14px", { lineHeight: "20px", letterSpacing: "0.02em", fontWeight: "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for data-rich feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e0e3e5;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c0c9c0;
+        }
+        .zebra-row:nth-child(even) {
+            background-color: #f7f9fb;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md antialiased md:max-w-md md:mx-auto md:border-x md:border-outline-variant min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-surface border-b border-outline-variant flat no shadows flex justify-between items-center w-full px-container-margin h-16 z-50 sticky top-0">
+<button class="text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 -ml-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-secondary font-bold tracking-tighter">HorseRace</h1>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center overflow-hidden">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="A small, professional headshot of an official in a racing environment, well-lit, realistic style, soft focus background. High contrast lighting highlighting their focused expression, suggesting authority and precision. The overall tone is corporate and prestigious, fitting for a sports management interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUHtkir2oIPCpVsna2UYn7D1Ru18Wgz1uKGJkq0hIpVQPd38lb5hJEuqULWtWyMUD-HsckLHkoJ9cL-wc3h52s9vAhMZ2_HNNk3YTrcCQvTovYX0VWGHmYqV42ElKRLnQuc2CSvdGU_6eHkSEeTuBNYmFxz5AgP4dul88tEAU9xuuKj1UJ4tYIorPDDc1PL6FIsip95BfP0KWEkAqa3hjGSL64ZkfdwtJoxN-xuM3lwVSLieKvFW9AbCYpUJ4dx276p3SbQnDpDg"/>
+</div>
+</header>
+<main class="p-4 flex flex-col gap-section-gap pt-6">
+<!-- Header & Selection Section -->
+<section class="flex flex-col gap-stack-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Official Race Report</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Submit official times and infractions.</p>
+</div>
+<div class="mt-2">
+<label class="block font-label-bold text-label-bold text-on-surface mb-2" for="race-select">Select Active Race</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-lowest border border-outline-variant rounded-lg py-3 px-4 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary shadow-sm" id="race-select">
+<option value="race1">Race 4: The King's Cup - 14:30</option>
+<option value="race2">Race 5: Silver Stakes - 15:15</option>
+<option value="race3">Race 6: Grand Derby - 16:00</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-on-surface-variant">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Result Table Section -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden">
+<div class="bg-primary px-4 py-3 border-b border-outline-variant">
+<h3 class="font-label-bold text-label-bold text-on-primary">Race Participants</h3>
+</div>
+<div class="flex flex-col">
+<!-- Row 1 -->
+<div class="zebra-row p-4 border-b border-outline-variant last:border-b-0 flex flex-col gap-stack-md transition-transform hover:translate-y-[-1px]">
+<div class="flex justify-between items-start">
+<div class="flex gap-3 items-center">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center font-headline-md text-headline-md text-on-secondary-container">1</div>
+<div>
+<h4 class="font-label-bold text-label-bold text-on-surface">Thunderbolt</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Jockey: J. Smith</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3 mt-2">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Finish Time</label>
+<input class="w-full bg-surface border border-outline-variant rounded py-2 px-3 font-body-md text-body-md focus:ring-1 focus:ring-primary focus:border-primary text-center" placeholder="MM:SS.ms" type="text" value="02:14.35"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Rank</label>
+<select class="w-full bg-surface border border-outline-variant rounded py-2 px-3 font-body-md text-body-md focus:ring-1 focus:ring-primary focus:border-primary">
+<option>1st</option>
+<option>2nd</option>
+<option>3rd</option>
+<option>DNF</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<input class="w-4 h-4 text-error rounded border-outline-variant focus:ring-error" id="violation-1" type="checkbox"/>
+<label class="font-label-sm text-label-sm text-error font-medium" for="violation-1">Flag Violation</label>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="zebra-row p-4 border-b border-outline-variant last:border-b-0 flex flex-col gap-stack-md transition-transform hover:translate-y-[-1px]">
+<div class="flex justify-between items-start">
+<div class="flex gap-3 items-center">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center font-headline-md text-headline-md text-on-surface-variant">2</div>
+<div>
+<h4 class="font-label-bold text-label-bold text-on-surface">Midnight Runner</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Jockey: A. Davis</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3 mt-2">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Finish Time</label>
+<input class="w-full bg-surface border border-outline-variant rounded py-2 px-3 font-body-md text-body-md focus:ring-1 focus:ring-primary focus:border-primary text-center" placeholder="MM:SS.ms" type="text" value="02:15.12"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Rank</label>
+<select class="w-full bg-surface border border-outline-variant rounded py-2 px-3 font-body-md text-body-md focus:ring-1 focus:ring-primary focus:border-primary">
+<option>2nd</option>
+<option>1st</option>
+<option>3rd</option>
+<option>DNF</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<input class="w-4 h-4 text-error rounded border-outline-variant focus:ring-error" id="violation-2" type="checkbox"/>
+<label class="font-label-sm text-label-sm text-on-surface-variant" for="violation-2">Flag Violation</label>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="zebra-row p-4 border-b border-outline-variant last:border-b-0 flex flex-col gap-stack-md transition-transform hover:translate-y-[-1px]">
+<div class="flex justify-between items-start">
+<div class="flex gap-3 items-center">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center font-headline-md text-headline-md text-on-surface-variant">3</div>
+<div>
+<h4 class="font-label-bold text-label-bold text-on-surface">Golden Hoof</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Jockey: M. Wong</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3 mt-2">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Finish Time</label>
+<input class="w-full bg-surface border border-outline-variant rounded py-2 px-3 font-body-md text-body-md focus:ring-1 focus:ring-primary focus:border-primary text-center" placeholder="MM:SS.ms" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Rank</label>
+<select class="w-full bg-surface border border-outline-variant rounded py-2 px-3 font-body-md text-body-md focus:ring-1 focus:ring-primary focus:border-primary">
+<option disabled="" selected="">Select</option>
+<option>1st</option>
+<option>2nd</option>
+<option>3rd</option>
+<option>DNF</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<input class="w-4 h-4 text-error rounded border-outline-variant focus:ring-error" id="violation-3" type="checkbox"/>
+<label class="font-label-sm text-label-sm text-on-surface-variant" for="violation-3">Flag Violation</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Notes & Submission -->
+<section class="flex flex-col gap-stack-md mt-4">
+<div>
+<label class="block font-label-bold text-label-bold text-on-surface mb-2" for="referee-notes">Referee Notes</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-3 px-4 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary shadow-sm resize-none" id="referee-notes" placeholder="Enter details regarding track conditions, incidents, or specific violations..." rows="4"></textarea>
+</div>
+<button class="w-full bg-[#D4AF37] text-primary hover:bg-secondary-fixed transition-colors py-4 rounded-lg font-label-bold text-label-bold shadow-[0_4px_12px_rgba(0,0,0,0.1)] mt-4 flex justify-center items-center gap-2">
+<span class="material-symbols-outlined">check_circle</span>
+                Submit Final Report
+            </button>
+</section>
+</main>
+<!-- Navigation Drawer (Suppressed per instructions for task-focused page, but included BottomNavBar since it's a mobile view, though instruction says suppress nav if linear. Since this is a specific report entry, we will suppress BottomNavBar to keep focus on Canvas) -->
+<!-- Navigation intentionally omitted to prioritize Canvas for task-focused entry -->
+</body></html>

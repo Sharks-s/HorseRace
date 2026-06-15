@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
         @Bean
@@ -39,7 +41,11 @@ public class SecurityConfig {
         @Bean
         public CorsConfigurationSource corsConfigurationSource() {
                 CorsConfiguration configuration = new CorsConfiguration();
-                configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+                configuration.setAllowedOrigins(List.of(
+                                "http://localhost:5173",
+                                "http://127.0.0.1:5173",
+                                "http://localhost:5174",
+                                "http://127.0.0.1:5174"));
                 configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 configuration.setAllowedHeaders(List.of("*"));
                 configuration.setAllowCredentials(true);
@@ -66,6 +72,7 @@ public class SecurityConfig {
                                                 .requestMatchers(
                                                                 "/api/auth/register",
                                                                 "/api/auth/login",
+                                                                "/api/auth/verify-email",
                                                                 "/api/pricing/plans",
                                                                 "/api/pricing/orders",
                                                                 "/h2-console/**",

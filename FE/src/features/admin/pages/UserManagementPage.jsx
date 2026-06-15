@@ -1,341 +1,350 @@
-import React, { useState, useEffect } from "react";
-import { adminUserApi } from "../../../api/adminUserApi";
+import { useCallback, useEffect, useState } from "react";
+import { api } from "../../../api/axios";
+import { toast } from "../../../shared/components/Toast";
+import "./UserManagementPage.css";
 
-const UserManagementPage = () => {
-  const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [totalPages, setTotalPages] = useState(0);
-  const [page, setPage] = useState(0);
-  const [filterRole, setFilterRole] = useState("");
-  const [filterStatus, setFilterStatus] = useState("");
+const roleOptions = ["", "ADMIN", "HORSE_OWNER", "JOCKEY", "REFEREE", "SPECTATOR"];
+const statusOptions = ["", "ACTIVE", "INACTIVE", "PENDING_VERIFICATION", "PENDING_APPROVAL", "SUSPENDED"];
 
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [editData, setEditData] = useState({
-    fullName: "",
-    phoneNumber: "",
-    role: "",
-    status: "",
+const formatDate = (value) => (value ? new Date(value).toLocaleString("vi-VN") : "-");
+
+const AdminUsersPage = () => {
+  const [pageData, setPageData] = useState({
+    content: [],
+    number: 0,
+    totalPages: 0,
+    totalElements: 0,
   });
+  const [filters, setFilters] = useState({ role: "", status: "", page: 0, size: 8 });
+  const [loading, setLoading] = useState(true);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const loadUsers = useCallback(async () => {
+    try {
+      const params = { page: filters.page, size: filters.size };
+      if (filters.role) params.role = filters.role;
+      if (filters.status) params.status = filters.status;
+
+      const response = await api.get("/admin/users", { params });
+      const nextPage = response.data.data;
+      setPageData(nextPage);
+      setSelectedUser((current) => {
+        if (!current) return nextPage.content[0] ?? null;
+        return nextPage.content.find((user) => user.id === current.id) ?? nextPage.content[0] ?? null;
+      });
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.response?.data || "Could not load users.");
+    } finally {
+      setLoading(false);
+    }
+  }, [filters.page, filters.size, filters.role, filters.status]);
 
   useEffect(() => {
-    fetchUsers();
-  }, [page, filterRole, filterStatus]);
+    void loadUsers();
+  }, [loadUsers]);
 
-  const fetchUsers = async () => {
-    setIsLoading(true);
+  const updateStatus = async (userId, status) => {
     try {
-      const params = {
-        page: page,
-        size: 10,
-        ...(filterRole && { role: filterRole }),
-        ...(filterStatus && { status: filterStatus }),
-      };
-      const response = await adminUserApi.getUsers(params);
-      if (response.success) {
-        setUsers(response.data.content);
-        setTotalPages(response.data.totalPages);
-      }
+      const response = await api.put(`/admin/users/${userId}/status`, { status });
+      toast.success("User status updated");
+      setSelectedUser(response.data.data);
+      await loadUsers();
     } catch (error) {
-      console.error("Error fetching users:", error);
-    } finally {
-      setIsLoading(false);
+      toast.error(error.response?.data?.message || error.response?.data || "Could not update status.");
     }
   };
 
-  const handleEditClick = (user) => {
-    setSelectedUser(user);
-    setEditData({
-      fullName: user.fullName,
-      phoneNumber: user.phoneNumber,
-      role: user.role,
-      status: user.status,
-    });
-    setIsEditModalOpen(true);
-  };
-
-  const handleUpdateUser = async (e) => {
-    e.preventDefault();
+  const updateRole = async (userId, role) => {
     try {
-      const response = await adminUserApi.updateUser(selectedUser.id, editData);
-      if (response.success) {
-        setIsEditModalOpen(false);
-        fetchUsers();
-      }
+      const response = await api.put(`/admin/users/${userId}/role`, { role });
+      toast.success("User role updated");
+      setSelectedUser(response.data.data);
+      await loadUsers();
     } catch (error) {
-      alert("Error updating user");
+      toast.error(error.response?.data?.message || error.response?.data || "Could not update role.");
     }
   };
 
-  const handleDeleteUser = async (id) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      try {
-        const response = await adminUserApi.deleteUser(id);
-        if (response.success) {
-          fetchUsers();
-        }
-      } catch (error) {
-        alert("Error deleting user");
-      }
-    }
-  };
+  const users = pageData.content || [];
+  const activeCount = users.filter((user) => user.status === "ACTIVE").length;
+  const pendingCount = users.filter((user) => user.status?.startsWith("PENDING")).length;
 
   return (
-    <div className="flex-1 flex flex-col h-screen overflow-hidden bg-background text-on-background antialiased">
-      <header className="bg-surface border-b border-outline-variant flex justify-between items-center px-6 h-16 z-10 shrink-0">
-        <h1
-          className="text-2xl font-bold tracking-tighter text-secondary"
-          style={{ fontFamily: "'Oswald', sans-serif" }}
-        >
-          User Management
-        </h1>
-      </header>
+    <div className="admin-shell">
+      <aside className="admin-sidebar">
+        <div className="admin-logo">HorseRace</div>
+        <nav className="admin-nav">
+          <a className="admin-nav-link admin-nav-link-active" href="#users">
+            <span className="material-symbols-outlined">group</span>
+            <span>Users</span>
+          </a>
+          <a className="admin-nav-link" href="/admin/horses">
+            <span className="material-symbols-outlined">fact_check</span>
+            <span>Horse Review</span>
+          </a>
+          <a className="admin-nav-link" href="#access">
+            <span className="material-symbols-outlined">admin_panel_settings</span>
+            <span>Access</span>
+          </a>
+        </nav>
+      </aside>
 
-      <main className="flex-1 overflow-y-auto p-4 md:p-6 flex flex-col gap-6">
-        <section className="bg-surface-container-lowest p-4 rounded-xl shadow border border-outline-variant/30 flex flex-wrap gap-4 items-center">
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-on-surface-variant">
-              Filter by Role
-            </label>
-            <select
-              className="bg-surface border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary outline-none text-on-surface"
-              value={filterRole}
-              onChange={(e) => {
-                setFilterRole(e.target.value);
-                setPage(0);
-              }}
-            >
-              <option value="">All Roles</option>
-              <option value="ADMIN">Admin</option>
-              <option value="HORSE_OWNER">Horse Owner</option>
-              <option value="JOCKEY">Jockey</option>
-              <option value="REFEREE">Referee</option>
-              <option value="SPECTATOR">Spectator</option>
-            </select>
+      <div className="admin-content">
+        <header className="admin-topbar">
+          <div className="admin-mobile-title">
+            <span className="material-symbols-outlined">menu</span>
+            <strong>Admin Portal</strong>
           </div>
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-on-surface-variant">
-              Filter by Status
-            </label>
-            <select
-              className="bg-surface border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary outline-none text-on-surface"
-              value={filterStatus}
-              onChange={(e) => {
-                setFilterStatus(e.target.value);
-                setPage(0);
-              }}
-            >
-              <option value="">All Statuses</option>
-              <option value="ACTIVE">Active</option>
-              <option value="INACTIVE">Inactive</option>
-              <option value="PENDING_APPROVAL">Pending Approval</option>
-              <option value="BANNED">Banned</option>
-            </select>
+          <div className="admin-topbar-actions">
+            <span className="material-symbols-outlined">notifications</span>
+            <div className="admin-avatar">
+              <span className="material-symbols-outlined">person</span>
+            </div>
           </div>
-        </section>
+        </header>
 
-        <section className="bg-surface-container-lowest rounded-xl shadow border border-outline-variant/30 overflow-hidden overflow-x-auto">
-          {isLoading ? (
-            <div className="p-8 text-center text-on-surface-variant">
-              Loading users...
-            </div>
-          ) : (
-            <table className="w-full text-left border-collapse">
-              <thead className="bg-surface-container text-on-surface-variant font-semibold text-sm border-b border-outline-variant/30">
-                <tr>
-                  <th className="py-3 px-4">Full Name</th>
-                  <th className="py-3 px-4">Email</th>
-                  <th className="py-3 px-4">Role</th>
-                  <th className="py-3 px-4">Status</th>
-                  <th className="py-3 px-4 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-outline-variant/20">
-                {users.map((user) => (
-                  <tr
-                    key={user.id}
-                    className="hover:bg-surface-container-lowest/50 transition-colors"
-                  >
-                    <td className="py-3 px-4 font-semibold text-on-surface text-sm">
-                      {user.fullName}
-                    </td>
-                    <td className="py-3 px-4 text-sm text-on-surface-variant">
-                      {user.email}
-                    </td>
-                    <td className="py-3 px-4">
-                      <span className="inline-flex font-medium text-xs px-2 py-1 rounded-full bg-secondary-container text-on-secondary-container">
-                        {user.role}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4">
-                      <span
-                        className={`inline-flex font-medium text-xs px-2 py-1 rounded-full ${
-                          user.status === "ACTIVE"
-                            ? "bg-[#004225] text-white"
-                            : "bg-error-container text-on-error-container"
-                        }`}
-                      >
-                        {user.status}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <button
-                          onClick={() => handleEditClick(user)}
-                          className="bg-primary text-on-primary font-semibold text-xs px-3 py-1.5 rounded hover:opacity-90 transition-opacity"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDeleteUser(user.id)}
-                          className="border border-error text-error font-semibold text-xs px-3 py-1.5 rounded hover:bg-error-container transition-colors"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-                {users.length === 0 && (
-                  <tr>
-                    <td
-                      colSpan="5"
-                      className="py-6 text-center text-on-surface-variant text-sm"
-                    >
-                      No users found.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          )}
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 p-4 border-t border-outline-variant/30">
-              <button
-                disabled={page === 0}
-                onClick={() => setPage((p) => p - 1)}
-                className="px-3 py-1 text-sm bg-surface-container rounded disabled:opacity-50"
-              >
-                Prev
-              </button>
-              <span className="text-sm font-medium">
-                Page {page + 1} of {totalPages}
-              </span>
-              <button
-                disabled={page >= totalPages - 1}
-                onClick={() => setPage((p) => p + 1)}
-                className="px-3 py-1 text-sm bg-surface-container rounded disabled:opacity-50"
-              >
-                Next
-              </button>
-            </div>
-          )}
-        </section>
+        <main className="admin-main">
+          <section className="admin-stats">
+            <article className="admin-stat-card">
+              <span className="material-symbols-outlined">groups</span>
+              <p>Total Users</p>
+              <strong>{pageData.totalElements}</strong>
+            </article>
+            <article className="admin-stat-card">
+              <span className="material-symbols-outlined">verified_user</span>
+              <p>Active On Page</p>
+              <strong>{activeCount}</strong>
+            </article>
+            <article className="admin-stat-card">
+              <span className="material-symbols-outlined">hourglass_empty</span>
+              <p>Pending On Page</p>
+              <strong>{pendingCount}</strong>
+            </article>
+            <article className="admin-stat-card admin-stat-card-alert">
+              <span className="material-symbols-outlined">manage_accounts</span>
+              <p>Page</p>
+              <strong>{pageData.number + 1}</strong>
+            </article>
+          </section>
 
-        {isEditModalOpen && (
-          <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-            <div className="bg-surface-container-lowest rounded-xl shadow-xl w-full max-w-md overflow-hidden flex flex-col">
-              <div className="px-6 py-4 border-b border-outline-variant flex justify-between items-center">
-                <h2
-                  className="text-xl font-bold tracking-tight text-on-surface"
-                  style={{ fontFamily: "'Oswald', sans-serif" }}
-                >
-                  Edit User
-                </h2>
+          <section className="admin-grid">
+            <div className="admin-table-panel" id="users">
+              <div className="admin-section-header">
+                <div>
+                  <p>User Administration</p>
+                  <h1>Account Access Control</h1>
+                </div>
                 <button
-                  onClick={() => setIsEditModalOpen(false)}
-                  className="material-symbols-outlined text-on-surface-variant hover:text-on-surface"
+                  type="button"
+                  className="admin-reset-button"
+                  onClick={() => {
+                    setFilters({ role: "", status: "", page: 0, size: 8 });
+                    setSelectedUser(null);
+                  }}
                 >
-                  close
+                  <span className="material-symbols-outlined">filter_alt_off</span>
+                  Reset
                 </button>
               </div>
-              <form onSubmit={handleUpdateUser} className="p-6 flex flex-col gap-4">
-                <div className="flex flex-col gap-1">
-                  <label className="text-sm font-medium text-on-surface">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    className="bg-surface border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary outline-none"
-                    value={editData.fullName}
-                    onChange={(e) =>
-                      setEditData({ ...editData, fullName: e.target.value })
-                    }
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label className="text-sm font-medium text-on-surface">
-                    Phone Number
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    className="bg-surface border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary outline-none"
-                    value={editData.phoneNumber}
-                    onChange={(e) =>
-                      setEditData({ ...editData, phoneNumber: e.target.value })
-                    }
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label className="text-sm font-medium text-on-surface">
-                    Role
-                  </label>
-                  <select
-                    className="bg-surface border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary outline-none"
-                    value={editData.role}
-                    onChange={(e) =>
-                      setEditData({ ...editData, role: e.target.value })
-                    }
-                  >
-                    <option value="ADMIN">Admin</option>
-                    <option value="HORSE_OWNER">Horse Owner</option>
-                    <option value="JOCKEY">Jockey</option>
-                    <option value="REFEREE">Referee</option>
-                    <option value="SPECTATOR">Spectator</option>
-                  </select>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label className="text-sm font-medium text-on-surface">
-                    Status
-                  </label>
-                  <select
-                    className="bg-surface border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary outline-none"
-                    value={editData.status}
-                    onChange={(e) =>
-                      setEditData({ ...editData, status: e.target.value })
-                    }
-                  >
-                    <option value="ACTIVE">Active</option>
-                    <option value="INACTIVE">Inactive</option>
-                    <option value="PENDING_APPROVAL">Pending Approval</option>
-                    <option value="BANNED">Banned</option>
-                  </select>
-                </div>
-                <div className="flex justify-end gap-3 mt-4">
+
+              <div className="admin-filters">
+                <select
+                  value={filters.role}
+                  onChange={(event) =>
+                    setFilters((current) => ({ ...current, role: event.target.value, page: 0 }))
+                  }
+                >
+                  <option value="">All roles</option>
+                  {roleOptions.filter(Boolean).map((role) => (
+                    <option key={role} value={role}>
+                      {role}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={filters.status}
+                  onChange={(event) =>
+                    setFilters((current) => ({ ...current, status: event.target.value, page: 0 }))
+                  }
+                >
+                  <option value="">All statuses</option>
+                  {statusOptions.filter(Boolean).map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={filters.size}
+                  onChange={(event) =>
+                    setFilters((current) => ({ ...current, size: Number(event.target.value), page: 0 }))
+                  }
+                >
+                  {[5, 8, 10, 20].map((size) => (
+                    <option key={size} value={size}>
+                      {size} / page
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="admin-table-wrap">
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Username</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Status</th>
+                      <th>Last Login</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.map((user) => (
+                      <tr
+                        key={user.id}
+                        className={selectedUser?.id === user.id ? "admin-row-selected" : ""}
+                        onClick={() => setSelectedUser(user)}
+                      >
+                        <td>
+                          <strong>{user.username}</strong>
+                        </td>
+                        <td>{user.email}</td>
+                        <td>{user.role}</td>
+                        <td>
+                          <span className={`admin-status admin-status-${user.status?.toLowerCase()}`}>
+                            {user.status}
+                          </span>
+                        </td>
+                        <td>{formatDate(user.lastLoginAt)}</td>
+                        <td>
+                          <div className="admin-row-actions">
+                            <button
+                              type="button"
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                updateStatus(user.id, user.status === "ACTIVE" ? "INACTIVE" : "ACTIVE");
+                              }}
+                            >
+                              {user.status === "ACTIVE" ? "Deactivate" : "Activate"}
+                            </button>
+                            <select
+                              value={user.role}
+                              onClick={(event) => event.stopPropagation()}
+                              onChange={(event) => {
+                                event.stopPropagation();
+                                updateRole(user.id, event.target.value);
+                              }}
+                            >
+                              {roleOptions.filter(Boolean).map((role) => (
+                                <option key={role} value={role}>
+                                  {role}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                    {!loading && users.length === 0 && (
+                      <tr>
+                        <td colSpan="6" className="admin-empty">
+                          No users match the current filters.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="admin-pagination">
+                <span>
+                  Page {pageData.number + 1} / {Math.max(pageData.totalPages, 1)}
+                </span>
+                <div>
                   <button
                     type="button"
-                    onClick={() => setIsEditModalOpen(false)}
-                    className="px-4 py-2 text-sm font-medium text-on-surface border border-outline-variant rounded-lg hover:bg-surface-container transition-colors"
+                    disabled={pageData.number <= 0}
+                    onClick={() => setFilters((current) => ({ ...current, page: Math.max(current.page - 1, 0) }))}
                   >
-                    Cancel
+                    Previous
                   </button>
                   <button
-                    type="submit"
-                    className="px-4 py-2 text-sm font-medium bg-primary text-on-primary rounded-lg hover:opacity-90 transition-opacity"
+                    type="button"
+                    disabled={pageData.number + 1 >= pageData.totalPages}
+                    onClick={() => setFilters((current) => ({ ...current, page: current.page + 1 }))}
                   >
-                    Save Changes
+                    Next
                   </button>
                 </div>
-              </form>
+              </div>
             </div>
-          </div>
-        )}
-      </main>
+
+            <aside className="admin-detail-panel">
+              <div className="admin-section-header admin-detail-header">
+                <div>
+                  <p>Selected Account</p>
+                  <h2>User Detail</h2>
+                </div>
+              </div>
+
+              {selectedUser ? (
+                <div className="admin-detail-stack">
+                  <div className="admin-profile-card">
+                    <div className="admin-profile-avatar">
+                      <span className="material-symbols-outlined">person</span>
+                    </div>
+                    <h3>{selectedUser.username}</h3>
+                    <p>{selectedUser.email}</p>
+                    <span className={`admin-status admin-status-${selectedUser.status?.toLowerCase()}`}>
+                      {selectedUser.status}
+                    </span>
+                  </div>
+
+                  <div className="admin-detail-card">
+                    <label>Quick Status</label>
+                    <div className="admin-detail-actions">
+                      <button type="button" onClick={() => updateStatus(selectedUser.id, "ACTIVE")}>
+                        Activate
+                      </button>
+                      <button type="button" className="admin-danger" onClick={() => updateStatus(selectedUser.id, "INACTIVE")}>
+                        Disable
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="admin-detail-card">
+                    <label>Role</label>
+                    <select value={selectedUser.role} onChange={(event) => updateRole(selectedUser.id, event.target.value)}>
+                      {roleOptions.filter(Boolean).map((role) => (
+                        <option key={role} value={role}>
+                          {role}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="admin-meta">
+                    <span>Verified</span>
+                    <strong>{formatDate(selectedUser.emailVerifiedAt)}</strong>
+                    <span>Created</span>
+                    <strong>{formatDate(selectedUser.createdAt)}</strong>
+                    <span>Updated</span>
+                    <strong>{formatDate(selectedUser.updatedAt)}</strong>
+                    <span>Last Login</span>
+                    <strong>{formatDate(selectedUser.lastLoginAt)}</strong>
+                  </div>
+                </div>
+              ) : (
+                <div className="admin-empty-card">Select a user to inspect account details.</div>
+              )}
+            </aside>
+          </section>
+        </main>
+      </div>
     </div>
   );
 };
 
-export default UserManagementPage;
+export default AdminUsersPage;

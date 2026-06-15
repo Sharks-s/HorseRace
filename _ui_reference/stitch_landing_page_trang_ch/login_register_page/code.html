@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HorseRace - Registration</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Oswald:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error": "#ba1a1a",
+                      "secondary-fixed-dim": "#e9c349",
+                      "inverse-on-surface": "#eff1f3",
+                      "tertiary-fixed": "#d5e3fd",
+                      "secondary-container": "#fed65b",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary": "#735c00",
+                      "on-primary-fixed": "#002110",
+                      "secondary-fixed": "#ffe088",
+                      "primary-container": "#004225",
+                      "surface-container-highest": "#e0e3e5",
+                      "surface-bright": "#f7f9fb",
+                      "on-tertiary-fixed-variant": "#3a485c",
+                      "on-error": "#ffffff",
+                      "on-secondary-fixed": "#241a00",
+                      "outline-variant": "#c0c9c0",
+                      "tertiary-container": "#2b394d",
+                      "on-primary-container": "#75af89",
+                      "inverse-surface": "#2d3133",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-fixed-variant": "#574500",
+                      "on-secondary-container": "#745c00",
+                      "tertiary-fixed-dim": "#b9c7e0",
+                      "outline": "#717971",
+                      "surface-container-high": "#e6e8ea",
+                      "on-secondary": "#ffffff",
+                      "surface-tint": "#316948",
+                      "tertiary": "#152436",
+                      "surface-variant": "#e0e3e5",
+                      "surface-container": "#eceef0",
+                      "surface": "#f7f9fb",
+                      "surface-container-low": "#f2f4f6",
+                      "on-error-container": "#93000a",
+                      "on-surface": "#191c1e",
+                      "on-tertiary-fixed": "#0d1c2f",
+                      "on-primary": "#ffffff",
+                      "surface-dim": "#d8dadc",
+                      "inverse-primary": "#98d4ac",
+                      "on-primary-fixed-variant": "#165132",
+                      "on-surface-variant": "#404942",
+                      "primary-fixed-dim": "#98d4ac",
+                      "error-container": "#ffdad6",
+                      "primary-fixed": "#b4f0c7",
+                      "on-background": "#191c1e",
+                      "primary": "#002a15",
+                      "on-tertiary-container": "#94a3ba",
+                      "background": "#f7f9fb"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-sm": "4px",
+                      "section-gap": "48px",
+                      "stack-md": "12px",
+                      "gutter": "16px",
+                      "base": "8px",
+                      "container-margin": "24px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Oswald"
+                      ],
+                      "headline-md": [
+                              "Oswald"
+                      ],
+                      "headline-lg": [
+                              "Oswald"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Oswald"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-bold": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+<!-- Top Section with Image Overlay -->
+<header class="relative h-[221px] min-h-[200px] w-full bg-cover bg-center" data-alt="A dynamic, high-contrast photograph of thoroughbred horses racing around a dirt track, kicking up dust in the golden hour sunlight. The scene embodies high-energy sports and prestige, rendered in a sophisticated palette of deep greens and earthy browns. The lighting is cinematic, highlighting the speed and intensity of the moment." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCXgTNJ62MO6xTWFx1JM6EwqN0jeeKNCQCVOR8V9xUamSGFIOhs_DJs7ByjbwOSOceGx-sYImlMmZTUiaWmUkpdE53isA0I-lqtJbX-rL4kq0kVXdHhQ7pfMT4LsIk2zIEChhYHtSzNMvwOUpTye0U-ntPygQUtj5EOqJ7sE4L0-ATEm21P-_8ncGKDoZ94ek3eR3dmvMQth4Jb13dNdx-2l8sjaO-cvajnMT61ATWHMsxlc1fdCxr_b-zUwwctxK8eCtEs_Eu0xg');">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-primary/40 flex flex-col justify-end p-container-margin pb-section-gap md:pb-container-margin">
+<div class="max-w-md mx-auto w-full text-center">
+<h1 class="font-display-lg text-display-lg text-secondary-fixed mb-1 drop-shadow-md">HorseRace</h1>
+<p class="font-body-md text-body-md text-inverse-on-surface opacity-90">Digital Tournament Management</p>
+</div>
+</div>
+</header>
+<!-- Main Registration Form -->
+<main class="flex-grow flex items-start justify-center px-4 -mt-[60px] pb-12 relative z-10 w-full max-w-md mx-auto">
+<div class="bg-surface-container-lowest w-full rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.1)] border border-outline-variant p-6 space-y-6">
+<div class="text-center space-y-1">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary">Create Account</h2>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Join the professional racing network.</p>
+</div>
+<form class="space-y-4">
+<!-- Full Name -->
+<div class="space-y-1">
+<label class="font-label-bold text-label-bold text-on-surface block" for="fullName">Full Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">person</span>
+<input class="w-full pl-10 pr-3 py-2.5 bg-surface rounded-lg border border-outline-variant text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" id="fullName" placeholder="John Doe" type="text"/>
+</div>
+</div>
+<!-- Email -->
+<div class="space-y-1">
+<label class="font-label-bold text-label-bold text-on-surface block" for="email">Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">mail</span>
+<input class="w-full pl-10 pr-3 py-2.5 bg-surface rounded-lg border border-outline-variant text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" id="email" placeholder="john@stables.com" type="email"/>
+</div>
+</div>
+<!-- Phone -->
+<div class="space-y-1">
+<label class="font-label-bold text-label-bold text-on-surface block" for="phone">Phone Number</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">call</span>
+<input class="w-full pl-10 pr-3 py-2.5 bg-surface rounded-lg border border-outline-variant text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" id="phone" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+</div>
+<!-- Role Selector -->
+<div class="space-y-1">
+<label class="font-label-bold text-label-bold text-on-surface block" for="role">Primary Role</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg pointer-events-none z-10">badge</span>
+<select class="w-full pl-10 pr-10 py-2.5 bg-surface rounded-lg border border-outline-variant text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors appearance-none cursor-pointer" id="role">
+<option disabled="" selected="" value="">Select a role...</option>
+<option value="spectator">Spectator</option>
+<option value="owner">Horse Owner</option>
+<option value="jockey">Jockey</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline text-lg pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Password -->
+<div class="space-y-1">
+<label class="font-label-bold text-label-bold text-on-surface block" for="password">Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">lock</span>
+<input class="w-full pl-10 pr-10 py-2.5 bg-surface rounded-lg border border-outline-variant text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface focus:outline-none" onclick="togglePassword()" type="button">
+<span class="material-symbols-outlined text-lg" id="visibilityIcon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-[#D4AF37] hover:bg-secondary-container text-primary font-label-bold text-label-bold py-3 rounded-lg transition-transform active:scale-[0.98] shadow-sm mt-4 flex items-center justify-center gap-2" type="submit">
+                    Create Account
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</form>
+<div class="pt-4 border-t border-outline-variant flex flex-col items-center gap-4">
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:text-primary transition-colors text-sm" href="#">
+                    Already have an account? <span class="text-primary underline underline-offset-2">Login</span>
+</a>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-xs text-primary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">JWT Security Active</span>
+</div>
+</div>
+</div>
+</main>
+<script>
+        function togglePassword() {
+            const pwdInput = document.getElementById('password');
+            const icon = document.getElementById('visibilityIcon');
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                pwdInput.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
+    </script>
+</body></html>

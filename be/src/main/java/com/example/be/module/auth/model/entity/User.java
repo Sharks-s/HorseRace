@@ -24,6 +24,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID) // Đảm bảo tự động sinh UUID chuẩn xác
     private UUID id;
 
+    @Column(nullable = false, unique = true)
+    private String username;
+
     @Column(nullable = false)
     private String fullName;
 
@@ -46,6 +49,10 @@ public class User {
 
     private String avatarUrl;
 
+    private String emailVerificationToken;
+
+    private LocalDateTime emailVerifiedAt;
+
     private LocalDateTime lastLoginAt;
 
     @Column(nullable = false, updatable = false)
@@ -64,9 +71,13 @@ public class User {
             role = Role.SPECTATOR;
         }
 
-        // Mặc định tài khoản mới hoạt động luôn (hoặc đổi thành PENDING_APPROVAL nếu bạn muốn Admin duyệt)
+        if (phoneNumber == null) {
+            phoneNumber = email;
+        }
+
+        // Mặc định tài khoản mới phải xác nhận email trước khi ACTIVE
         if (status == null) {
-            status = UserStatus.ACTIVE;
+            status = UserStatus.PENDING_VERIFICATION;
         }
     }
 

@@ -12,11 +12,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +34,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		User user = userRepository.findByEmail(email)
 				.orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
 
+		if (user.getStatus() != UserStatus.ACTIVE) {
+			throw new DisabledException("Tài khoản chưa được kích hoạt");
+		}
+
 		return org.springframework.security.core.userdetails.User
 				.withUsername(user.getEmail())
 				.password(user.getPassword())
@@ -38,44 +46,58 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
+	@Transactional
 	public AuthResponse register(RegisterRequest request) {
+		if (userRepository.existsByUsername(request.getUsername())) {
+			throw new IllegalArgumentException("Username already exists");
+		}
+
 		if (userRepository.existsByEmail(request.getEmail())) {
 			throw new IllegalArgumentException("Email already exists");
 		}
 
-		if (userRepository.existsByPhoneNumber(request.getPhoneNumber())) {
-			throw new IllegalArgumentException("Phone number already exists");
+		Role dynamicRole = request.getRole() == null ? Role.SPECTATOR : request.getRole();
+		if (dynamicRole != Role.HORSE_OWNER && dynamicRole != Role.SPECTATOR) {
+			throw new IllegalArgumentException("Public registration only supports HORSE_OWNER or SPECTATOR role");
 		}
 
-		// Đọc role được chọn từ request gửi lên
-		Role dynamicRole = request.getRole();
-
-		// Fallback phòng trường hợp FE không gửi lên thì mặc định là SPECTATOR (Khán giả)
-		if (dynamicRole == null) {
-			dynamicRole = Role.SPECTATOR;
+		String displayName = request.getFullName();
+		if (displayName == null || displayName.isBlank()) {
+			displayName = request.getUsername();
 		}
-
-		// Theo quy tắc hệ thống: Nếu đăng ký thành SPECTATOR thì ACTIVE luôn,
-		// Còn nếu ứng tuyển làm HORSE_OWNER hoặc JOCKEY thì để PENDING_APPROVAL chờ Admin duyệt hồ sơ năng lực
-		UserStatus defaultStatus = (dynamicRole == Role.SPECTATOR)
-				? UserStatus.ACTIVE
-				: UserStatus.PENDING_APPROVAL;
 
 		User user = User.builder()
-				.fullName(request.getFullName())
+				.username(request.getUsername())
+				.fullName(displayName)
 				.email(request.getEmail())
 				.password(passwordEncoder.encode(request.getPassword()))
-				.phoneNumber(request.getPhoneNumber())
-				.role(dynamicRole)       // <-- ĐÃ THAY ĐỔI: Sử dụng role động từ request
-				.status(defaultStatus)   // <-- ĐÃ THAY ĐỔI: Trạng thái dựa trên phân quyền nghiệp vụ
+				.phoneNumber(request.getEmail())
+				.role(dynamicRole)
+				.status(UserStatus.ACTIVE)
+				.emailVerifiedAt(LocalDateTime.now())
+				.emailVerificationToken(null)
 				.build();
 
 		User saved = userRepository.save(user);
 
-		return new AuthResponse(saved.getId(), saved.getFullName(), saved.getEmail(), saved.getPhoneNumber(), saved.getRole(), saved.getStatus(), saved.getLastLoginAt());
+		return new AuthResponse(saved.getId(), saved.getUsername(), saved.getFullName(), saved.getEmail(), saved.getPhoneNumber(), saved.getRole(), saved.getStatus(), saved.getLastLoginAt());
 	}
 
 	@Override
+	@Transactional
+	public String verifyEmail(String token) {
+		User user = userRepository.findByEmailVerificationToken(token)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid verification token"));
+
+		user.setStatus(UserStatus.ACTIVE);
+		user.setEmailVerifiedAt(LocalDateTime.now());
+		user.setEmailVerificationToken(null);
+		userRepository.save(user);
+		return "Email verified successfully";
+	}
+
+	@Override
+	@Transactional
 	public AuthResponse login(LoginRequest request, HttpServletRequest contextRequest) {
 		User user = userRepository.findByEmail(request.getEmail())
 				.orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -83,7 +105,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		user.setLastLoginAt(java.time.LocalDateTime.now());
 		userRepository.save(user);
 
-		return new AuthResponse(user.getId(), user.getFullName(), user.getEmail(), user.getPhoneNumber(), user.getRole(), user.getStatus(), user.getLastLoginAt());
+		return new AuthResponse(user.getId(), user.getUsername(), user.getFullName(), user.getEmail(), user.getPhoneNumber(), user.getRole(), user.getStatus(), user.getLastLoginAt());
 	}
 
 	@Override

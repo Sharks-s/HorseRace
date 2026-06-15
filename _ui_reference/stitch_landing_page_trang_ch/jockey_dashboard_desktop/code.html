@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Championship Manager | Jockey Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Oswald:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#316948",
+                        "surface": "#f7f9fb",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "on-error-container": "#93000a",
+                        "outline": "#717971",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#b4f0c7",
+                        "on-surface-variant": "#404942",
+                        "on-surface": "#191c1e",
+                        "on-primary-fixed": "#002110",
+                        "surface-container": "#eceef0",
+                        "surface-variant": "#e0e3e5",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#75af89",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#ffe088",
+                        "outline-variant": "#c0c9c0",
+                        "on-secondary-container": "#745c00",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-error": "#ffffff",
+                        "primary": "#002a15",
+                        "secondary": "#735c00",
+                        "tertiary": "#152436",
+                        "background": "#f7f9fb",
+                        "secondary-container": "#fed65b",
+                        "primary-container": "#004225",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "4px",
+                        "stack-md": "12px",
+                        "base": "8px",
+                        "gutter": "16px",
+                        "section-gap": "48px",
+                        "container-margin": "24px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Oswald"],
+                        "label-bold": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Oswald"],
+                        "headline-md": ["Oswald"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { background-color: #f7f9fb; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c0c9c0; border-radius: 10px; }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- SideNavBar (Shared Component) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-primary dark:bg-primary-container shadow-md flex flex-col py-gutter px-base transition-all duration-200 ease-in-out">
+<div class="mb-section-gap px-4">
+<h1 class="font-headline-lg text-headline-lg text-secondary-container tracking-wider uppercase">Stable Management</h1>
+<p class="font-label-bold text-label-bold text-on-primary-container opacity-80">Elite Tier Admin</p>
+</div>
+<nav class="flex-grow space-y-2">
+<!-- Active: Dashboard -->
+<a class="flex items-center gap-base px-4 py-3 bg-secondary text-on-secondary rounded-lg font-label-bold transition-all duration-200 ease-in-out active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-base px-4 py-3 text-on-primary hover:bg-primary-fixed-dim/10 hover:text-secondary-fixed transition-colors transition-all duration-200 ease-in-out active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+<span>Job Offers</span>
+</a>
+<a class="flex items-center gap-base px-4 py-3 text-on-primary hover:bg-primary-fixed-dim/10 hover:text-secondary-fixed transition-colors transition-all duration-200 ease-in-out active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span>Race Calendar</span>
+</a>
+<a class="flex items-center gap-base px-4 py-3 text-on-primary hover:bg-primary-fixed-dim/10 hover:text-secondary-fixed transition-colors transition-all duration-200 ease-in-out active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Performance Stats</span>
+</a>
+<a class="flex items-center gap-base px-4 py-3 text-on-primary hover:bg-primary-fixed-dim/10 hover:text-secondary-fixed transition-colors transition-all duration-200 ease-in-out active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-4 py-4 border-t border-on-primary/10">
+<div class="flex items-center gap-3">
+<img alt="User profile photo" class="w-10 h-10 rounded-full border-2 border-secondary" data-alt="A professional headshot of a focused equestrian athlete in racing gear. The lighting is dramatic and warm, emphasizing grit and prestige. The background is a blurred high-end stable environment with rich wooden textures and a deep racing green and gold color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDswt7ygAmYhb4gIvB71VKzQdYJqVm-WD87hYoRXUOHH4ZTXhBR7CZl8W5OOZhqzYvFZlAUWDwn7z9XX4St58xui5ow24ko5h8uBgfCL37n2XAVJt8ZPWALQfW6yCyJVAOvtaDKm9tO5-vXWAh9UlNvVK2R3AYbTiNa7XblcUAh6thloZooXLH8_alndDnw-BCDvym3lgckOhpQEPfd9k6L9g0F11uq8VktJZi7oq_WpFiRQmG45W8IIdJqHmUgtvJqxhF0984C4Q"/>
+<div>
+<p class="font-label-bold text-label-bold text-on-primary">Marcus Thorne</p>
+<p class="text-xs text-on-primary/60">Class A Jockey</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar (Shared Component) -->
+<header class="h-16 fixed top-0 right-0 w-[calc(100%-16rem)] bg-surface border-b border-outline-variant flex justify-between items-center px-gutter z-10">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg text-label-bold focus:ring-2 focus:ring-primary/20" placeholder="Search races, trainers, or horses..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-gutter">
+<div class="flex items-center gap-4 border-r border-outline-variant pr-4">
+<button class="relative text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-headline-md text-headline-md text-primary">Championship Manager</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-gutter pb-gutter min-h-screen">
+<!-- High-Level Statistics Row -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-gutter">
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-sm hover:translate-y-[-2px] transition-transform duration-200">
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-bold text-outline uppercase tracking-wider">Total Races Attended</span>
+<span class="p-2 bg-primary/5 rounded-lg text-primary">
+<span class="material-symbols-outlined" data-icon="sports_score">sports_score</span>
+</span>
+</div>
+<div class="flex items-baseline gap-2">
+<p class="font-headline-lg text-display-lg text-primary">1,248</p>
+<span class="text-secondary font-label-bold">+12 this month</span>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-sm hover:translate-y-[-2px] transition-transform duration-200">
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-bold text-outline uppercase tracking-wider">Win Rate %</span>
+<span class="p-2 bg-secondary/5 rounded-lg text-secondary">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+</span>
+</div>
+<div class="flex items-baseline gap-2">
+<p class="font-headline-lg text-display-lg text-secondary">18.4%</p>
+<span class="text-surface-tint font-label-bold">+0.5% vs avg</span>
+</div>
+</div>
+<div class="bg-primary text-white p-6 rounded-xl border border-outline-variant shadow-sm hover:translate-y-[-2px] transition-transform duration-200 relative overflow-hidden">
+<div class="relative z-10 flex justify-between items-start mb-4">
+<span class="font-label-bold text-on-primary-container uppercase tracking-wider">Current Weight (kg)</span>
+<span class="p-2 bg-white/10 rounded-lg text-secondary-container">
+<span class="material-symbols-outlined" data-icon="monitor_weight">monitor_weight</span>
+</span>
+</div>
+<div class="relative z-10 flex items-baseline gap-2">
+<p class="font-headline-lg text-display-lg text-secondary-container">52.4</p>
+<span class="text-on-primary-container font-label-bold">Target: 52.0</span>
+</div>
+<div class="absolute -bottom-4 -right-4 opacity-10">
+<span class="material-symbols-outlined text-[120px]" data-icon="scale">scale</span>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 xl:grid-cols-4 gap-gutter">
+<!-- Weekly Race & Training Schedule -->
+<section class="xl:col-span-3 bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden flex flex-col">
+<div class="p-gutter border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-md text-headline-md text-primary">Weekly Race &amp; Training Schedule</h2>
+<div class="flex bg-white border border-outline-variant rounded-lg overflow-hidden">
+<button class="px-4 py-1.5 font-label-bold bg-secondary text-on-secondary">Week</button>
+<button class="px-4 py-1.5 font-label-bold text-on-surface-variant hover:bg-surface-variant">Month</button>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<span class="font-label-bold">Oct 23 - Oct 29, 2023</span>
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="flex-grow p-4">
+<div class="calendar-grid gap-2 h-full">
+<!-- Calendar Headers -->
+<div class="text-center py-2 font-label-bold text-outline">MON</div>
+<div class="text-center py-2 font-label-bold text-outline">TUE</div>
+<div class="text-center py-2 font-label-bold text-outline">WED</div>
+<div class="text-center py-2 font-label-bold text-outline">THU</div>
+<div class="text-center py-2 font-label-bold text-outline">FRI</div>
+<div class="text-center py-2 font-label-bold text-primary">SAT</div>
+<div class="text-center py-2 font-label-bold text-primary">SUN</div>
+<!-- Mon -->
+<div class="min-h-[140px] bg-surface-container rounded-lg p-2 space-y-2">
+<span class="text-xs font-bold text-outline">23</span>
+<div class="p-2 bg-tertiary-container text-on-tertiary-container rounded border-l-4 border-surface-tint text-xs font-label-bold">
+                                06:00 - Morning Gallops
+                            </div>
+</div>
+<!-- Tue -->
+<div class="min-h-[140px] bg-surface-container rounded-lg p-2 space-y-2">
+<span class="text-xs font-bold text-outline">24</span>
+<div class="p-2 bg-secondary-container/20 text-on-secondary-container rounded border-l-4 border-secondary text-xs font-label-bold">
+                                14:30 - Prep Meeting
+                            </div>
+</div>
+<!-- Wed -->
+<div class="min-h-[140px] bg-surface-container rounded-lg p-2 space-y-2">
+<span class="text-xs font-bold text-outline">25</span>
+</div>
+<!-- Thu -->
+<div class="min-h-[140px] bg-surface-container rounded-lg p-2 space-y-2 border-2 border-secondary/30">
+<span class="text-xs font-bold text-secondary">26 (Today)</span>
+<div class="p-2 bg-primary text-white rounded border-l-4 border-secondary text-xs font-label-bold shadow-md">
+                                15:00 - Ascot G3 Race
+                            </div>
+<div class="p-2 bg-tertiary-container text-on-tertiary-container rounded border-l-4 border-surface-tint text-xs font-label-bold">
+                                18:00 - Post-Race Recovery
+                            </div>
+</div>
+<!-- Fri -->
+<div class="min-h-[140px] bg-surface-container rounded-lg p-2 space-y-2">
+<span class="text-xs font-bold text-outline">27</span>
+<div class="p-2 bg-tertiary-container text-on-tertiary-container rounded border-l-4 border-surface-tint text-xs font-label-bold">
+                                06:00 - Soft Training
+                            </div>
+</div>
+<!-- Sat -->
+<div class="min-h-[140px] bg-primary-container text-white rounded-lg p-2 space-y-2">
+<span class="text-xs font-bold opacity-60">28</span>
+<div class="p-2 bg-secondary text-on-secondary rounded border-l-4 border-white text-xs font-label-bold">
+                                13:00 - The Royal Mile (G1)
+                            </div>
+</div>
+<!-- Sun -->
+<div class="min-h-[140px] bg-surface-container rounded-lg p-2 space-y-2">
+<span class="text-xs font-bold text-outline">29</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Notifications Panel -->
+<section class="xl:col-span-1 flex flex-col gap-gutter">
+<div class="bg-white rounded-xl border border-outline-variant shadow-sm flex-grow overflow-hidden flex flex-col">
+<div class="p-4 bg-tertiary text-on-tertiary flex items-center justify-between">
+<h3 class="font-headline-md text-label-bold uppercase tracking-tight">Urgent Invitations</h3>
+<span class="bg-error text-white px-2 py-0.5 rounded-full text-[10px] font-bold">3 NEW</span>
+</div>
+<div class="flex-grow overflow-y-auto custom-scrollbar p-2 space-y-2">
+<!-- Invitation Card -->
+<div class="p-3 bg-surface-container rounded-lg border border-transparent hover:border-secondary transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<p class="text-xs font-bold text-secondary">NEW OFFER</p>
+<span class="text-[10px] text-outline">2h ago</span>
+</div>
+<h4 class="font-label-bold text-primary group-hover:text-secondary transition-colors">Trainer: J. Harrington</h4>
+<p class="text-xs text-on-surface-variant mb-3">Ride "Silver Bullet" at Epsom Downs. G2 Sprint Handicap.</p>
+<div class="flex gap-2">
+<button class="flex-1 py-1.5 bg-primary text-white text-[10px] font-bold rounded hover:opacity-90 transition-opacity">ACCEPT</button>
+<button class="flex-1 py-1.5 border border-outline text-[10px] font-bold rounded hover:bg-white transition-colors">DETAILS</button>
+</div>
+</div>
+<!-- Invitation Card -->
+<div class="p-3 bg-surface-container rounded-lg border border-transparent hover:border-secondary transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<p class="text-xs font-bold text-secondary">URGENT</p>
+<span class="text-[10px] text-outline">5h ago</span>
+</div>
+<h4 class="font-label-bold text-primary group-hover:text-secondary transition-colors">Owner: Cavendish Stables</h4>
+<p class="text-xs text-on-surface-variant mb-3">Emergency replacement for tomorrow's 14:15 race at York.</p>
+<div class="flex gap-2">
+<button class="flex-1 py-1.5 bg-primary text-white text-[10px] font-bold rounded hover:opacity-90 transition-opacity">ACCEPT</button>
+<button class="flex-1 py-1.5 border border-outline text-[10px] font-bold rounded hover:bg-white transition-colors">DETAILS</button>
+</div>
+</div>
+<!-- Invitation Card -->
+<div class="p-3 bg-surface-container rounded-lg border border-transparent hover:border-secondary transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<p class="text-xs font-bold text-outline">STABLE INVITE</p>
+<span class="text-[10px] text-outline">1d ago</span>
+</div>
+<h4 class="font-label-bold text-primary group-hover:text-secondary transition-colors">Trainer: Sarah Millis</h4>
+<p class="text-xs text-on-surface-variant mb-3">Long-term contract discussion for the winter season.</p>
+<div class="flex gap-2">
+<button class="w-full py-1.5 border border-outline text-[10px] font-bold rounded hover:bg-white transition-colors">VIEW SCHEDULE</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Stats Mini Card -->
+<div class="bg-secondary text-on-secondary p-4 rounded-xl shadow-md">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined" data-icon="star">star</span>
+<p class="font-label-bold">Global Ranking</p>
+</div>
+<p class="font-headline-lg text-headline-lg">#14</p>
+<p class="text-[10px] uppercase opacity-70 tracking-widest mt-1">Top 1% of Jockey Club</p>
+</div>
+</section>
+</div>
+<!-- Recent Performance Feed (Asymmetric Layout) -->
+<section class="mt-gutter grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="bg-white rounded-xl border border-outline-variant shadow-sm p-gutter">
+<h3 class="font-headline-md text-primary mb-4">Latest Race Result</h3>
+<div class="flex gap-gutter items-center">
+<img alt="Horse racing action" class="w-32 h-32 rounded-lg object-cover" data-alt="A high-speed, dynamic close-up of a thoroughbred horse and jockey mid-gallop on a pristine turf track. Kick-up of grass and dirt in the foreground, with golden hour sunlight filtering through, creating a cinematic and prestigious athletic atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMKMzmfHV9ttOXMVnObrbqPKj6z2P9cXPFrCiZrv7IMQEHxPXo63P8KTkOkR9C1pW1nDw7F7Ek9kP09qGBgxNc_5ZrQ0iMGFpBwJVAjmz5VElOBfazvIcdxPbNiypNg3FduVYo9JHTcyDh1_gDKJIQstCa9uJ1LfUayaIIakbGz-SnKJ7Dw9kje0ggctKufrrIOs2yIcF0o1ppuL0fdeToSLapmuJciF1d7AY3Z_bm_-PsiRLYO-bIe5pFJlajA0UONZzuzvDtLw"/>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-secondary-fixed text-on-secondary-fixed px-2 py-0.5 rounded text-[10px] font-bold">1ST PLACE</span>
+<span class="text-xs text-outline font-label-bold">Oct 24, 2023</span>
+</div>
+<h4 class="font-headline-md text-headline-md leading-tight">THE DIAMOND STAKES</h4>
+<p class="text-sm text-on-surface-variant mb-2">Horse: <strong>Thunder Echo</strong> • Odds: 4/1</p>
+<p class="text-xs text-surface-tint font-bold">+£14,500 Purse Share</p>
+</div>
+</div>
+</div>
+<div class="bg-tertiary text-white rounded-xl border border-outline-variant shadow-sm p-gutter flex flex-col justify-center">
+<h3 class="font-label-bold text-secondary-container uppercase tracking-widest mb-4">Health &amp; Fitness Monitor</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="border-l-2 border-secondary pl-4">
+<p class="text-xs opacity-60">Avg. Heart Rate</p>
+<p class="font-headline-md">164 BPM</p>
+</div>
+<div class="border-l-2 border-primary-fixed pl-4">
+<p class="text-xs opacity-60">Sleep Quality</p>
+<p class="font-headline-md">92%</p>
+</div>
+<div class="border-l-2 border-secondary pl-4">
+<p class="text-xs opacity-60">Caloric Burn</p>
+<p class="font-headline-md">3,420</p>
+</div>
+<div class="border-l-2 border-primary-fixed pl-4">
+<p class="text-xs opacity-60">Hydration</p>
+<p class="font-headline-md">Optimal</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<script>
+        // Simple micro-interaction for cards
+        document.querySelectorAll('.calendar-grid > div').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                if (card.classList.contains('bg-surface-container')) {
+                    card.style.backgroundColor = '#eceef0';
+                }
+            });
+        });
+    </script>
+</body></html>

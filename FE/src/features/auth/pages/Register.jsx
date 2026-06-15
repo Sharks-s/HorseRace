@@ -3,173 +3,140 @@ import { useAuth } from "../hooks/useAuth";
 import "./RegisterPage.css";
 
 const RegisterPage = () => {
-  // Giả định hook useAuth của bạn có hỗ trợ thêm role hoặc bạn có thể tự quản lý bằng useState
   const {
-    fullName,
-    setFullName,
+    username,
+    setUsername,
     email,
     setEmail,
-    phoneNumber,
-    setPhoneNumber,
     password,
     setPassword,
     isLoading,
     handleRegisterSubmit,
     navigate,
   } = useAuth();
-
-  // Thêm state role để quản lý việc phân quyền khi đăng ký
   const [role, setRole] = useState("SPECTATOR");
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="register-container">
-      <div className="register-card">
-        {/* Left Visual Pane - Đổi ảnh trường đua & nội dung thương hiệu */}
-        <div className="register-visual-pane">
-          <img alt="Horse Racing Track" className="register-bg-image" />
-          <div className="register-overlay">
-            <div>
-              <div className="register-logo-area">
-                <div className="register-logo-cube">HR</div>
-                <span className="register-brand-name">HorseRace</span>
-              </div>
-              <h1 className="register-brand-title">
-                Hệ Thống Quản Lý Giải Đua Ngũ Số Hóa.
-              </h1>
-              <p className="register-brand-desc">
-                Tham gia vào hệ thống điều hành giải đấu chuyên nghiệp. Quản lý
-                hồ sơ, tối ưu hóa lịch thi đấu và cập nhật kết quả thời gian
-                thực (Real-time).
-              </p>
-            </div>
-
-            <div className="register-badges">
-              <div className="register-security-pill">
-                🛡️ Mã hóa dữ liệu BCrypt
-              </div>
-              <div className="register-security-pill">
-                🔒 Đóng gói Docker Bảo Mật
-              </div>
-            </div>
+    <div className="register-shell">
+      <header className="register-hero">
+        <div className="register-hero-overlay">
+          <div className="register-brand">
+            <h1>HorseRace</h1>
+            <p>Digital Tournament Management</p>
           </div>
         </div>
+      </header>
 
-        {/* Right Form Pane */}
-        <div className="register-form-pane">
-          <div className="register-form-container">
-            <h2 className="register-title">Đăng ký tài khoản</h2>
-            <p className="register-subtitle">
-              Tạo tài khoản để tham gia hệ thống đua ngựa.
-            </p>
+      <main className="register-main">
+        <section className="register-panel">
+          <div className="register-heading">
+            <h2>Create Account</h2>
+            <p>Join the professional racing network.</p>
+          </div>
 
-            {/* Bổ sung tham số role vào submit nếu hook useAuth của bạn có xử lý nó */}
-            <form onSubmit={(e) => handleRegisterSubmit(e, role)}>
-              <div className="register-input-group">
-                <label className="register-label">Họ và tên</label>
+          <form
+            className="register-form"
+            onSubmit={(event) => handleRegisterSubmit(event, role)}
+          >
+            <label className="register-field">
+              <span>Username</span>
+              <div className="register-input-wrap">
+                <span className="material-symbols-outlined">person</span>
                 <input
                   type="text"
-                  placeholder="Nguyễn Văn A"
-                  className="register-input"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="horseowner123"
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                  minLength={3}
+                  autoComplete="username"
                   required
                 />
               </div>
+            </label>
 
-              <div className="register-input-group">
-                <label className="register-label">Email</label>
+            <label className="register-field">
+              <span>Email Address</span>
+              <div className="register-input-wrap">
+                <span className="material-symbols-outlined">mail</span>
                 <input
                   type="email"
-                  placeholder="name@domain.com"
-                  className="register-input"
+                  placeholder="john@stables.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(event) => setEmail(event.target.value)}
+                  autoComplete="email"
                   required
                 />
               </div>
+            </label>
 
-              <div className="register-input-group">
-                <label className="register-label">Số điện thoại</label>
-                <input
-                  type="tel"
-                  placeholder="090 123 4567"
-                  className="register-input"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  required
-                />
-              </div>
-
-              {/* BỔ SUNG: Chọn vai trò đăng ký theo đúng yêu cầu phân quyền SRS */}
-              <div className="register-input-group">
-                <label className="register-label">
-                  Bạn tham gia với vai trò
-                </label>
+            <label className="register-field">
+              <span>Primary Role</span>
+              <div className="register-input-wrap">
+                <span className="material-symbols-outlined">badge</span>
                 <select
-                  className="register-input"
                   value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                  style={{
-                    width: "100%",
-                    padding: "10px",
-                    borderRadius: "6px",
-                    border: "1px solid #cbd5e1",
-                    background: "white",
-                  }}
+                  onChange={(event) => setRole(event.target.value)}
+                  required
                 >
-                  <option value="SPECTATOR">
-                    Spectator (Khán giả xem lịch & kết quả)
-                  </option>
-                  <option value="HORSE_OWNER">
-                    Horse Owner (Chủ ngựa đăng ký thi đấu)
-                  </option>
-                  <option value="JOCKEY">
-                    Jockey (Người cưỡi ngựa điều khiển)
-                  </option>
+                  <option value="SPECTATOR">Spectator</option>
+                  <option value="HORSE_OWNER">Horse Owner</option>
                 </select>
+                <span className="material-symbols-outlined register-chevron">
+                  expand_more
+                </span>
               </div>
+            </label>
 
-              <div className="register-input-group">
-                <label className="register-label">Mật khẩu</label>
+            <label className="register-field">
+              <span>Password</span>
+              <div className="register-input-wrap">
+                <span className="material-symbols-outlined">lock</span>
                 <input
-                  type="password"
-                  placeholder="••••••••"
-                  className="register-input"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="........"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(event) => setPassword(event.target.value)}
+                  minLength={8}
+                  autoComplete="new-password"
                   required
                 />
-              </div>
-
-              <button
-                type="submit"
-                className="register-button"
-                disabled={isLoading}
-              >
-                {isLoading ? "Đang xử lý..." : "Tạo tài khoản hệ thống"}{" "}
-                <span>→</span>
-              </button>
-            </form>
-
-            {/* Chuyển sang Đăng nhập */}
-            <div className="register-login-prompt">
-              <p style={{ margin: 0 }}>
-                Đã có tài khoản?{" "}
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/login");
-                  }}
-                  className="register-login-link"
+                <button
+                  type="button"
+                  className="register-icon-button"
+                  onClick={() => setShowPassword((current) => !current)}
+                  aria-label="Toggle password visibility"
                 >
-                  Đăng nhập tại đây
-                </a>
-              </p>
+                  <span className="material-symbols-outlined">
+                    {showPassword ? "visibility_off" : "visibility"}
+                  </span>
+                </button>
+              </div>
+            </label>
+
+            <button className="register-submit" type="submit" disabled={isLoading}>
+              {isLoading ? "Creating..." : "Create Account"}
+              <span className="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </form>
+
+          <div className="register-footer">
+            <a
+              href="#"
+              onClick={(event) => {
+                event.preventDefault();
+                navigate("/login");
+              }}
+            >
+              Already have an account? <strong>Login</strong>
+            </a>
+            <div className="register-security">
+              <span className="material-symbols-outlined">security</span>
+              <span>Email Verification Active</span>
             </div>
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
     </div>
   );
 };

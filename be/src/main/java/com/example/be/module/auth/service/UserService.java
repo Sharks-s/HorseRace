@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 public interface UserService {
 	AuthResponse register(RegisterRequest request);
 
+	String verifyEmail(String token);
+
 	AuthResponse login(LoginRequest request, HttpServletRequest contextRequest);
 
 	void logout(HttpServletRequest contextRequest);

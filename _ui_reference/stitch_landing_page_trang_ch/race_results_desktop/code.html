@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Official Race Results</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter and Oswald -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Oswald:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#e9c349",
+                    "inverse-on-surface": "#eff1f3",
+                    "tertiary-fixed": "#d5e3fd",
+                    "secondary-container": "#fed65b",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary": "#735c00",
+                    "on-primary-fixed": "#002110",
+                    "secondary-fixed": "#ffe088",
+                    "primary-container": "#004225",
+                    "surface-container-highest": "#e0e3e5",
+                    "surface-bright": "#f7f9fb",
+                    "on-tertiary-fixed-variant": "#3a485c",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed": "#241a00",
+                    "outline-variant": "#c0c9c0",
+                    "tertiary-container": "#2b394d",
+                    "on-primary-container": "#75af89",
+                    "inverse-surface": "#2d3133",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-secondary-container": "#745c00",
+                    "tertiary-fixed-dim": "#b9c7e0",
+                    "outline": "#717971",
+                    "surface-container-high": "#e6e8ea",
+                    "on-secondary": "#ffffff",
+                    "surface-tint": "#316948",
+                    "tertiary": "#152436",
+                    "surface-variant": "#e0e3e5",
+                    "surface-container": "#eceef0",
+                    "surface": "#f7f9fb",
+                    "surface-container-low": "#f2f4f6",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#191c1e",
+                    "on-tertiary-fixed": "#0d1c2f",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#d8dadc",
+                    "inverse-primary": "#98d4ac",
+                    "on-primary-fixed-variant": "#165132",
+                    "on-surface-variant": "#404942",
+                    "primary-fixed-dim": "#98d4ac",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#b4f0c7",
+                    "on-background": "#191c1e",
+                    "primary": "#002a15",
+                    "on-tertiary-container": "#94a3ba",
+                    "background": "#f7f9fb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "4px",
+                    "section-gap": "48px",
+                    "stack-md": "12px",
+                    "gutter": "16px",
+                    "base": "8px",
+                    "container-margin": "24px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["Oswald"],
+                    "headline-md": ["Oswald"],
+                    "headline-lg": ["Oswald"],
+                    "label-sm": ["Inter"],
+                    "headline-lg-mobile": ["Oswald"],
+                    "label-bold": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Utility for hiding scrollbar visually while retaining functionality if needed */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased selection:bg-secondary-container selection:text-on-secondary-container flex flex-col min-h-screen">
+<!-- TopAppBar (Desktop) -->
+<header class="bg-surface border-b border-outline-variant flex justify-between items-center w-full px-8 h-20 z-50 sticky top-0 shrink-0">
+<div class="flex items-center gap-8">
+<h1 class="font-display-lg text-[40px] text-secondary font-bold tracking-tighter">HorseRace</h1>
+<nav class="hidden md:flex gap-6 items-center pt-2">
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="home">home</span> Home
+            </a>
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="sports_score">sports_score</span> Races
+            </a>
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="stable">table</span> Stable
+            </a>
+<a class="font-label-bold text-label-bold text-primary border-b-2 border-primary pb-1 flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="leaderboard" data-weight="fill" style="font-variation-settings: 'FILL' 1;">leaderboard</span> Results
+            </a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="md:hidden flex items-center justify-center p-2 rounded-full hover:bg-surface-container-high transition-colors text-primary">
+<span class="material-symbols-outlined" data-icon="menu" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<div class="flex items-center justify-center w-10 h-10 rounded-full overflow-hidden bg-surface-container border border-outline-variant hover:bg-surface-container-high transition-colors cursor-pointer">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="A close-up studio portrait of a professional individual wearing modern, dark athletic management attire." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC58k25Y6EK-N_WUghxOq6BYDjXc4pqEBJ5DSwsPZ1abpHK0cJdFeZxfAhY7NxNZKeTPl6espG29DgtpnzfdAxOcowvj_STfMPmsIQCQOljY76EnClrDJTd9s1xW9ptlYzvkQsIzToGVzO29d7rk-zQnKapwfPg2uO3pkMEssaXMwLjNiyYdAurGYuQcWjsSQZi-59PkGZIFJaLpyK2hBTfm2encpTkN5ikyVKGxc6vZaGHQVVuJWvs4JgKc20apVN-RddoKHHYNg"/>
+</div>
+</div>
+</header>
+<!-- Secondary Toolbar for Filters -->
+<div class="bg-surface border-b border-surface-variant px-8 py-4 sticky top-20 z-40 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div class="flex flex-col">
+<h2 class="font-headline-lg text-headline-lg text-primary">Official Race Results</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Review verified standings, final times, and official scoring logic.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+<div class="relative w-full md:w-64">
+<select class="w-full appearance-none bg-surface-container-lowest border border-outline-variant text-on-surface font-body-md text-body-md rounded-lg py-2.5 pl-4 pr-10 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm transition-all hover:bg-surface-container cursor-pointer">
+<option>Dubai World Cup 2024</option>
+<option>Kentucky Derby</option>
+<option>Prix de l'Arc de Triomphe</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-outline" data-icon="arrow_drop_down">arrow_drop_down</span>
+</div>
+<div class="relative w-full md:w-48">
+<select class="w-full appearance-none bg-surface-container-lowest border border-outline-variant text-on-surface font-body-md text-body-md rounded-lg py-2.5 pl-4 pr-10 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm transition-all hover:bg-surface-container cursor-pointer">
+<option>Final Round</option>
+<option>Semi-Finals</option>
+<option>Qualifiers</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-outline" data-icon="arrow_drop_down">arrow_drop_down</span>
+</div>
+</div>
+</div>
+<!-- Main Canvas -->
+<main class="flex-grow p-8 max-w-[1600px] mx-auto w-full flex flex-col gap-8">
+<!-- Results Table -->
+<section class="w-full flex flex-col gap-4">
+<div class="w-full overflow-hidden rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.06)] border border-surface-dim bg-surface-container-lowest">
+<div class="overflow-x-auto no-scrollbar">
+<table class="w-full text-left border-collapse whitespace-nowrap min-w-[900px]">
+<thead class="bg-primary text-on-primary border-b border-primary-container">
+<tr>
+<th class="py-4 px-6 font-label-bold text-[16px] w-20 text-center">Rank</th>
+<th class="py-4 px-6 font-label-bold text-[16px]">Horse</th>
+<th class="py-4 px-6 font-label-bold text-[16px]">Jockey</th>
+<th class="py-4 px-6 font-label-bold text-[16px] text-right">Finish Time</th>
+<th class="py-4 px-6 font-label-bold text-[16px] text-right">Score</th>
+<th class="py-4 px-6 font-label-bold text-[16px] text-center w-40">Status</th>
+</tr>
+</thead>
+<tbody class="font-body-lg text-body-lg text-on-surface">
+<!-- Row 1 -->
+<tr class="bg-surface-container-lowest border-b border-surface-variant hover:bg-surface-container-low transition-colors duration-150">
+<td class="py-5 px-6 font-display-lg text-display-lg text-secondary text-center leading-none">1</td>
+<td class="py-5 px-6 font-label-bold text-[18px] flex items-center gap-3">
+<span class="material-symbols-outlined text-[28px] text-secondary" data-icon="sports_score" data-weight="fill" style="font-variation-settings: 'FILL' 1;">sports_score</span> Golden Eclipse
+                            </td>
+<td class="py-5 px-6 text-on-surface-variant">J. Mercer</td>
+<td class="py-5 px-6 text-right font-mono text-[18px] text-on-surface">01:42.55</td>
+<td class="py-5 px-6 text-right font-label-bold text-[20px] text-primary">8,450</td>
+<td class="py-5 px-6 text-center">
+<span class="inline-flex items-center justify-center bg-primary-fixed text-on-primary-fixed-variant rounded-full px-4 py-1.5 font-label-bold text-[14px] tracking-wider border border-primary-fixed-dim">OFFICIAL</span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="bg-surface border-b border-surface-variant hover:bg-surface-container-low transition-colors duration-150">
+<td class="py-5 px-6 font-display-lg text-[40px] text-outline text-center leading-none">2</td>
+<td class="py-5 px-6 font-label-bold text-[18px] flex items-center gap-3">
+<span class="material-symbols-outlined text-[28px] text-outline" data-icon="temp_preferences_custom">temp_preferences_custom</span> Midnight Runner
+                            </td>
+<td class="py-5 px-6 text-on-surface-variant">A. Vance</td>
+<td class="py-5 px-6 text-right font-mono text-[18px] text-on-surface">01:43.10</td>
+<td class="py-5 px-6 text-right font-label-bold text-[20px] text-primary">8,390</td>
+<td class="py-5 px-6 text-center">
+<span class="inline-flex items-center justify-center bg-primary-fixed text-on-primary-fixed-variant rounded-full px-4 py-1.5 font-label-bold text-[14px] tracking-wider border border-primary-fixed-dim">OFFICIAL</span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="bg-surface-container-lowest border-b border-surface-variant hover:bg-surface-container-low transition-colors duration-150">
+<td class="py-5 px-6 font-display-lg text-[40px] text-outline text-center leading-none">3</td>
+<td class="py-5 px-6 font-label-bold text-[18px] flex items-center gap-3">
+<span class="material-symbols-outlined text-[28px] text-outline" data-icon="temp_preferences_custom">temp_preferences_custom</span> Crimson Tide
+                            </td>
+<td class="py-5 px-6 text-on-surface-variant">E. Stone</td>
+<td class="py-5 px-6 text-right font-mono text-[18px] text-on-surface">01:44.02</td>
+<td class="py-5 px-6 text-right font-label-bold text-[20px] text-primary">8,210</td>
+<td class="py-5 px-6 text-center">
+<span class="inline-flex items-center justify-center bg-primary-fixed text-on-primary-fixed-variant rounded-full px-4 py-1.5 font-label-bold text-[14px] tracking-wider border border-primary-fixed-dim">OFFICIAL</span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="bg-surface hover:bg-surface-container-low transition-colors duration-150">
+<td class="py-5 px-6 font-display-lg text-[40px] text-outline text-center leading-none">4</td>
+<td class="py-5 px-6 font-label-bold text-[18px] flex items-center gap-3">
+<span class="material-symbols-outlined text-[28px] text-outline" data-icon="temp_preferences_custom">temp_preferences_custom</span> Silver Bullet
+                            </td>
+<td class="py-5 px-6 text-on-surface-variant">T. Caldwell</td>
+<td class="py-5 px-6 text-right font-mono text-[18px] text-on-surface">01:44.95</td>
+<td class="py-5 px-6 text-right font-label-bold text-[20px] text-primary">8,105</td>
+<td class="py-5 px-6 text-center">
+<span class="inline-flex items-center justify-center bg-surface-dim text-on-surface-variant rounded-full px-4 py-1.5 font-label-bold text-[14px] tracking-wider border border-outline-variant">PENDING</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Footnote / Info Card -->
+<section class="bg-surface-bright border-l-4 border-l-secondary rounded-r-xl p-6 shadow-sm border border-y-surface-variant border-r-surface-variant w-full max-w-4xl">
+<div class="flex items-center gap-2 text-primary mb-3">
+<span class="material-symbols-outlined text-[24px]" data-icon="info" data-weight="fill" style="font-variation-settings: 'FILL' 1;">info</span>
+<h3 class="font-label-bold text-[16px] uppercase tracking-wider">Tie-Breaker Logic</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                In the event of identical final scores, ranking priority is determined strictly by the <strong class="text-on-surface font-medium">"Fastest Single Round"</strong> metric completed during the current tournament phase. If a tie persists after this evaluation, the lowest average penalty points across all entered rounds will dictate final placement.
+            </p>
+</section>
+</main>
+</body></html>

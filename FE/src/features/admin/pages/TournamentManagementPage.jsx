@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { tournamentApi } from '../../../api/tournamentApi';
 import './TournamentManagementPage.css';
 
@@ -23,7 +23,16 @@ const TournamentManagementPage = () => {
     });
 
     useEffect(() => {
-        loadTournaments();
+        const loadTournaments = async () => {
+            try {
+                const res = await tournamentApi.getAllTournaments();
+                if (res.success) setTournaments(res.data);
+            } catch (error) {
+                console.error("Failed to load tournaments", error);
+            }
+        };
+
+        void loadTournaments();
     }, []);
 
     const loadTournaments = async () => {
@@ -43,6 +52,7 @@ const TournamentManagementPage = () => {
             loadTournaments();
             setFormData({ name: '', startDate: '', endDate: '', description: '' });
         } catch (error) {
+            console.error("Failed to create tournament", error);
             alert(error.response?.data?.message || "Lỗi tạo giải đấu");
         }
     };
@@ -54,6 +64,7 @@ const TournamentManagementPage = () => {
                 await tournamentApi.deleteTournament(id);
                 loadTournaments();
             } catch (error) {
+                console.error("Failed to delete tournament", error);
                 alert("Lỗi xoá giải đấu");
             }
         }
@@ -81,6 +92,7 @@ const TournamentManagementPage = () => {
             loadRaces(selectedTournament.id);
             setRaceData({ name: '', startTime: '', distanceFactor: '' });
         } catch (error) {
+            console.error("Failed to create race", error);
             alert(error.response?.data?.message || "Lỗi tạo vòng đua. Đảm bảo thời gian nằm trong thời hạn giải đấu.");
         }
     };
@@ -91,6 +103,7 @@ const TournamentManagementPage = () => {
                 await tournamentApi.deleteRace(selectedTournament.id, raceId);
                 loadRaces(selectedTournament.id);
             } catch (error) {
+                console.error("Failed to delete race", error);
                 alert("Lỗi xoá vòng đua");
             }
         }

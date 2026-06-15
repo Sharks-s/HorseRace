@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HorseRace - Experience the Thrill</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Oswald:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#e9c349",
+                    "inverse-on-surface": "#eff1f3",
+                    "tertiary-fixed": "#d5e3fd",
+                    "secondary-container": "#fed65b",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary": "#735c00",
+                    "on-primary-fixed": "#002110",
+                    "secondary-fixed": "#ffe088",
+                    "primary-container": "#004225",
+                    "surface-container-highest": "#e0e3e5",
+                    "surface-bright": "#f7f9fb",
+                    "on-tertiary-fixed-variant": "#3a485c",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed": "#241a00",
+                    "outline-variant": "#c0c9c0",
+                    "tertiary-container": "#2b394d",
+                    "on-primary-container": "#75af89",
+                    "inverse-surface": "#2d3133",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-secondary-container": "#745c00",
+                    "tertiary-fixed-dim": "#b9c7e0",
+                    "outline": "#717971",
+                    "surface-container-high": "#e6e8ea",
+                    "on-secondary": "#ffffff",
+                    "surface-tint": "#316948",
+                    "tertiary": "#152436",
+                    "surface-variant": "#e0e3e5",
+                    "surface-container": "#eceef0",
+                    "surface": "#f7f9fb",
+                    "surface-container-low": "#f2f4f6",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#191c1e",
+                    "on-tertiary-fixed": "#0d1c2f",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#d8dadc",
+                    "inverse-primary": "#98d4ac",
+                    "on-primary-fixed-variant": "#165132",
+                    "on-surface-variant": "#404942",
+                    "primary-fixed-dim": "#98d4ac",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#b4f0c7",
+                    "on-background": "#191c1e",
+                    "primary": "#002a15",
+                    "on-tertiary-container": "#94a3ba",
+                    "background": "#f7f9fb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "4px",
+                    "section-gap": "48px",
+                    "stack-md": "12px",
+                    "gutter": "16px",
+                    "base": "8px",
+                    "container-margin": "24px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["Oswald"],
+                    "headline-md": ["Oswald"],
+                    "headline-lg": ["Oswald"],
+                    "label-sm": ["Inter"],
+                    "headline-lg-mobile": ["Oswald"],
+                    "label-bold": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface border-b border-outline-variant sticky top-0 w-full z-50 flex justify-center items-center h-20 px-8">
+<div class="w-full max-w-[1440px] flex justify-between items-center">
+<div class="flex items-center gap-12">
+<h1 class="font-display-lg text-[40px] text-secondary font-bold tracking-tighter leading-none">
+            HorseRace
+        </h1>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-label-bold text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Tournaments</a>
+<a class="font-label-bold text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Leaderboard</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="font-label-bold text-label-bold text-primary px-4 py-2 hover:bg-surface-container-high rounded-lg transition-colors">
+            Login
+        </button>
+<button class="bg-primary text-on-primary font-label-bold text-label-bold px-6 py-2.5 rounded-lg shadow-sm hover:bg-primary/90 transition-colors">
+            Register
+        </button>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full flex flex-col">
+<!-- Hero Section -->
+<section class="relative w-full h-[500px] lg:h-[600px] flex items-center justify-center bg-surface-container-high overflow-hidden" data-alt="A dramatic, low-angle action shot of thoroughbred racehorses charging down the final stretch of a prestigious dirt track. The scene is illuminated by dramatic stadium floodlights against a dusky evening sky, creating high contrast. Dust kicks up from their hooves, emphasizing incredible speed and motion. The color palette features deep racing greens in the surrounding infrastructure and golden-hour highlights on the jockeys' silks, matching a premium, high-stakes sports aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCsvt5ir6Ktfwa1ZYNRaEdBWgtfdzuuXMByE2iBCAVJYhxs2BxmDisHeSBfahXL-73Y35nYNbkdUpESwUDy-2dw6YxHUILPpha5mD_cLPLogzm1XV3-ALrHUWO1B_-FoW8merBjT5MGSf_CrtMRHlnQeZLuvHG-0Jly-k1n4205_K-hZDNoeshMlsxDmEr3bGv2nodjvFd4dlEf5JIhUHxyBvDe9EYaPYJLw5Lsu0YdVVhq3k-1yl9TsuVsY7f0Y2L8gahfKC65pw'); background-size: cover; background-position: center;">
+<div class="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/60 to-transparent"></div>
+<div class="relative z-10 w-full max-w-[1440px] px-8 lg:px-12 flex flex-col justify-center h-full">
+<div class="max-w-2xl">
+<h2 class="font-display-lg text-[56px] lg:text-[72px] text-on-primary mb-6 drop-shadow-md leading-tight">
+                    Experience the Thrill
+                </h2>
+<p class="font-body-lg text-body-lg text-primary-fixed mb-10 max-w-lg drop-shadow">
+                    Join the premier platform for tournament organizers, stable owners, and high-volume bettors.
+                </p>
+<button class="bg-secondary-container text-on-secondary-container font-label-bold text-[16px] px-8 py-4 rounded-lg shadow-xl hover:-translate-y-[2px] transition-transform flex items-center gap-2 w-fit">
+                    Join Now
+                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Main Content Grid -->
+<div class="w-full max-w-[1440px] mx-auto px-8 lg:px-12 py-section-gap grid grid-cols-1 lg:grid-cols-3 gap-12">
+<!-- Left Column: Upcoming Races -->
+<section class="lg:col-span-2 w-full">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline-lg text-headline-lg text-primary">Live &amp; Upcoming Races Schedule</h3>
+<button class="font-label-bold text-label-bold text-secondary flex items-center hover:underline">
+                    View All Schedule <span class="material-symbols-outlined text-[16px] ml-1">chevron_right</span>
+</button>
+</div>
+<div class="flex flex-col gap-6">
+<!-- Race Card 1 -->
+<article class="bg-surface-container-lowest shadow-[0px_4px_16px_rgba(0,0,0,0.04)] border border-outline-variant rounded-xl p-6 relative overflow-hidden transition-transform hover:-translate-y-[2px] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-inverse-primary"></div>
+<div class="flex-1 ml-2">
+<div class="flex items-center gap-4 mb-2">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full px-3 py-1 font-label-sm text-label-sm flex items-center gap-1.5 w-fit">
+<span class="material-symbols-outlined text-[14px]">schedule</span> Upcoming
+                                </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">ID: #TR-8492</span>
+</div>
+<h4 class="font-headline-md text-[28px] text-on-surface mb-1">Ascot Gold Cup Qualifier</h4>
+<p class="font-body-md text-on-surface-variant">Semi-Finals</p>
+</div>
+<div class="text-left sm:text-right flex-shrink-0">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Race Date</p>
+<p class="font-body-lg text-body-lg text-on-surface font-semibold mb-3">Oct 24, 14:30 GMT</p>
+<button class="bg-surface-container-high text-on-surface font-label-bold px-4 py-2 rounded-lg hover:bg-surface-container-highest transition-colors w-full sm:w-auto">
+                                View Details
+                            </button>
+</div>
+</article>
+<!-- Race Card 2 -->
+<article class="bg-surface-container-lowest shadow-[0px_4px_16px_rgba(0,0,0,0.04)] border border-outline-variant rounded-xl p-6 relative overflow-hidden transition-transform hover:-translate-y-[2px] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-inverse-primary"></div>
+<div class="flex-1 ml-2">
+<div class="flex items-center gap-4 mb-2">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full px-3 py-1 font-label-sm text-label-sm flex items-center gap-1.5 w-fit">
+<span class="material-symbols-outlined text-[14px]">schedule</span> Upcoming
+                                </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">ID: #TR-8493</span>
+</div>
+<h4 class="font-headline-md text-[28px] text-on-surface mb-1">Belmont Stakes Sprint</h4>
+<p class="font-body-md text-on-surface-variant">Qualifier 3</p>
+</div>
+<div class="text-left sm:text-right flex-shrink-0">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Race Date</p>
+<p class="font-body-lg text-body-lg text-on-surface font-semibold mb-3">Oct 25, 10:00 EST</p>
+<button class="bg-surface-container-high text-on-surface font-label-bold px-4 py-2 rounded-lg hover:bg-surface-container-highest transition-colors w-full sm:w-auto">
+                                View Details
+                            </button>
+</div>
+</article>
+</div>
+</section>
+<!-- Right Column: Leaderboard -->
+<aside class="lg:col-span-1 w-full">
+<h3 class="font-headline-lg text-headline-lg text-primary mb-8">Top Performers</h3>
+<div class="bg-surface-container-lowest shadow-[0px_8px_24px_rgba(0,0,0,0.06)] border border-outline-variant rounded-2xl overflow-hidden flex flex-col h-fit">
+<div class="bg-primary text-on-primary p-4 flex items-center justify-between">
+<h4 class="font-label-bold text-[16px]">Jockey / Horse Leaderboard</h4>
+<span class="material-symbols-outlined">leaderboard</span>
+</div>
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-surface-variant">
+<th class="font-label-sm text-label-sm py-3 px-4 w-12 text-center text-on-surface-variant">Rnk</th>
+<th class="font-label-sm text-label-sm py-3 px-4 text-on-surface-variant">Jockey / Horse</th>
+<th class="font-label-sm text-label-sm py-3 px-4 text-right text-on-surface-variant">Win %</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-4 px-4 text-center">
+<span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container font-label-bold text-label-bold">1</span>
+</td>
+<td class="py-4 px-4">
+<p class="font-body-lg text-body-lg text-on-surface font-medium leading-tight">L. Dettori</p>
+<p class="font-body-md text-on-surface-variant mt-1">Golden Horn</p>
+</td>
+<td class="py-4 px-4 text-right font-body-lg text-body-lg text-primary font-bold">68%</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-4 px-4 text-center">
+<span class="font-label-bold text-[16px] text-on-surface-variant">2</span>
+</td>
+<td class="py-4 px-4">
+<p class="font-body-lg text-body-lg text-on-surface font-medium leading-tight">R. Moore</p>
+<p class="font-body-md text-on-surface-variant mt-1">Auguste Rodin</p>
+</td>
+<td class="py-4 px-4 text-right font-body-lg text-body-lg text-primary font-bold">64%</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-4 px-4 text-center">
+<span class="font-label-bold text-[16px] text-on-surface-variant">3</span>
+</td>
+<td class="py-4 px-4">
+<p class="font-body-lg text-body-lg text-on-surface font-medium leading-tight">W. Buick</p>
+<p class="font-body-md text-on-surface-variant mt-1">Rebel's Romance</p>
+</td>
+<td class="py-4 px-4 text-right font-body-lg text-body-lg text-primary font-bold">59%</td>
+</tr>
+</tbody>
+</table>
+<div class="p-4 border-t border-surface-variant bg-surface-container-lowest">
+<button class="w-full py-2 text-primary font-label-bold hover:bg-surface-container-low rounded-lg transition-colors">View Full Leaderboard</button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-high py-16 px-8 text-center border-t border-outline-variant mt-auto">
+<div class="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex flex-col items-start">
+<h2 class="font-display-lg text-[32px] text-primary mb-2 opacity-80">HorseRace</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-left">© 2024 HorseRace Inc. All rights reserved.</p>
+</div>
+<div class="flex justify-center gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[24px]" data-icon="share">share</span>
+<span class="font-label-sm hidden md:inline">Share</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[24px]" data-icon="mail">mail</span>
+<span class="font-label-sm hidden md:inline">Contact</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[24px]" data-icon="language">language</span>
+<span class="font-label-sm hidden md:inline">EN</span>
+</a>
+</div>
+</div>
+</footer>
+</body></html>

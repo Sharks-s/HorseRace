@@ -1,5 +1,6 @@
 export interface UserResponse {
-  id: number;
+  id: string;
+  username: string;
   fullName: string;
   email: string;
   phoneNumber: string;
@@ -10,7 +11,12 @@ export interface UserResponse {
 export type Role = "ADMIN" | "HORSE_OWNER" | "JOCKEY" | "REFEREE" | "SPECTATOR";
 
 // Cập nhật trạng thái User phù hợp với việc kiểm duyệt hồ sơ trong hệ thống
-export type UserStatus = "ACTIVE" | "PENDING_APPROVAL" | "SUSPENDED";
+export type UserStatus =
+  | "ACTIVE"
+  | "INACTIVE"
+  | "PENDING_VERIFICATION"
+  | "PENDING_APPROVAL"
+  | "SUSPENDED";
 
 export interface LoginRequest {
   email: string;
@@ -18,15 +24,15 @@ export interface LoginRequest {
 }
 
 export interface RegisterRequest {
-  fullName: string;
+  username: string;
   email: string;
   password: string;
-  phoneNumber: string;
   role: Role; // Bổ sung trường role để truyền từ Form Đăng ký xuống API Backend
 }
 
 export interface AuthResponse {
-  id: number;
+  id: string;
+  username: string;
   fullName: string;
   email: string;
   phoneNumber: string;

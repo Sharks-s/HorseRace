@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import "./LoginPage.css";
 
 const LoginPage = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const {
     email,
     setEmail,
@@ -15,80 +17,107 @@ const LoginPage = () => {
   return (
     <div className="login-container">
       <div className="login-card">
-        {/* Left Visual Pane - Đổi ảnh và nội dung theo chủ đề Đua Ngựa */}
-        <div className="login-visual-pane">
+        <section className="login-visual-pane">
           <img
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsEgMuszQnoXwKOiqNHdOHjC-2usZuTXzTuWciTVehNeDBItfYlBvWPmurH165aiJybVRW3T_ltW3p-P7Ox3JrQRfZ0NROKpALWU7TwAE0FzfBtoGYftwiUJGkdO80XYNREwi-wIPS0xtNgZff7Hz7bJ3HCCSRQwtfLEveopF4d38a8GqiXe1bzWVoSHHyYVK10jAPsHzLZjng5RU_8G7xSJQZQfYQZ7xEZdllL-q88beFKecpeLQE82hSTfnxLDw-DkzjBq-BEA"
-            alt="Horse Racing Tournament"
+            alt="Prestigious horse racing action"
             className="login-bg-image"
           />
           <div className="login-overlay">
-            <div>
-              <h1 className="login-brand-title">HorseRace</h1>
-              <p className="login-brand-desc">
-                Hệ thống quản lý giải đua ngựa toàn diện. Kết nối Ban tổ chức,
-                Chủ ngựa, Jockey và Trọng tài trên một nền tảng Web Portal hiện
-                đại.
-              </p>
+            <div className="login-brand-block">
+              <div className="login-brand-logo-row">
+                <span className="material-symbols-outlined login-brand-icon">
+                  speed
+                </span>
+                <h1 className="login-brand-title">HorseRace</h1>
+              </div>
+              <p className="login-brand-desc">Digital Tournament Management</p>
             </div>
+            <div className="login-brand-divider" />
           </div>
-        </div>
+        </section>
 
-        {/* Right Form Pane */}
-        <div className="login-form-pane">
+        <section className="login-form-pane">
+          <div className="login-mobile-brand">
+            <span className="material-symbols-outlined login-mobile-icon">
+              speed
+            </span>
+            <h2 className="login-mobile-title">HorseRace</h2>
+          </div>
+
           <div className="login-form-container">
-            <h2 className="login-title">Đăng nhập</h2>
-            <p className="login-subtitle">
-              Vui lòng đăng nhập để truy cập hệ thống theo phân quyền của bạn.
-            </p>
+            <button
+              type="button"
+              className="login-home-button"
+              onClick={() => navigate("/")}
+            >
+              <span className="material-symbols-outlined">arrow_back</span>
+              Back to homepage
+            </button>
+            <h2 className="login-title">Login</h2>
+            <p className="login-subtitle">Access your stable and racing stats</p>
 
-            <form onSubmit={handleLoginSubmit}>
+            <form onSubmit={handleLoginSubmit} className="login-form">
               <div className="login-input-group">
-                <label className="login-label">Email tài khoản</label>
-                <input
-                  type="email"
-                  placeholder="username@domain.com"
-                  className="login-input"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+                <label className="login-label">Email Address</label>
+                <div className="login-input-wrap">
+                  <span className="material-symbols-outlined login-input-icon">
+                    mail
+                  </span>
+                  <input
+                    type="email"
+                    placeholder="name@stable.com"
+                    className="login-input"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="email"
+                    required
+                  />
+                </div>
               </div>
 
               <div className="login-input-group">
-                <label className="login-label">Mật khẩu</label>
-                <input
-                  type="password"
-                  placeholder="••••••••"
-                  className="login-input"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                <div className="login-password-label-row">
+                  <label className="login-label">Password</label>
+                  <a href="#" className="login-forgot-password">
+                    Forgot Password?
+                  </a>
+                </div>
+                <div className="login-input-wrap">
+                  <span className="material-symbols-outlined login-input-icon">
+                    lock
+                  </span>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    className="login-input"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoComplete="current-password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="login-visibility-btn"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    aria-label="Toggle password visibility"
+                  >
+                    <span className="material-symbols-outlined">
+                      {showPassword ? "visibility_off" : "visibility"}
+                    </span>
+                  </button>
+                </div>
               </div>
 
-              <div className="login-form-options">
-                <label className="login-remember-me">
-                  <input type="checkbox" /> <span>Ghi nhớ đăng nhập</span>
-                </label>
-                <a href="#" className="login-forgot-password">
-                  Quên mật khẩu?
-                </a>
-              </div>
-
-              <button
-                type="submit"
-                className="login-button"
-                disabled={isLoading}
-              >
-                {isLoading ? "Đang xác thực..." : "Đăng nhập hệ thống"}{" "}
-                <span>→</span>
+              <button type="submit" className="login-button" disabled={isLoading}>
+                {isLoading ? "Verifying..." : "Login"}
+                <span className="material-symbols-outlined">arrow_forward</span>
               </button>
             </form>
 
             <div className="login-register-prompt">
-              <p style={{ margin: 0 }}>
-                Bạn là thành viên mới?{" "}
+              <p>
+                Don't have an account?{" "}
                 <a
                   href="#"
                   onClick={(e) => {
@@ -97,17 +126,19 @@ const LoginPage = () => {
                   }}
                   className="login-register-link"
                 >
-                  Đăng ký tài khoản
+                  Sign Up
                 </a>
               </p>
             </div>
 
-            {/* Giữ lại badge bảo mật cực kỳ ăn rơ với mục 4 (Non-Functional) trong SRS */}
             <div className="login-security-badge">
-              <span>🔒 Session-based / JWT Security Active</span>
+              <span className="material-symbols-outlined login-security-icon">
+                verified_user
+              </span>
+              <span>JWT Security Active</span>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

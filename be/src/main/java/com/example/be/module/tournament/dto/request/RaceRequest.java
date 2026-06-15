@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,4 +19,6 @@ public class RaceRequest {
 
     @NotNull(message = "Hệ số quãng đường không được để trống")
     private Double distanceFactor;
+
+    private UUID refereeId;
 }

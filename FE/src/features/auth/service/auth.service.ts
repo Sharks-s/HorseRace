@@ -15,6 +15,13 @@ export const authService = {
     return response.data;
   },
 
+  verifyEmail: async (token: string) => {
+    const response = await api.get<ApiResponse<string>>("/auth/verify-email", {
+      params: { token },
+    });
+    return response.data;
+  },
+
   login: async (data: LoginRequest) => {
     const response = await api.post<ApiResponse<AuthResponse>>(
       "/auth/login",

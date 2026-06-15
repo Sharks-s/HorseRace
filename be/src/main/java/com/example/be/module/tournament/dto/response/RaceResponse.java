@@ -19,7 +19,6 @@ public class RaceResponse {
     private LocalDateTime startTime;
     private Double distanceFactor;
     private RaceStatus status;
-
     private UUID refereeId;
     private String refereeName;
 
@@ -31,8 +30,8 @@ public class RaceResponse {
                 .startTime(r.getStartTime())
                 .distanceFactor(r.getDistanceFactor())
                 .status(r.getStatus())
-                .refereeId(r.getReferee() != null ? r.getReferee().getId() : null)
-                .refereeName(r.getReferee() != null ? r.getReferee().getFullName() : null)
+                .refereeId(r.getReferee() == null ? null : r.getReferee().getId())
+                .refereeName(r.getReferee() == null ? null : r.getReferee().getFullName())
                 .build();
     }
 }

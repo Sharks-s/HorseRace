@@ -1,5 +1,8 @@
 package com.example.be.module.tournament.service.impl;
 
+import com.example.be.module.auth.model.entity.User;
+import com.example.be.module.auth.model.enums.Role;
+import com.example.be.module.auth.repository.UserRepository;
 import com.example.be.module.tournament.dto.request.RaceRequest;
 import com.example.be.module.tournament.dto.response.RaceResponse;
 import com.example.be.module.tournament.model.entity.Race;
@@ -22,7 +25,7 @@ public class RaceServiceImpl implements RaceService {
 
     private final RaceRepository raceRepository;
     private final TournamentRepository tournamentRepository;
-    private final com.example.be.module.auth.repository.UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
@@ -34,6 +37,7 @@ public class RaceServiceImpl implements RaceService {
 
         Race race = Race.builder()
                 .tournament(tournament)
+                .referee(resolveReferee(request.getRefereeId()))
                 .name(request.getName())
                 .startTime(request.getStartTime())
                 .distanceFactor(request.getDistanceFactor())
@@ -54,6 +58,7 @@ public class RaceServiceImpl implements RaceService {
         race.setName(request.getName());
         race.setStartTime(request.getStartTime());
         race.setDistanceFactor(request.getDistanceFactor());
+        race.setReferee(resolveReferee(request.getRefereeId()));
 
         Race updated = raceRepository.save(race);
         return RaceResponse.fromEntity(updated);
@@ -118,5 +123,17 @@ public class RaceServiceImpl implements RaceService {
             throw new IllegalArgumentException("Thời gian bắt đầu của vòng đua phải nằm trong khoảng thời gian diễn ra giải đấu ("
                     + tournament.getStartDate() + " đến " + tournament.getEndDate() + ")");
         }
+    }
+
+    private User resolveReferee(UUID refereeId) {
+        if (refereeId == null) {
+            return null;
+        }
+        User referee = userRepository.findById(refereeId)
+                .orElseThrow(() -> new IllegalArgumentException("Referee not found"));
+        if (referee.getRole() != Role.REFEREE) {
+            throw new IllegalArgumentException("Assigned user must have REFEREE role");
+        }
+        return referee;
     }
 }

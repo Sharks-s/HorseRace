@@ -1,253 +1,233 @@
-.register-container {
-  height: 100vh;
-  width: 100vw;
+.register-shell {
+  min-height: 100vh;
+  background: #f7f9fb;
+  color: #191c1e;
+  font-family: "Inter", sans-serif;
+}
+
+.register-hero {
+  height: 248px;
+  min-height: 220px;
   background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCXgTNJ62MO6xTWFx1JM6EwqN0jeeKNCQCVOR8V9xUamSGFIOhs_DJs7ByjbwOSOceGx-sYImlMmZTUiaWmUkpdE53isA0I-lqtJbX-rL4kq0kVXdHhQ7pfMT4LsIk2zIEChhYHtSzNMvwOUpTye0U-ntPygQUtj5EOqJ7sE4L0-ATEm21P-_8ncGKDoZ94ek3eR3dmvMQth4Jb13dNdx-2l8sjaO-cvajnMT61ATWHMsxlc1fdCxr_b-zUwwctxK8eCtEs_Eu0xg");
-  background-size: cover;
-  background-repeat: no-repeat;
   background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: max(1rem, 2vh);
-  font-family: "Hanken Grotesk", sans-serif;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-.register-card {
-  max-width: 1152px;
-  width: 100%;
-  height: 100%;
-  max-height: min(850px, 92vh);
-  /* XÓA background-color trắng để lộ nền container */
-  background-color: transparent;
-  border-radius: 24px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-}
-
-/* Left Visual Pane */
-.register-visual-pane {
-  width: 50%;
+  background-size: cover;
   position: relative;
-  height: 100%;
-
-  background-color: rgba(15, 23, 42, 0.4);
 }
-.register-bg-image {
+
+.register-hero-overlay {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.6;
-}
-
-.register-overlay {
-  position: absolute;
-  inset: 0;
-  /* Hạ độ opacity của gradient xuống để nhìn xuyên qua rõ hơn */
-  background: linear-gradient(
-    135deg,
-    rgba(15, 23, 42, 0.7) 0%,
-    rgba(15, 23, 42, 0.2) 100%
-  );
-  padding: max(1.5rem, 4vh);
+  background: linear-gradient(to top, rgba(0, 42, 21, 0.92), rgba(0, 42, 21, 0.38));
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  color: #ffffff;
-  box-sizing: border-box;
+  align-items: end;
+  justify-content: center;
+  padding: 28px 24px 72px;
 }
 
-.register-logo-area {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: min(2rem, 4vh);
+.register-brand {
+  text-align: center;
 }
 
-.register-logo-cube {
-  background-color: #2dd4bf;
-  padding: 0.4rem 0.6rem;
-  border-radius: 8px;
-  color: #0f172a;
-  font-weight: bold;
+.register-brand h1 {
+  margin: 0;
+  font-family: "Oswald", sans-serif;
+  font-size: 48px;
+  line-height: 1.05;
+  color: #fed65b;
+  letter-spacing: 0;
 }
 
-.register-brand-name {
-  font-size: max(1.2rem, 2.5vh);
+.register-brand p {
+  margin: 6px 0 0;
+  color: #eff1f3;
+  font-size: 16px;
+}
+
+.register-main {
+  width: min(448px, calc(100% - 32px));
+  margin: -58px auto 0;
+  padding-bottom: 48px;
+  position: relative;
+  z-index: 2;
+}
+
+.register-panel {
+  background: #ffffff;
+  border: 1px solid #c0c9c0;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+}
+
+.register-heading {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.register-heading h2 {
+  margin: 0;
+  color: #002a15;
+  font-family: "Oswald", sans-serif;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.register-heading p {
+  margin: 4px 0 0;
+  color: #404942;
+  font-size: 14px;
+}
+
+.register-form {
+  display: grid;
+  gap: 16px;
+}
+
+.register-field {
+  display: grid;
+  gap: 6px;
+}
+
+.register-field > span {
+  color: #191c1e;
+  font-size: 14px;
   font-weight: 700;
 }
 
-.register-brand-title {
-  font-size: max(1.8rem, 4.5vh);
-  font-weight: 800;
-  line-height: 1.1;
-  margin-bottom: min(1rem, 2vh);
-  margin-right: 1rem;
+.register-input-wrap {
+  position: relative;
 }
 
-.register-brand-desc {
-  font-size: max(0.9rem, 1.8vh);
-  color: #94a3b8;
-  max-width: 420px;
-  line-height: 1.5;
+.register-input-wrap > .material-symbols-outlined:first-child {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #717971;
+  font-size: 20px;
+  pointer-events: none;
 }
 
-.register-badges {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+.register-input-wrap input,
+.register-input-wrap select {
+  width: 100%;
+  min-height: 46px;
+  border-radius: 8px;
+  border: 1px solid #c0c9c0;
+  background: #f7f9fb;
+  color: #191c1e;
+  font-size: 15px;
+  padding: 10px 42px;
+  outline: none;
+  appearance: none;
 }
 
-.register-security-pill {
+.register-input-wrap input:focus,
+.register-input-wrap select:focus {
+  border-color: #735c00;
+  box-shadow: 0 0 0 2px rgba(115, 92, 0, 0.18);
+}
+
+.register-chevron,
+.register-icon-button {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #717971;
+}
+
+.register-icon-button {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: max(0.5rem, 1vh) max(1rem, 1.5vw);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: max(0.7rem, 1.4vh);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #e2e8f0;
-}
-
-/* Right Form Pane */
-.register-form-pane {
-  width: 50%;
-  padding: max(1rem, 3vh) max(1.5rem, 4vw);
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  box-sizing: border-box;
-  height: 100%;
-  /* THÊM: Lớp nền tối trong suốt cho form bên phải dễ đọc chữ trên nền ảnh */
-  background-color: rgba(255, 255, 255, 0.15);
-  /* THÊM: Hiệu ứng mờ kính (Blur) giúp form trông hiện đại và tách biệt với nền */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  padding: 0;
+  background: transparent;
 }
 
-.register-form-container {
-  max-width: 400px;
-  margin: 0 auto;
+.register-submit {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-}
-
-.register-title {
-  font-size: max(1.5rem, 3.2vh);
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0;
-  margin-bottom: 0.25rem;
-}
-
-.register-subtitle {
-  color: #64748b;
-  font-size: max(0.85rem, 1.7vh);
-  margin: 0;
-  margin-bottom: min(1.5rem, 3vh);
-}
-
-.register-input-group {
-  margin-bottom: min(0.85rem, 1.8vh);
-}
-
-.register-label {
-  display: block;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #f1f5f9; /* Đổi sang màu trắng xám */
-  margin-bottom: 0.25rem;
-}
-
-.register-input {
-  width: 100%;
-  padding: min(0.65rem, 1.3vh) 1rem;
-  /* Làm ô input trong suốt nhẹ */
-  background-color: rgba(255, 255, 255, 0.85);
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  color: #0f172a;
-  outline: none;
-  box-sizing: border-box;
-}
-
-.register-input-hint {
-  font-size: max(0.7rem, 1.4vh);
-  color: #94a3b8;
-  margin-top: 0.2rem;
-  margin-bottom: 0;
-}
-
-.register-terms-group {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  margin: min(1rem, 2vh) 0;
-}
-
-.register-checkbox {
-  margin-top: 0.2rem;
-  cursor: pointer;
-}
-
-.register-terms-text {
-  font-size: max(0.75rem, 1.6vh);
-  color: #475569;
-  line-height: 1.4;
-}
-
-.register-terms-link {
-  color: #2dd4bf;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.register-button {
-  width: 100%;
-  background-color: #0f172a;
-  color: #ffffff;
-  padding: min(0.85rem, 1.8vh);
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  margin-top: min(0.75rem, 1.5vh);
-  display: flex;
+  min-height: 48px;
+  border-radius: 8px;
+  background: #d4af37;
+  color: #002a15;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 8px;
+  font-weight: 800;
+  margin-top: 4px;
+  transition: transform 160ms ease, background 160ms ease;
 }
 
-.register-button:disabled {
+.register-submit:hover {
+  background: #fed65b;
+}
+
+.register-submit:active {
+  transform: scale(0.98);
+}
+
+.register-submit:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
 
-.register-login-prompt {
-  margin-top: min(1rem, 2.5vh);
-  text-align: center;
-  color: #64748b;
-  margin-bottom: 0;
-  font-size: max(0.8rem, 1.6vh);
+.register-footer {
+  border-top: 1px solid #c0c9c0;
+  margin-top: 24px;
+  padding-top: 18px;
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  color: #404942;
+  font-size: 14px;
 }
 
-.register-login-link {
-  color: #2dd4bf;
-  font-weight: 700;
-  text-decoration: none;
-  cursor: pointer;
+.register-footer strong {
+  color: #002a15;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.register-security {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #c0c9c0;
+  background: #f2f4f6;
+  border-radius: 999px;
+  padding: 5px 10px;
+  color: #404942;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.register-security .material-symbols-outlined {
+  color: #002a15;
+  font-size: 16px;
+  font-variation-settings: "FILL" 1;
+}
+
+@media (min-width: 900px) {
+  .register-shell {
+    display: grid;
+    place-items: center;
+    padding: 32px;
+    background: #eef2ef;
+  }
+
+  .register-hero {
+    position: fixed;
+    inset: 0;
+    height: auto;
+  }
+
+  .register-hero-overlay {
+    padding-bottom: 80px;
+  }
+
+  .register-main {
+    margin: 0;
+  }
 }
