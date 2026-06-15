@@ -15,6 +15,7 @@ services:
     restart: always
 
   be:
+    image: ${IMAGE_BE:-app-be:latest}
     build:
       context: ./be
       dockerfile: Dockerfile
@@ -36,6 +37,7 @@ services:
     restart: always
 
   fe:
+    image: ${IMAGE_FE:-app-fe:latest}
     build:
       context: ./FE
       dockerfile: Dockerfile
