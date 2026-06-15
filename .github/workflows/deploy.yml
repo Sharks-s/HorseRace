@@ -21,8 +21,8 @@ jobs:
       # Build và Push
       - name: Build and Push Images
         run: |
-          docker compose build
-          docker compose push
+          docker-compose build
+          docker-compose push
 
   deploy:
     needs: build-and-push
@@ -51,8 +51,8 @@ jobs:
             cd /home/ec2-user/app
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
             
-            docker compose down
+            docker-compose down
             
-            docker compose pull
+            docker-compose pull
             
-            docker compose up -d
+            docker-compose up -d
