@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { adminUserApi } from "../../../api/adminUserApi";
+import { tournamentApi } from "../../../api/tournamentApi";
 
 const AdminDashboard = () => {
   // Trạng thái đóng/mở sidebar trên thiết bị di động
@@ -61,11 +63,56 @@ const AdminDashboard = () => {
     },
   ];
 
-  // Dữ liệu mẫu cho phân công Trọng tài (Referee Assignment)
-  const races = [
-    { id: "R1", title: "Grand National Sprint", detail: "14:00 • 1200m Dirt" },
-    { id: "R2", title: "Derby Qualifier Heat B", detail: "15:30 • 1600m Turf" },
-  ];
+  const [referees, setReferees] = useState([]);
+  const [races, setRaces] = useState([]);
+
+  useEffect(() => {
+    fetchReferees();
+    fetchRaces();
+  }, []);
+
+  const fetchReferees = async () => {
+    try {
+      const response = await adminUserApi.getUsers({ role: 'REFEREE', size: 100 });
+      if (response.success && response.data?.content) {
+        setReferees(response.data.content);
+      }
+    } catch (error) {
+      console.error("Failed to fetch referees", error);
+    }
+  };
+
+  const fetchRaces = async () => {
+    try {
+      // Temporarily fetching all tournaments and getting their races. In reality, you'd want an endpoint for upcoming races across all tournaments.
+      const tResponse = await tournamentApi.getAllTournaments();
+      if (tResponse.success) {
+        let allRaces = [];
+        for (const t of tResponse.data) {
+           const rResponse = await tournamentApi.getRacesByTournament(t.id);
+           if (rResponse.success) {
+               allRaces = [...allRaces, ...rResponse.data];
+           }
+        }
+        setRaces(allRaces);
+      }
+    } catch (error) {
+      console.error("Failed to fetch races", error);
+    }
+  };
+
+  const handleAssignReferee = async (tournamentId, raceId, refereeId) => {
+    if (!refereeId) return;
+    try {
+        const response = await tournamentApi.assignReferee(tournamentId, raceId, refereeId);
+        if (response.success) {
+            alert("Referee assigned successfully!");
+            fetchRaces(); // Refresh races to show updated assignment
+        }
+    } catch (error) {
+        alert(error.response?.data?.message || "Failed to assign referee");
+    }
+  };
 
   return (
     <div className="bg-background text-on-background font-sans h-screen overflow-hidden flex antialiased">
@@ -91,7 +138,7 @@ const AdminDashboard = () => {
           </a>
           <a
             className="flex items-center gap-3 text-on-surface hover:bg-surface-container rounded-xl px-4 py-3 transition-colors"
-            href="#users"
+            href="/admin/users"
           >
             <span className="material-symbols-outlined text-[24px]">group</span>
             <span className="font-semibold text-sm">Users</span>
@@ -312,19 +359,23 @@ const AdminDashboard = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-sm text-on-surface leading-tight">
-                          {race.title}
+                          {race.name}
                         </h3>
                         <p className="text-xs text-on-surface-variant">
-                          {race.detail}
+                          {new Date(race.startTime).toLocaleString()}
                         </p>
                       </div>
                     </div>
                     <div className="w-full">
-                      <select className="w-full bg-surface border border-outline-variant rounded-lg px-3 py-2 text-sm text-on-surface focus:ring-1 focus:ring-primary focus:border-primary outline-none">
+                      <select 
+                        className="w-full bg-surface border border-outline-variant rounded-lg px-3 py-2 text-sm text-on-surface focus:ring-1 focus:ring-primary focus:border-primary outline-none"
+                        value={race.refereeId || ""}
+                        onChange={(e) => handleAssignReferee(race.tournamentId, race.id, e.target.value)}
+                      >
                         <option value="">Assign Referee...</option>
-                        <option value="ref1">John Smith</option>
-                        <option value="ref2">Sarah Davies</option>
-                        <option value="ref3">Michael O'Connor</option>
+                        {referees.map(ref => (
+                            <option key={ref.id} value={ref.id}>{ref.fullName}</option>
+                        ))}
                       </select>
                     </div>
                   </div>
@@ -348,7 +399,7 @@ const AdminDashboard = () => {
         </a>
         <a
           className="flex flex-col items-center justify-center text-on-primary-container px-3 py-1 hover:bg-primary-container/50 transition-all rounded-xl"
-          href="#users"
+          href="/admin/users"
         >
           <span className="material-symbols-outlined text-[24px]">group</span>
           <span className="text-[10px] mt-0.5 font-medium">Users</span>

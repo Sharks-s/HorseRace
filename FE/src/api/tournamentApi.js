@@ -45,5 +45,12 @@ export const tournamentApi = {
   deleteRace: async (tournamentId, id) => {
     const response = await api.delete(`/tournaments/${tournamentId}/races/${id}`);
     return response.data;
+  },
+
+  assignReferee: async (tournamentId, raceId, refereeId) => {
+    const response = await api.post(`/tournaments/${tournamentId}/races/${raceId}/referee`, null, {
+      params: { refereeId }
+    });
+    return response.data;
   }
 };

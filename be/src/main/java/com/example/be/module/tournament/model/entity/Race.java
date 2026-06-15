@@ -44,6 +44,10 @@ public class Race {
     @Column(nullable = false)
     private RaceStatus status;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "referee_id")
+    private com.example.be.module.auth.model.entity.User referee;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
