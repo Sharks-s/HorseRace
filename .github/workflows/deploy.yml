@@ -21,8 +21,8 @@ jobs:
       # Build và Push
       - name: Build and Push Images
         run: |
-          docker-compose build
-          docker-compose push
+          docker compose build
+          docker compose push
 
   deploy:
     needs: build-and-push
