@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
-@Repository
+@Repository("profileModuleHorseRepository")
 public interface HorseRepository extends JpaRepository<Horse, UUID> {
 }
