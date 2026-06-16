@@ -8,7 +8,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "ProfileModuleHorse")
 @Table(name = "horses")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Getter

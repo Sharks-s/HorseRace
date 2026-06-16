@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-@Service
+@Service("authModuleUserServiceImpl")
 @RequiredArgsConstructor
 public class AdminUserServiceImpl implements AdminUserService {
 

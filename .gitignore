@@ -26,3 +26,7 @@ dist-ssr
 */.idea/*
 */.venv
 */.mvn/*
+
+# Build output
+target/
+**/target/
