@@ -2,7 +2,7 @@ export interface ApiResponse<T> {
   success: boolean;
   code?: string;
   message?: string;
-  data: T;
+  data?: T;
   timestamp: string;
   path?: string;
   requestId?: string;

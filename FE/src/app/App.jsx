@@ -15,6 +15,7 @@ import VerifyEmailPage from "../features/auth/pages/VerifyEmailPage";
 import HorseReviewPage from "../features/admin/pages/HorseReviewPage";
 import JockeyWorkspacePage from "../features/jockey/pages/JockeyWorkspacePage";
 import RefereeDashboard from "../features/referee/pages/RefereeDashboard";
+import { GlobalLoader } from "../shared/components/GlobalLoader";
 import "../styles/fonts.css";
 import "../styles/theme.css";
 import "../styles/globals.css";
@@ -22,6 +23,7 @@ import "../styles/globals.css";
 function App() {
   return (
     <Router>
+      <GlobalLoader />
       <Routes>
         <Route path="/" element={<HorseRaceApp />} />
         <Route path="/login" element={<Login />} />

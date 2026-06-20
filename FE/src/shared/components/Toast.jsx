@@ -1,5 +1,3 @@
-// toast.jsx
-
 import { createRoot } from "react-dom/client";
 
 const createContainer = () => {
@@ -7,7 +5,6 @@ const createContainer = () => {
   if (!container) {
     container = document.createElement("div");
     container.id = "custom-toast-container";
-    // Style cho toàn bộ vùng chứa nằm ở góc màn hình
     Object.assign(container.style, {
       position: "fixed",
       top: "20px",
@@ -22,17 +19,15 @@ const createContainer = () => {
   return container;
 };
 
-// Hàm tạo một thông báo đơn lẻ
 const show = (message, type = "info", duration = 3000) => {
-  const container = createContainer();
+  if (!message) return;
 
-  // Tạo một div con cho mỗi cái toast
+  const container = createContainer();
   const toastId = document.createElement("div");
   container.appendChild(toastId);
 
   const root = createRoot(toastId);
 
-  // Màu sắc theo loại
   const bgColors = {
     success: "#4CAF50",
     error: "#f44336",
@@ -52,7 +47,6 @@ const show = (message, type = "info", duration = 3000) => {
     animation: "slideIn 0.3s ease-out",
   };
 
-  // Hàm tự hủy toast
   const removeToast = () => {
     root.unmount();
     toastId.remove();
@@ -76,11 +70,9 @@ const show = (message, type = "info", duration = 3000) => {
     </div>,
   );
 
-  // Tự động đóng sau khoảng thời gian `duration`
   setTimeout(removeToast, duration);
 };
 
-// Xuất ra object để gọi trực tiếp
 export const toast = {
   success: (msg, dur) => show(msg, "success", dur),
   error: (msg, dur) => show(msg, "error", dur),
