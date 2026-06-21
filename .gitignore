@@ -34,7 +34,3 @@ target/
 .env
 .env.*
 !.env.example
-
-# Cấu hình Spring Boot chứa mật khẩu (nếu có)
-application-dev.properties
-application-prod.properties
