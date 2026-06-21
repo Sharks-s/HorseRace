@@ -59,18 +59,16 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ubuntu/app
-            # Đảm bảo các biến được export đúng
-            export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
-            export POSTGRES_USER=${{ secrets.POSTGRES_USER }}
-            export POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
-            export POSTGRES_DB=${{ secrets.POSTGRES_DB }}
-            
-            # Kéo image mới nhất
+
+            # Create .env from secrets
+            cat > .env << EOF
+            DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
+            POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+            EOF
+
             docker compose -f docker-compose.prod.yml pull
-            
-            # Dừng và khởi chạy lại container
             docker compose -f docker-compose.prod.yml down
             docker compose -f docker-compose.prod.yml up -d
-            
-            # Dọn dẹp images cũ
             docker image prune -a -f
