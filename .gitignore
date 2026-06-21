@@ -30,3 +30,11 @@ dist-ssr
 # Build output
 target/
 **/target/
+# Cấu hình môi trường và Secrets
+.env
+.env.*
+!.env.example
+
+# Cấu hình Spring Boot chứa mật khẩu (nếu có)
+application-dev.properties
+application-prod.properties
