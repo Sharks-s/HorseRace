@@ -11,6 +11,7 @@ import VerifyEmailPage from "../features/auth/pages/VerifyEmailPage";
 import HorseReviewPage from "../features/admin/pages/HorseReviewPage";
 import JockeyWorkspacePage from "../features/jockey/pages/JockeyWorkspacePage";
 import RefereeDashboard from "../features/referee/pages/RefereeDashboard";
+import RaceDetailPage from "../features/referee/pages/RaceDetailPage";
 import "../styles/fonts.css";
 import "../styles/theme.css";
 import "../styles/globals.css";

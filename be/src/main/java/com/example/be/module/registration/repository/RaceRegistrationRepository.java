@@ -25,4 +25,8 @@ public interface RaceRegistrationRepository extends JpaRepository<RaceRegistrati
 	List<RaceRegistration> findByRace_Referee_EmailAndStatusInOrderByRace_StartTimeAsc(
 			String refereeEmail,
 			Collection<RaceRegistrationStatus> statuses);
+
+	List<RaceRegistration> findByRace_IdAndStatus(UUID raceId, RaceRegistrationStatus status);
+
+	boolean existsByRace_IdAndHorse_IdAndJockey_Id(UUID raceId, UUID horseId, UUID jockeyId);
 }

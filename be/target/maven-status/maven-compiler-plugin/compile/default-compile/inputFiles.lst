@@ -1,80 +1,103 @@
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\BeApplication.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\common\config\AdminAccountInitializer.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\common\config\OpenApiConfig.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\common\config\SecurityConfig.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\common\controller\HealthController.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\common\dto\response\ApiResponse.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\common\exception\GlobalExceptionHandler.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\common\service\EmailService.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\common\service\impl\EmailServiceImpl.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\admin\controller\AdminHorseReviewController.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\admin\controller\AdminUserController.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\admin\dto\request\RejectHorseRequest.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\admin\dto\request\UpdateUserRoleRequest.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\admin\dto\request\UpdateUserStatusRequest.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\admin\dto\response\UserAdminResponse.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\admin\service\AdminHorseReviewService.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\admin\service\AdminUserService.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\admin\service\impl\AdminHorseReviewServiceImpl.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\admin\service\impl\AdminUserServiceImpl.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\controller\AuthController.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\dto\request\LoginRequest.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\dto\request\RegisterRequest.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\dto\response\AuthResponse.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\model\entity\User.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\model\enums\Role.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\model\enums\UserStatus.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\repository\UserRepository.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\service\impl\UserServiceImpl.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\auth\service\UserService.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\controller\HorseController.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\dto\request\HorseCreateRequest.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\dto\request\HorseUpdateRequest.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\dto\response\HorseResponse.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\model\entity\Horse.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\model\enums\HorseStatus.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\repository\HorseRepository.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\service\HorseService.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\horse\service\impl\HorseServiceImpl.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\jockey\controller\JockeyController.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\jockey\dto\request\JockeyProfileRequest.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\jockey\dto\response\DailyRaceLimitResponse.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\jockey\dto\response\JockeyProfileResponse.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\jockey\dto\response\JockeyRankingResponse.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\jockey\dto\response\JockeyScheduleResponse.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\jockey\model\entity\JockeyProfile.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\jockey\repository\JockeyProfileRepository.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\jockey\service\impl\JockeyServiceImpl.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\jockey\service\JockeyService.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\notification\controller\NotificationController.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\notification\dto\response\NotificationResponse.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\notification\model\entity\Notification.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\notification\repository\NotificationRepository.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\referee\controller\RefereeInspectionController.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\referee\dto\request\HorseInspectionDecision.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\referee\dto\request\InspectHorseRequest.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\referee\dto\response\PreRaceHorseInspectionResponse.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\referee\service\impl\RefereeInspectionServiceImpl.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\referee\service\RefereeInspectionService.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\registration\model\entity\RaceRegistration.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\registration\model\enums\RaceRegistrationStatus.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\registration\repository\RaceRegistrationRepository.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\result\model\entity\RaceResult.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\result\repository\RaceResultRepository.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\controller\RaceController.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\controller\TournamentController.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\dto\request\RaceRequest.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\dto\request\TournamentRequest.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\dto\response\RaceResponse.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\dto\response\TournamentResponse.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\model\entity\Race.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\model\entity\Tournament.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\model\enums\RaceStatus.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\model\enums\TournamentStatus.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\repository\RaceRepository.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\repository\TournamentRepository.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\service\impl\RaceServiceImpl.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\service\impl\TournamentServiceImpl.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\service\RaceService.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\module\tournament\service\TournamentService.java
-C:\horse-race\HorseRace\be\src\main\java\com\example\be\ServletInitializer.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\BeApplication.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\common\config\AdminAccountInitializer.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\common\config\OpenApiConfig.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\common\config\SecurityConfig.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\common\controller\HealthController.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\common\dto\response\ApiResponse.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\common\exception\ConflictException.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\common\exception\GlobalExceptionHandler.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\common\service\EmailService.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\common\service\impl\EmailServiceImpl.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\admin\controller\AdminHorseReviewController.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\admin\controller\AdminUserController.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\admin\dto\request\RejectHorseRequest.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\admin\dto\request\UpdateUserRoleRequest.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\admin\dto\request\UpdateUserStatusRequest.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\admin\dto\response\UserAdminResponse.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\admin\service\AdminHorseReviewService.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\admin\service\AdminUserService.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\admin\service\impl\AdminHorseReviewServiceImpl.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\admin\service\impl\AdminUserServiceImpl.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\auth\controller\AuthController.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\auth\dto\request\LoginRequest.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\auth\dto\request\RegisterRequest.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\auth\dto\response\AuthResponse.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\auth\model\entity\User.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\auth\model\enums\Role.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\auth\model\enums\UserStatus.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\auth\repository\UserRepository.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\auth\service\impl\UserServiceImpl.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\auth\service\UserService.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\horse\controller\HorseController.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\horse\dto\request\HorseCreateRequest.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\horse\dto\request\HorseUpdateRequest.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\horse\dto\response\HorseResponse.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\horse\model\entity\Horse.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\horse\model\enums\HorseStatus.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\horse\repository\HorseRepository.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\horse\service\HorseService.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\horse\service\impl\HorseServiceImpl.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\jockey\controller\JockeyController.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\jockey\dto\request\JockeyProfileRequest.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\jockey\dto\response\DailyRaceLimitResponse.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\jockey\dto\response\JockeyProfileResponse.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\jockey\dto\response\JockeyRankingResponse.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\jockey\dto\response\JockeyScheduleResponse.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\jockey\model\entity\JockeyProfile.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\jockey\repository\JockeyProfileRepository.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\jockey\service\impl\JockeyServiceImpl.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\jockey\service\JockeyService.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\notification\controller\NotificationController.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\notification\dto\response\NotificationResponse.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\notification\model\entity\Notification.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\notification\repository\NotificationRepository.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\controller\RefereeInspectionController.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\controller\RefereeRaceReportController.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\controller\RefereeViolationController.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\dto\request\CreateViolationRequest.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\dto\request\HorseInspectionDecision.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\dto\request\InspectHorseRequest.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\dto\request\SubmitRaceReportRequest.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\dto\response\PreRaceHorseInspectionResponse.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\dto\response\RaceReportResponse.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\dto\response\RaceResultResponse.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\dto\response\ViolationResponse.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\model\entity\Violation.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\model\enums\ViolationSeverity.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\model\enums\ViolationType.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\repository\ViolationRepository.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\service\impl\RefereeInspectionServiceImpl.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\service\impl\RefereeRaceReportServiceImpl.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\service\impl\RefereeViolationServiceImpl.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\service\RefereeInspectionService.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\service\RefereeRaceReportService.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\referee\service\RefereeViolationService.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\registration\model\entity\RaceRegistration.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\registration\model\enums\RaceRegistrationStatus.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\registration\repository\RaceRegistrationRepository.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\result\model\entity\RaceResult.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\result\model\entity\RefereeReport.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\result\repository\RaceResultRepository.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\result\repository\RefereeReportRepository.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\result\service\impl\ResultServiceImpl.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\result\service\ResultService.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\result\strategy\DefaultRankingStrategy.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\result\strategy\RankingResult.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\result\strategy\RankingStrategy.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\tournament\controller\RaceController.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\tournament\controller\TournamentController.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\tournament\dto\request\RaceRequest.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\tournament\dto\request\TournamentRequest.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\tournament\dto\response\RaceResponse.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\tournament\dto\response\TournamentResponse.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\tournament\model\entity\Race.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\tournament\model\entity\Tournament.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\tournament\model\enums\RaceStatus.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\tournament\model\enums\TournamentStatus.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\tournament\repository\RaceRepository.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\tournament\repository\TournamentRepository.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\tournament\service\impl\RaceServiceImpl.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\tournament\service\impl\TournamentServiceImpl.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\tournament\service\RaceService.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\module\tournament\service\TournamentService.java
+D:\New folder\HorseRace\be\src\main\java\com\example\be\ServletInitializer.java

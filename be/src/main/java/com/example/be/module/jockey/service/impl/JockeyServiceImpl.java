@@ -64,7 +64,7 @@ public class JockeyServiceImpl implements JockeyService {
 	public JockeyRankingResponse getMyRanking() {
 		User jockey = getCurrentJockey();
 		long totalRaces = raceResultRepository.countByJockey_Id(jockey.getId());
-		long wins = raceResultRepository.countByJockey_IdAndPlacement(jockey.getId(), 1);
+		long wins = raceResultRepository.countByJockey_IdAndRank(jockey.getId(), 1);
 		double points = raceResultRepository.sumPointsByJockeyId(jockey.getId());
 		double averagePlacement = raceResultRepository.averagePlacementByJockeyId(jockey.getId());
 		return new JockeyRankingResponse(totalRaces, wins, points, averagePlacement);

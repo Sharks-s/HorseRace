@@ -4,5 +4,6 @@ public enum RaceStatus {
     SCHEDULED,
     IN_PROGRESS,
     FINISHED,
+    RESULT_SUBMITTED,
     CANCELLED
 }
