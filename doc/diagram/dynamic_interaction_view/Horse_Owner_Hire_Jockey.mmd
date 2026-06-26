@@ -1,0 +1,22 @@
+sequenceDiagram
+    actor Owner as Horse Owner
+    participant Page as HiringPage
+    participant Ctrl as InvitationController
+    participant Svc as InvitationService
+    participant JSvc as JockeyService
+    participant Repo as RegistrationRepository
+    participant DB as DB
+
+    Owner->>Page: openHiringForm()
+    Page->>Ctrl: submitInvitation(jockeyID, raceID)
+    Ctrl->>Svc: processInvitation()
+    Svc->>JSvc: checkJockeyAvailability()
+    Note over Svc: BR-02: Jockey cannot race<br/>more than 3 horses/day
+    JSvc-->>Svc: available
+    Svc->>Repo: saveRegistration()
+    Repo->>DB: INSERT registration
+    DB-->>Repo: success
+    Repo-->>Svc: registrationSaved()
+    Svc-->>Ctrl: invitationSent()
+    Ctrl-->>Page: displaySuccess()
+    Page-->>Owner: showInvitationSent()

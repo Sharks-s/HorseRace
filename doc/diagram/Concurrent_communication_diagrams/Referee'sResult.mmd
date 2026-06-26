@@ -1,0 +1,29 @@
+flowchart TD
+    subgraph Frontend [Web Portal Frontend]
+        RefUI[Referee Dashboard UI]
+        AdminUI[Admin Dashboard UI]
+        SpecUI[Spectator Live UI]
+    end
+
+    subgraph Backend [Spring Boot Backend]
+        RM[Result Module]
+        STM[Scheduling & Tournament Module]
+    end
+
+    subgraph DB [PostgreSQL]
+        Database[(Database)]
+    end
+
+    Ref([Race Referee])
+    Admin([Admin])
+    Spec([Spectator])
+
+    Ref -- "1: submitReport.vòng_đua" --> RefUI
+    RefUI -- "2: POST /api/results/submit" --> RM
+    RM -- "4: saveReport & updateRaceResult" --> Database
+    RM -- "[Concurrent] 5.1: calculateRanking.Strategy" --> RM
+    RM -- "[Concurrent] 5.2: notifyStatusChange" --> STM
+    STM -- "6: pushNotification" --> AdminUI
+    AdminUI -- "7: công_bố_kết_quả" --> Admin
+    RM -- "[Real-time] 6.1: pushLiveResult" --> SpecUI
+    SpecUI -- "7.1: xem_bảng_xếp_hạng_mới" --> Spec

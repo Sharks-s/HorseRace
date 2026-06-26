@@ -1,81 +1,55 @@
 import { useState, useEffect } from "react";
 import { adminUserApi } from "../../../api/adminUserApi";
 import { tournamentApi } from "../../../api/tournamentApi";
+import { api } from "../../../api/axios";
 
 const AdminDashboard = () => {
   // Trạng thái đóng/mở sidebar trên thiết bị di động
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Dữ liệu mẫu cho Thống kê (Stats)
-  const statsData = [
-    {
-      label: "Total Horses",
-      value: "1,248",
-      icon: "pets",
-      fillClass: "group-hover:text-tertiary-fixed",
-    },
-    {
-      label: "Active Jockeys",
-      value: "412",
-      icon: "sports_kabaddi",
-      fillClass: "group-hover:text-secondary-fixed",
-    },
-    {
-      label: "Ongoing Races",
-      value: "14",
-      icon: "timer",
-      fillClass: "group-hover:text-primary-fixed",
-    },
-    {
-      label: "Pending Approvals",
-      value: "24",
-      valueColor: "text-error",
-      icon: "fact_check",
-      fillClass: "group-hover:text-error-container",
-    },
-  ];
-
-  // Dữ liệu mẫu cho bảng Đăng ký Ngựa (Pending Registrations)
-  const pendingHorses = [
-    {
-      id: 1,
-      name: "Thunderstrike",
-      owner: "Kingsway Stables",
-      status: "Pending Health",
-      badgeColor: "bg-error-container text-on-error-container",
-      icon: "warning",
-    },
-    {
-      id: 2,
-      name: "Midnight Runner",
-      owner: "Blue Ribbon Farms",
-      status: "Doc Review",
-      badgeColor: "bg-surface-container text-on-surface-variant",
-      icon: "info",
-    },
-    {
-      id: 3,
-      name: "Star Gazer",
-      owner: "Oakridge Equestrian",
-      status: "Age Verification",
-      badgeColor: "bg-secondary-container text-on-secondary-container",
-      icon: "hourglass_empty",
-    },
-  ];
-
   const [referees, setReferees] = useState([]);
   const [races, setRaces] = useState([]);
+  const [pendingHorses, setPendingHorses] = useState([]);
+  const [pendingCount, setPendingCount] = useState(0);
+  const [jockeyCount, setJockeyCount] = useState(0);
+  const [refereeCount, setRefereeCount] = useState(0);
 
   useEffect(() => {
-    fetchReferees();
-    fetchRaces();
+    void fetchReferees();
+    void fetchRaces();
+    void fetchJockeys();
+    void fetchPendingHorses();
   }, []);
+
+  const fetchPendingHorses = async () => {
+    try {
+      const response = await api.get("/admin/horses/pending", { params: { size: 10 } });
+      if (response.data && response.data.success) {
+        setPendingHorses(response.data.data.content || []);
+        setPendingCount(response.data.data.totalElements || 0);
+      }
+    } catch (error) {
+      console.error("Failed to fetch pending horses", error);
+    }
+  };
+
+  const fetchJockeys = async () => {
+    try {
+      const response = await adminUserApi.getUsers({ role: 'JOCKEY', size: 1 });
+      if (response.success && response.data) {
+        setJockeyCount(response.data.totalElements || 0);
+      }
+    } catch (error) {
+      console.error("Failed to fetch jockeys", error);
+    }
+  };
 
   const fetchReferees = async () => {
     try {
       const response = await adminUserApi.getUsers({ role: 'REFEREE', size: 100 });
       if (response.success && response.data?.content) {
         setReferees(response.data.content);
+        setRefereeCount(response.data.totalElements || response.data.content.length);
       }
     } catch (error) {
       console.error("Failed to fetch referees", error);
@@ -84,7 +58,6 @@ const AdminDashboard = () => {
 
   const fetchRaces = async () => {
     try {
-      // Temporarily fetching all tournaments and getting their races. In reality, you'd want an endpoint for upcoming races across all tournaments.
       const tResponse = await tournamentApi.getAllTournaments();
       if (tResponse.success) {
         let allRaces = [];
@@ -101,18 +74,76 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleApproveHorse = async (horseId) => {
+    try {
+      const response = await api.put(`/admin/horses/${horseId}/approve`);
+      if (response.data && response.data.success) {
+        alert("Horse profile approved successfully!");
+        void fetchPendingHorses();
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || "Failed to approve horse");
+    }
+  };
+
+  const handleRejectHorse = async (horseId) => {
+    const reason = prompt("Enter the reason for rejection:");
+    if (reason === null) return;
+    if (!reason.trim()) {
+      alert("Rejection reason is required.");
+      return;
+    }
+    try {
+      const response = await api.put(`/admin/horses/${horseId}/reject`, { reason: reason.trim() });
+      if (response.data && response.data.success) {
+        alert("Horse profile rejected successfully!");
+        void fetchPendingHorses();
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || "Failed to reject horse");
+    }
+  };
+
   const handleAssignReferee = async (tournamentId, raceId, refereeId) => {
     if (!refereeId) return;
     try {
         const response = await tournamentApi.assignReferee(tournamentId, raceId, refereeId);
         if (response.success) {
             alert("Referee assigned successfully!");
-            fetchRaces(); // Refresh races to show updated assignment
+            void fetchRaces(); // Refresh races to show updated assignment
         }
     } catch (error) {
         alert(error.response?.data?.message || "Failed to assign referee");
     }
   };
+
+  const statsData = [
+    {
+      label: "Total Jockeys",
+      value: String(jockeyCount),
+      icon: "sports_kabaddi",
+      fillClass: "group-hover:text-secondary-fixed",
+    },
+    {
+      label: "Total Referees",
+      value: String(refereeCount),
+      icon: "group",
+      fillClass: "group-hover:text-tertiary-fixed",
+    },
+    {
+      label: "Created Races",
+      value: String(races.length),
+      icon: "timer",
+      fillClass: "group-hover:text-primary-fixed",
+    },
+    {
+      label: "Pending Approvals",
+      value: String(pendingCount),
+      valueColor: "text-error",
+      icon: "fact_check",
+      fillClass: "group-hover:text-error-container",
+    },
+  ];
 
   return (
     <div className="bg-background text-on-background font-sans h-screen overflow-hidden flex antialiased">
@@ -145,7 +176,14 @@ const AdminDashboard = () => {
           </a>
           <a
             className="flex items-center gap-3 text-on-surface hover:bg-surface-container rounded-xl px-4 py-3 transition-colors"
-            href="#tournaments"
+            href="/admin/horses"
+          >
+            <span className="material-symbols-outlined text-[24px]">fact_check</span>
+            <span className="font-semibold text-sm">Horse Review</span>
+          </a>
+          <a
+            className="flex items-center gap-3 text-on-surface hover:bg-surface-container rounded-xl px-4 py-3 transition-colors"
+            href="/admin/tournaments"
           >
             <span className="material-symbols-outlined text-[24px]">
               emoji_events
@@ -191,15 +229,34 @@ const AdminDashboard = () => {
           </button>
         </div>
         <nav className="flex-1 py-4 px-4 flex flex-col gap-2">
-          {/* Các liên kết tương tự cho mobile */}
           <a
             className="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-xl px-4 py-3"
-            href="#dashboard"
+            href="/admin"
           >
             <span className="material-symbols-outlined">dashboard</span>
             <span className="font-semibold text-sm">Dashboard</span>
           </a>
-          {/* Bạn có thể map tiếp các mục khác ở đây cho gọn */}
+          <a
+            className="flex items-center gap-3 text-on-surface hover:bg-surface-container rounded-xl px-4 py-3 transition-colors"
+            href="/admin/users"
+          >
+            <span className="material-symbols-outlined">group</span>
+            <span className="font-semibold text-sm">Users</span>
+          </a>
+          <a
+            className="flex items-center gap-3 text-on-surface hover:bg-surface-container rounded-xl px-4 py-3 transition-colors"
+            href="/admin/horses"
+          >
+            <span className="material-symbols-outlined">fact_check</span>
+            <span className="font-semibold text-sm">Horse Review</span>
+          </a>
+          <a
+            className="flex items-center gap-3 text-on-surface hover:bg-surface-container rounded-xl px-4 py-3 transition-colors"
+            href="/admin/tournaments"
+          >
+            <span className="material-symbols-outlined">emoji_events</span>
+            <span className="font-semibold text-sm">Tournaments</span>
+          </a>
         </nav>
       </aside>
 
@@ -298,39 +355,53 @@ const AdminDashboard = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-outline-variant/20">
-                    {pendingHorses.map((horse) => (
-                      <tr
-                        key={horse.id}
-                        className="hover:bg-surface-container-lowest/50 transition-colors"
-                      >
-                        <td className="py-3 px-4 font-semibold text-on-surface whitespace-nowrap text-sm">
-                          {horse.name}
-                        </td>
-                        <td className="py-3 px-4 text-sm text-on-surface-variant whitespace-nowrap">
-                          {horse.owner}
-                        </td>
-                        <td className="py-3 px-4 whitespace-nowrap">
-                          <span
-                            className={`inline-flex font-medium text-xs px-2 py-1 rounded-full items-center gap-1 ${horse.badgeColor}`}
-                          >
-                            <span className="material-symbols-outlined text-[14px]">
-                              {horse.icon}
-                            </span>
-                            {horse.status}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4 whitespace-nowrap text-right">
-                          <div className="flex items-center justify-end gap-2">
-                            <button className="bg-[#004225] text-white font-semibold text-xs px-3 py-1.5 rounded hover:opacity-90 transition-opacity">
-                              Approve
-                            </button>
-                            <button className="border border-outline-variant text-on-surface-variant font-semibold text-xs px-3 py-1.5 rounded hover:bg-surface-container transition-colors">
-                              Reject
-                            </button>
-                          </div>
+                    {pendingHorses.length === 0 ? (
+                      <tr>
+                        <td colSpan="4" className="py-4 text-center text-sm text-on-surface-variant font-medium">
+                          No pending horse registrations.
                         </td>
                       </tr>
-                    ))}
+                    ) : (
+                      pendingHorses.map((horse) => (
+                        <tr
+                          key={horse.id}
+                          className="hover:bg-surface-container-lowest/50 transition-colors"
+                        >
+                          <td className="py-3 px-4 font-semibold text-on-surface whitespace-nowrap text-sm">
+                            {horse.name}
+                          </td>
+                          <td className="py-3 px-4 text-sm text-on-surface-variant whitespace-nowrap">
+                            {horse.ownerUsername || horse.ownerEmail || "Unknown"}
+                          </td>
+                          <td className="py-3 px-4 whitespace-nowrap">
+                            <span
+                              className="inline-flex font-medium text-xs px-2 py-1 rounded-full items-center gap-1 bg-error-container text-on-error-container"
+                            >
+                              <span className="material-symbols-outlined text-[14px]">
+                                warning
+                              </span>
+                              {horse.status}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 whitespace-nowrap text-right">
+                            <div className="flex items-center justify-end gap-2">
+                              <button 
+                                onClick={() => handleApproveHorse(horse.id)}
+                                className="bg-[#004225] text-white font-semibold text-xs px-3 py-1.5 rounded hover:opacity-90 transition-opacity"
+                              >
+                                Approve
+                              </button>
+                              <button 
+                                onClick={() => handleRejectHorse(horse.id)}
+                                className="border border-outline-variant text-on-surface-variant font-semibold text-xs px-3 py-1.5 rounded hover:bg-surface-container transition-colors"
+                              >
+                                Reject
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -390,7 +461,7 @@ const AdminDashboard = () => {
       <nav className="md:hidden bg-[#002a15] shadow-[0_-4px_12px_rgba(0,0,0,0.1)] fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-2 rounded-t-xl">
         <a
           className="flex flex-col items-center justify-center bg-secondary text-on-secondary rounded-xl px-3 py-1 scale-95 duration-200"
-          href="#dashboard"
+          href="/admin"
         >
           <span className="material-symbols-outlined text-[24px]">
             dashboard
@@ -406,21 +477,19 @@ const AdminDashboard = () => {
         </a>
         <a
           className="flex flex-col items-center justify-center text-on-primary-container px-3 py-1 hover:bg-primary-container/50 transition-all rounded-xl"
-          href="#tournaments"
+          href="/admin/horses"
+        >
+          <span className="material-symbols-outlined text-[24px]">fact_check</span>
+          <span className="text-[10px] mt-0.5 font-medium">Review</span>
+        </a>
+        <a
+          className="flex flex-col items-center justify-center text-on-primary-container px-3 py-1 hover:bg-primary-container/50 transition-all rounded-xl"
+          href="/admin/tournaments"
         >
           <span className="material-symbols-outlined text-[24px]">
             emoji_events
           </span>
           <span className="text-[10px] mt-0.5 font-medium">Tournaments</span>
-        </a>
-        <a
-          className="flex flex-col items-center justify-center text-on-primary-container px-3 py-1 hover:bg-primary-container/50 transition-all rounded-xl"
-          href="#results"
-        >
-          <span className="material-symbols-outlined text-[24px]">
-            leaderboard
-          </span>
-          <span className="text-[10px] mt-0.5 font-medium">Results</span>
         </a>
       </nav>
     </div>

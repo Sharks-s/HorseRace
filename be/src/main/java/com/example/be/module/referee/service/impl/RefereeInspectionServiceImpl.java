@@ -6,9 +6,9 @@ import com.example.be.module.referee.dto.request.HorseInspectionDecision;
 import com.example.be.module.referee.dto.request.InspectHorseRequest;
 import com.example.be.module.referee.dto.response.PreRaceHorseInspectionResponse;
 import com.example.be.module.referee.service.RefereeInspectionService;
-import com.example.be.module.registration.model.entity.RaceRegistration;
-import com.example.be.module.registration.model.enums.RaceRegistrationStatus;
-import com.example.be.module.registration.repository.RaceRegistrationRepository;
+import com.example.be.module.registration.model.entity.Registration;
+import com.example.be.module.registration.model.enums.RegistrationStatus;
+import com.example.be.module.registration.repository.RegistrationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,12 +24,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RefereeInspectionServiceImpl implements RefereeInspectionService {
 
-	private static final List<RaceRegistrationStatus> INSPECTION_STATUSES = List.of(
-			RaceRegistrationStatus.ACCEPTED,
-			RaceRegistrationStatus.RACE_READY,
-			RaceRegistrationStatus.DISQUALIFIED);
+	private static final List<RegistrationStatus> INSPECTION_STATUSES = List.of(
+			RegistrationStatus.ACCEPTED,
+			RegistrationStatus.RACE_READY,
+			RegistrationStatus.DISQUALIFIED);
 
-	private final RaceRegistrationRepository raceRegistrationRepository;
+	private final RegistrationRepository registrationRepository;
 	private final UserRepository userRepository;
 
 	@Value("${app.horse.min-weight:0}")
@@ -43,7 +43,7 @@ public class RefereeInspectionServiceImpl implements RefereeInspectionService {
 	public List<PreRaceHorseInspectionResponse> getAssignedHorseInspections() {
 		String refereeEmail = currentEmail();
 		LocalDate today = LocalDate.now();
-		return raceRegistrationRepository
+		return registrationRepository
 				.findByRace_Referee_EmailAndStatusInOrderByRace_StartTimeAsc(refereeEmail, INSPECTION_STATUSES)
 				.stream()
 				.map(registration -> PreRaceHorseInspectionResponse.fromEntity(registration, minWeight, maxWeight, today))
@@ -54,7 +54,7 @@ public class RefereeInspectionServiceImpl implements RefereeInspectionService {
 	@Transactional
 	public PreRaceHorseInspectionResponse inspectHorse(UUID registrationId, InspectHorseRequest request) {
 		User referee = currentUser();
-		RaceRegistration registration = raceRegistrationRepository.findById(registrationId)
+		Registration registration = registrationRepository.findById(registrationId)
 				.orElseThrow(() -> new IllegalArgumentException("Race registration not found"));
 
 		if (registration.getRace().getReferee() == null
@@ -75,13 +75,13 @@ public class RefereeInspectionServiceImpl implements RefereeInspectionService {
 		}
 
 		registration.setStatus(request.getDecision() == HorseInspectionDecision.PASSED
-				? RaceRegistrationStatus.RACE_READY
-				: RaceRegistrationStatus.DISQUALIFIED);
+				? RegistrationStatus.RACE_READY
+				: RegistrationStatus.DISQUALIFIED);
 		registration.setInspectionNote(buildInspectionNote(request.getNote(), br01Passed));
 		registration.setInspectedAt(LocalDateTime.now());
 		registration.setInspectedBy(referee);
 
-		RaceRegistration saved = raceRegistrationRepository.save(registration);
+		Registration saved = registrationRepository.save(registration);
 		return PreRaceHorseInspectionResponse.fromEntity(saved, minWeight, maxWeight, LocalDate.now());
 	}
 

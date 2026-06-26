@@ -4,12 +4,18 @@ import { registrationApi } from "../../../api/registrationApi";
 const InvitationPage = () => {
   const [invitations, setInvitations] = useState([]);
   
-  // Hardcoded for demo purposes since we don't have auth context fully wired in this view
-  const MOCK_JOCKEY_ID = "00000000-0000-0000-0000-000000000000"; 
-
   useEffect(() => {
-    // In real app, get ID from auth context
-    fetchInvitations(MOCK_JOCKEY_ID);
+    const userStr = localStorage.getItem("user");
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        if (user.id) {
+          fetchInvitations(user.id);
+        }
+      } catch (err) {
+        console.error("Error parsing user from localStorage", err);
+      }
+    }
   }, []);
 
   const fetchInvitations = async (jockeyId) => {
@@ -28,7 +34,13 @@ const InvitationPage = () => {
           const res = await registrationApi.respondToInvitation(id, accept);
           if (res.success) {
               alert(`Invitation ${accept ? 'accepted' : 'declined'}`);
-              fetchInvitations(MOCK_JOCKEY_ID);
+              const userStr = localStorage.getItem("user");
+              if (userStr) {
+                const user = JSON.parse(userStr);
+                if (user.id) {
+                  fetchInvitations(user.id);
+                }
+              }
           }
       } catch (err) {
           alert(err.response?.data?.message || "Failed to respond");
