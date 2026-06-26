@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { api } from "../../api/axios";
 import "./Header.css";
 
 export function Header() {
@@ -19,11 +20,36 @@ export function Header() {
     }
   });
 
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchNotifications = async () => {
+      try {
+        const response = await api.get("/notifications/my");
+        if (response.data && response.data.success) {
+          setNotifications(response.data.data || []);
+        }
+      } catch (error) {
+        console.error("Failed to fetch notifications", error);
+      }
+    };
+
+    void fetchNotifications();
+    const interval = setInterval(fetchNotifications, 10000); // Poll every 10 seconds
+
+    return () => clearInterval(interval);
+  }, [user]);
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
     navigate("/login");
   };
+
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
     <header className="main-header">
@@ -150,21 +176,66 @@ export function Header() {
                   {user.role}
                 </span>
               </div>
-              <button className="icon-btn" aria-label="Notifications">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+              <div className="notifications-wrapper">
+                <button 
+                  className="icon-btn" 
+                  aria-label="Notifications"
+                  onClick={() => setShowNotifications(!showNotifications)}
+                  style={{ position: 'relative' }}
                 >
-                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                </svg>
-              </button>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                  </svg>
+                  {unreadCount > 0 && (
+                    <span className="notification-badge">{unreadCount}</span>
+                  )}
+                </button>
+
+                {showNotifications && (
+                  <div className="notifications-dropdown">
+                    <div className="notifications-header">
+                      <span>Notifications</span>
+                      <button 
+                        onClick={() => setShowNotifications(false)}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: 'var(--color-primary)' }}
+                      >
+                        Close
+                      </button>
+                    </div>
+                    <div className="notifications-list">
+                      {notifications.length === 0 ? (
+                        <div className="notifications-empty">No notifications yet</div>
+                      ) : (
+                        notifications.map(n => (
+                          <div 
+                            key={n.id} 
+                            className={`notification-item ${!n.read ? 'unread' : ''}`}
+                            onClick={() => {
+                              setShowNotifications(false);
+                            }}
+                          >
+                            <div className="notification-title">{n.title}</div>
+                            <div className="notification-message">{n.message}</div>
+                            <span className="notification-time">
+                              {new Date(n.createdAt).toLocaleString("vi-VN")}
+                            </span>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
               <button
                 className="icon-btn"
                 aria-label="Logout"

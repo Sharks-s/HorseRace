@@ -1,7 +1,44 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { tournamentApi } from "../api/tournamentApi";
 
 const HorseRaceApp = () => {
   const navigate = useNavigate();
+  const [races, setRaces] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUpcomingRaces = async () => {
+      try {
+        const response = await tournamentApi.getAllTournaments();
+        if (response.success && response.data) {
+          let allRaces = [];
+          for (const tournament of response.data) {
+            const racesRes = await tournamentApi.getRacesByTournament(tournament.id);
+            if (racesRes.success && racesRes.data) {
+              // Add tournament name to race for displaying context
+              const mapped = racesRes.data.map(r => ({
+                ...r,
+                tournamentName: tournament.name
+              }));
+              allRaces = [...allRaces, ...mapped];
+            }
+          }
+          // Sort by start time ascending
+          allRaces.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
+          // Filter to show only SCHEDULED or IN_PROGRESS or CLOSED_REGISTRATION
+          const upcoming = allRaces.filter(r => r.status === "SCHEDULED" || r.status === "CLOSED_REGISTRATION" || r.status === "IN_PROGRESS");
+          setRaces(upcoming);
+        }
+      } catch (error) {
+        console.error("Failed to load upcoming races schedule:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void fetchUpcomingRaces();
+  }, []);
 
   return (
     <div className="bg-background text-on-background font-body-md min-h-screen flex flex-col">
@@ -103,75 +140,54 @@ const HorseRaceApp = () => {
             </div>
 
             <div className="flex flex-col gap-6">
-              {/* Race Card 1 */}
-              <article className="bg-surface-container-lowest shadow-[0px_4px_16px_rgba(0,0,0,0.04)] border border-outline-variant rounded-xl p-6 relative overflow-hidden transition-transform hover:-translate-y-[2px] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-                <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-inverse-primary"></div>
-                <div className="flex-1 ml-2">
-                  <div className="flex items-center gap-4 mb-2">
-                    <span className="bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full px-3 py-1 font-label-sm text-label-sm flex items-center gap-1.5 w-fit">
-                      <span className="material-symbols-outlined text-[14px]">
-                        schedule
-                      </span>{" "}
-                      Upcoming
-                    </span>
-                    <span className="font-label-sm text-label-sm text-on-surface-variant">
-                      ID: #TR-8492
-                    </span>
-                  </div>
-                  <h4 className="font-headline-md text-[28px] text-on-surface mb-1">
-                    Ascot Gold Cup Qualifier
-                  </h4>
-                  <p className="font-body-md text-on-surface-variant">
-                    Semi-Finals
-                  </p>
-                </div>
-                <div className="text-left sm:text-right flex-shrink-0">
-                  <p className="font-label-sm text-label-sm text-on-surface-variant mb-1">
-                    Race Date
-                  </p>
-                  <p className="font-body-lg text-body-lg text-on-surface font-semibold mb-3">
-                    Oct 24, 14:30 GMT
-                  </p>
-                  <button className="bg-surface-container-high text-on-surface font-label-bold px-4 py-2 rounded-lg hover:bg-surface-container-highest transition-colors w-full sm:w-auto">
-                    View Details
-                  </button>
-                </div>
-              </article>
-
-              {/* Race Card 2 */}
-              <article className="bg-surface-container-lowest shadow-[0px_4px_16px_rgba(0,0,0,0.04)] border border-outline-variant rounded-xl p-6 relative overflow-hidden transition-transform hover:-translate-y-[2px] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-                <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-inverse-primary"></div>
-                <div className="flex-1 ml-2">
-                  <div className="flex items-center gap-4 mb-2">
-                    <span className="bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full px-3 py-1 font-label-sm text-label-sm flex items-center gap-1.5 w-fit">
-                      <span className="material-symbols-outlined text-[14px]">
-                        schedule
-                      </span>{" "}
-                      Upcoming
-                    </span>
-                    <span className="font-label-sm text-label-sm text-on-surface-variant">
-                      ID: #TR-8493
-                    </span>
-                  </div>
-                  <h4 className="font-headline-md text-[28px] text-on-surface mb-1">
-                    Belmont Stakes Sprint
-                  </h4>
-                  <p className="font-body-md text-on-surface-variant">
-                    Qualifier 3
-                  </p>
-                </div>
-                <div className="text-left sm:text-right flex-shrink-0">
-                  <p className="font-label-sm text-label-sm text-on-surface-variant mb-1">
-                    Race Date
-                  </p>
-                  <p className="font-body-lg text-body-lg text-on-surface font-semibold mb-3">
-                    Oct 25, 10:00 EST
-                  </p>
-                  <button className="bg-surface-container-high text-on-surface font-label-bold px-4 py-2 rounded-lg hover:bg-surface-container-highest transition-colors w-full sm:w-auto">
-                    View Details
-                  </button>
-                </div>
-              </article>
+              {loading ? (
+                <div className="text-center py-8 text-on-surface-variant font-medium">Loading schedule...</div>
+              ) : races.length === 0 ? (
+                <div className="text-center py-8 text-on-surface-variant font-medium">No upcoming races found.</div>
+              ) : (
+                races.map(race => (
+                  <article key={race.id} className="bg-surface-container-lowest shadow-[0px_4px_16px_rgba(0,0,0,0.04)] border border-outline-variant rounded-xl p-6 relative overflow-hidden transition-transform hover:-translate-y-[2px] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-inverse-primary"></div>
+                    <div className="flex-1 ml-2">
+                      <div className="flex items-center gap-4 mb-2">
+                        <span className={`rounded-full px-3 py-1 font-label-sm text-label-sm flex items-center gap-1.5 w-fit ${
+                          race.status === 'IN_PROGRESS' 
+                            ? 'bg-error-container text-on-error-container' 
+                            : 'bg-tertiary-fixed text-on-tertiary-fixed-variant'
+                        }`}>
+                          <span className="material-symbols-outlined text-[14px]">
+                            {race.status === 'IN_PROGRESS' ? 'play_arrow' : 'schedule'}
+                          </span>{" "}
+                          {race.status}
+                        </span>
+                        <span className="font-label-sm text-label-sm text-on-surface-variant">
+                          ID: #{race.id.slice(0, 8)}
+                        </span>
+                      </div>
+                      <h4 className="font-headline-md text-[28px] text-on-surface mb-1">
+                        {race.name}
+                      </h4>
+                      <p className="font-body-md text-on-surface-variant">
+                        {race.tournamentName} (Factor: {race.distanceFactor})
+                      </p>
+                    </div>
+                    <div className="text-left sm:text-right flex-shrink-0">
+                      <p className="font-label-sm text-label-sm text-on-surface-variant mb-1">
+                        Race Date
+                      </p>
+                      <p className="font-body-lg text-body-lg text-on-surface font-semibold mb-3">
+                        {new Date(race.startTime).toLocaleString("vi-VN")}
+                      </p>
+                      <button 
+                        onClick={() => navigate(`/login`)}
+                        className="bg-surface-container-high text-on-surface font-label-bold px-4 py-2 rounded-lg hover:bg-surface-container-highest transition-colors w-full sm:w-auto"
+                      >
+                        View Details
+                      </button>
+                    </div>
+                  </article>
+                ))
+              )}
             </div>
           </section>
 
