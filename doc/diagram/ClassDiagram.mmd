@@ -1,0 +1,108 @@
+classDiagram
+    class HorseOwner {
+        +String ownerID
+        +String name
+        +String contactInfo
+        +registerHorse(horseData)
+        +createRegistration(raceID, horseID, jockeyID)
+    }
+    class Horse {
+        +String horseID
+        +String name
+        +String breed
+        +Int age
+        +Float weight
+        +Date healthCertExpiry
+        +String status
+        +isEligibleForRace(maxWeight) Boolean
+    }
+    class Jockey {
+        +String jockeyID
+        +String licenseNo
+        +String name
+        +Float weight
+        +Int ranking
+        +String status
+        +checkDailyRaceLimit() Boolean
+    }
+    class Registration {
+        +String regID
+        +String horseID
+        +String jockeyID
+        +String raceID
+        +String ownerID
+        +DateTime confirmedAt
+        +String status
+        +validateDeadline(raceDate) Boolean
+    }
+    class Tournament {
+        +String tournamentID
+        +String name
+        +Date startDate
+        +Date endDate
+        +String status
+        +calculateGlobalRanking()
+    }
+    class Race {
+        +String raceID
+        +String tournamentID
+        +Int round
+        +DateTime date
+        +Float distance
+        +String track
+        +String status
+        +closeRegistration()
+    }
+    class Admin {
+        +String adminID
+        +String name
+        +createTournament()
+        +scheduleRace()
+        +assignReferee(raceID, refereeID)
+        +publishOfficialResult(raceID)
+    }
+    class RaceReferee {
+        +String refereeID
+        +String name
+        +inspectHorse(horseID) Boolean
+        +submitReport(raceID, violations)
+    }
+    class RefereeReport {
+        +String reportID
+        +String raceID
+        +String refereeID
+        +List~String~ violations
+        +Boolean confirmedResult
+        +DateTime submittedAt
+    }
+    class RaceResult {
+        +String resultID
+        +String raceID
+        +String horseID
+        +String jockeyID
+        +Float finishTime
+        +Int rank
+        +Boolean violationFlag
+    }
+    class Spectator {
+        +String spectatorID
+        +String name
+        +viewLiveResults(raceID)
+        +viewRankings(tournamentID)
+    }
+
+    HorseOwner "1" --> "*" Horse : owns
+    HorseOwner "1" --> "*" Registration : creates
+    Horse "1" --> "*" Registration : registers for
+    Jockey "1" --> "*" Registration : assigned to
+    Tournament "1" o-- "*" Race : contains
+    Admin "1" --> "*" Tournament : manages
+    Admin "1" --> "*" Race : schedules
+    Race "1" --> "*" Registration : includes
+    RaceReferee "1" --> "*" RefereeReport : submits
+    Race "1" o-- "1" RefereeReport : requires
+    Race "1" o-- "*" RaceResult : produces
+    Horse "1" --> "*" RaceResult : achieves
+    Jockey "1" --> "*" RaceResult : achieves
+    Spectator --> Race : views schedule
+    Spectator --> RaceResult : views results

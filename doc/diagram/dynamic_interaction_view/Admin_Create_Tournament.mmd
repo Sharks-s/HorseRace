@@ -1,0 +1,22 @@
+sequenceDiagram
+    actor Admin as Admin
+    participant Page as TournamentPage
+    participant Ctrl as TournamentController
+    participant Svc as TournamentService
+    participant RaceSvc as RaceService
+    participant Repo as TournamentRepository
+    participant DB as DB
+
+    Admin->>Page: openTournamentForm()
+    Page->>Ctrl: createTournament(data)
+    Ctrl->>Svc: processTournament()
+    Svc->>RaceSvc: validateSchedule()
+    Note over RaceSvc: Detect schedule conflicts<br/>and duplicate race times
+    RaceSvc-->>Svc: validSchedule
+    Svc->>Repo: saveTournament()
+    Repo->>DB: INSERT race schedule
+    DB-->>Repo: success
+    Repo-->>Svc: tournamentSaved()
+    Svc-->>Ctrl: creationSuccess()
+    Ctrl-->>Page: displaySuccess()
+    Page-->>Admin: showTournamentCreated()

@@ -1,7 +1,7 @@
 package com.example.be.module.tournament.dto.response;
 
-import com.example.be.module.tournament.model.entity.Registration;
-import com.example.be.module.tournament.model.enums.RegistrationStatus;
+import com.example.be.module.registration.model.entity.Registration;
+import com.example.be.module.registration.model.enums.RegistrationStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,8 +28,8 @@ public class RegistrationResponse {
                 .raceName(reg.getRace().getName())
                 .horseId(reg.getHorse().getId())
                 .horseName(reg.getHorse().getName())
-                .jockeyId(reg.getJockey().getId())
-                .jockeyName(reg.getJockey().getFullName())
+                .jockeyId(reg.getJockey() == null ? null : reg.getJockey().getId())
+                .jockeyName(reg.getJockey() == null ? null : reg.getJockey().getFullName())
                 .status(reg.getStatus())
                 .build();
     }

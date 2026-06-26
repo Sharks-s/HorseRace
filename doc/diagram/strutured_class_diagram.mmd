@@ -1,0 +1,33 @@
+flowchart TD
+    ReactOwnerJockey["«Client»<br/>React Web: Owner/Jockey"]
+    ReactAdmin["«Client»<br/>React Web: Admin"]
+    ReactReferee["«Client»<br/>React Web: Referee"]
+    ReactSpectator["«Client»<br/>React Web: Spectator"]
+
+    subgraph HorseRacingSystem ["«component»<br/>HorseRacingSystem (Modular Monolith)"]
+        direction LR
+        PortReg([SessionAuthPort Reg])
+        PortAdmin([SessionAuthPort Admin])
+        PortRef([SessionAuthPort Referee])
+        PortSpectator([PublicViewPort])
+
+        PartReg["«module»<br/>registrationModule : RegistrationService<br/><br/>{BR-01: Health Cert Check}<br/>{BR-04: 48h Deadline Rule}"]
+        PartRefService["«module»<br/>judgingModule : RefereeReportService<br/><br/>{BR-02: Jockey Limit}<br/>{BR-05: Official Submit}"]
+        
+        subgraph PartRace ["«module»<br/>tournamentModule : RacingCoreService"]
+            PartStrategy["«part» calculationStrategy<br/>{BR-03: Formula}"]
+        end
+
+        PortReg --> PartReg
+        PortAdmin --> PartRace
+        PortRef --> PartRefService
+        PartRace --> PortSpectator
+
+        PartReg -- "«delegate»<br/>verifyRaceAvailability()" --> PartRace
+        PartRefService -- "«delegate»<br/>triggerOfficialResult()" --> PartRace
+    end
+
+    ReactOwnerJockey --> PortReg
+    ReactAdmin --> PortAdmin
+    ReactReferee --> PortRef
+    PortSpectator --> ReactSpectator

@@ -1,0 +1,29 @@
+flowchart TD
+    subgraph Frontend [Web Portal Frontend]
+        OwnerUI[Owner Dashboard UI]
+        JockeyUI[Jockey Dashboard UI]
+    end
+
+    subgraph Backend [Spring Boot Backend]
+        RegM[Registration Module]
+    end
+
+    subgraph DB [PostgreSQL]
+        Database[(Database)]
+    end
+
+    Owner([Horse Owner])
+    Jockey([Jockey])
+
+    Owner -- "1: gửi_yêu_cầu_thuê_Jockey" --> OwnerUI
+    OwnerUI -- "2: POST /api/registrations/request" --> RegM
+    RegM -- "[Concurrent] 3.1: checkHorseHealth.BR-01" --> Database
+    RegM -- "[Concurrent] 3.2: checkJockeyLimit.BR-02" --> Database
+    RegM -- "[Concurrent] 3.3: checkClosingTime.BR-04" --> RegM
+    RegM -- "4: notifyJockeyInvitation" --> JockeyUI
+    JockeyUI -- "5: nhận_lời_mời" --> Jockey
+    Jockey -- "6: acceptInvitation" --> JockeyUI
+    JockeyUI -- "7: PUT /api/registrations/confirm" --> RegM
+    RegM -- "8: updateRegistrationStatus.Confirmed" --> Database
+    RegM -- "9: notifyConfirmation" --> OwnerUI
+    OwnerUI -- "10: theo_dõi_lịch_đua" --> Owner

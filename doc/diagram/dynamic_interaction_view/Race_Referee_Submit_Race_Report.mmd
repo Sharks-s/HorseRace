@@ -1,0 +1,21 @@
+sequenceDiagram
+    actor Referee as Race Referee
+    participant Dash as RefereeDashboard
+    participant Ctrl as ReportController
+    participant Svc as ReportService
+    participant ResSvc as ResultService
+    participant Repo as ReportRepository
+    participant DB as DB
+
+    Referee->>Dash: openReportForm()
+    Dash->>Ctrl: submitReport(reportData)
+    Ctrl->>Svc: validateReport()
+    Svc->>ResSvc: updateRaceResult()
+    Note over Svc: BR-05: Result becomes official<br/>only after referee report
+    Svc->>Repo: saveReport()
+    Repo->>DB: INSERT referee report
+    DB-->>Repo: success
+    Repo-->>Svc: reportSaved()
+    Svc-->>Ctrl: reportSubmitted()
+    Ctrl-->>Dash: displaySuccess()
+    Dash-->>Referee: showSubmissionCompleted()
