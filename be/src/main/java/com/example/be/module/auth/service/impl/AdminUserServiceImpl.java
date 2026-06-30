@@ -1,7 +1,6 @@
 package com.example.be.module.auth.service.impl;
 
 import com.example.be.module.auth.dto.request.UpdateUserRequest;
-import com.example.be.module.auth.dto.request.UpdateUserRequest;
 import com.example.be.module.auth.dto.response.UserResponse;
 import com.example.be.module.auth.model.entity.User;
 import com.example.be.module.auth.model.enums.Role;
@@ -47,10 +46,14 @@ public class AdminUserServiceImpl implements AdminUserService {
     public UserResponse updateUser(UUID id, UpdateUserRequest request) {
         User user = findUserById(id);
 
-        if (request.getFullName() != null) user.setFullName(request.getFullName());
-        if (request.getPhoneNumber() != null) user.setPhoneNumber(request.getPhoneNumber());
-        if (request.getRole() != null) user.setRole(request.getRole());
-        if (request.getStatus() != null) user.setStatus(request.getStatus());
+        if (request.getFullName() != null)
+            user.setFullName(request.getFullName());
+        if (request.getPhoneNumber() != null)
+            user.setPhoneNumber(request.getPhoneNumber());
+        if (request.getRole() != null)
+            user.setRole(request.getRole());
+        if (request.getStatus() != null)
+            user.setStatus(request.getStatus());
 
         user = userRepository.save(user);
         return mapToResponse(user);

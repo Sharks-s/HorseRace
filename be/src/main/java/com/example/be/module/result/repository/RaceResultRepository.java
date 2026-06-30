@@ -12,6 +12,8 @@ public interface RaceResultRepository extends JpaRepository<RaceResult, UUID> {
 
 	long countByJockey_IdAndPlacement(UUID jockeyId, Integer placement);
 
+	java.util.List<RaceResult> findByRaceIdOrderByPlacementAsc(UUID raceId);
+
 	@Query("select coalesce(sum(r.points), 0) from RaceResult r where r.jockey.id = :jockeyId")
 	double sumPointsByJockeyId(UUID jockeyId);
 
