@@ -73,6 +73,7 @@ public class SecurityConfig {
                                                                 "/api/auth/register",
                                                                 "/api/auth/login",
                                                                 "/api/auth/verify-email",
+                                                                "/api/public/**",
                                                                 "/api/pricing/plans",
                                                                 "/api/pricing/orders",
                                                                 "/h2-console/**",

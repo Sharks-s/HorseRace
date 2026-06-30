@@ -1,11 +1,51 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { tournamentApi } from "../api/tournamentApi";
+import { publicResultApi } from "../api/publicResultApi";
+
+// Helper: đọc user từ localStorage
+const getStoredUser = () => {
+  try {
+    const raw = localStorage.getItem("user");
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+};
+
+// Mapping role → đường dẫn dashboard
+const getDashboardPath = (role) => {
+  switch (role) {
+    case "ADMIN":       return "/admin";
+    case "HORSE_OWNER": return "/owner/horses";
+    case "JOCKEY":      return "/jockey";
+    case "REFEREE":     return "/referee";
+    default:            return "/schedule";
+  }
+};
 
 const HorseRaceApp = () => {
   const navigate = useNavigate();
   const [races, setRaces] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState(getStoredUser);
+  const [standings, setStandings] = useState([]);
+
+  // Sync auth state when localStorage changes (e.g. login from another tab or after navigate back)
+  useEffect(() => {
+    const syncUser = () => setCurrentUser(getStoredUser());
+    window.addEventListener("storage", syncUser);
+    // Also re-read on mount (handles same-tab navigate back)
+    syncUser();
+    return () => window.removeEventListener("storage", syncUser);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setCurrentUser(null);
+    navigate("/");
+  };
+
 
   useEffect(() => {
     const fetchUpcomingRaces = async () => {
@@ -29,6 +69,20 @@ const HorseRaceApp = () => {
           // Filter to show only SCHEDULED or IN_PROGRESS or CLOSED_REGISTRATION
           const upcoming = allRaces.filter(r => r.status === "SCHEDULED" || r.status === "CLOSED_REGISTRATION" || r.status === "IN_PROGRESS");
           setRaces(upcoming);
+
+          // Get standings for the active tournament
+          const ongoingTournaments = response.data.filter(t => t.status === "ONGOING");
+          const targetTournament = ongoingTournaments.length > 0 ? ongoingTournaments[0] : (response.data.length > 0 ? response.data[0] : null);
+          if (targetTournament) {
+            try {
+                const standingsRes = await publicResultApi.getTournamentStandings(targetTournament.id);
+                if (standingsRes && standingsRes.data) {
+                    setStandings(standingsRes.data);
+                }
+            } catch (err) {
+                console.error("Failed to load standings", err);
+            }
+          }
         }
       } catch (error) {
         console.error("Failed to load upcoming races schedule:", error);
@@ -67,25 +121,55 @@ const HorseRaceApp = () => {
               </a>
             </nav>
           </div>
-          <div className="flex items-center gap-4">
-            {/* 3. Thêm onClick chuyển tuyến vào nút Login */}
-            <button
-              onClick={() => navigate("/login")}
-              className="font-label-bold text-label-bold text-primary px-4 py-2 hover:bg-surface-container-high rounded-lg transition-colors"
-            >
-              Login
-            </button>
+          {currentUser ? (
+              /* === Đã đăng nhập === */
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => navigate(getDashboardPath(currentUser.role))}
+                  className="flex items-center gap-2 font-label-bold text-primary px-4 py-2 hover:bg-surface-container-high rounded-lg transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[20px]">dashboard</span>
+                  Dashboard
+                </button>
 
-            {/* 4. Thêm onClick chuyển tuyến vào nút Register */}
-            <button
-              onClick={() => navigate("/register")}
-              className="bg-primary text-on-primary font-label-bold text-label-bold px-6 py-2.5 rounded-lg shadow-sm hover:bg-primary/90 transition-colors"
-            >
-              Register
-            </button>
-          </div>
+                <div className="flex items-center gap-2 bg-surface-container-high px-3 py-1.5 rounded-full">
+                  <span className="material-symbols-outlined text-[18px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>account_circle</span>
+                  <span className="font-label-bold text-on-surface text-sm">
+                    {currentUser.fullName || currentUser.username || currentUser.email}
+                  </span>
+                  <span className="text-xs px-1.5 py-0.5 rounded bg-primary/10 text-primary font-semibold uppercase">
+                    {currentUser.role?.replace("_", " ")}
+                  </span>
+                </div>
+
+                <button
+                  onClick={handleLogout}
+                  className="font-label-bold text-label-bold text-on-surface-variant px-3 py-2 hover:bg-error/10 hover:text-error rounded-lg transition-colors flex items-center gap-1"
+                >
+                  <span className="material-symbols-outlined text-[18px]">logout</span>
+                  Logout
+                </button>
+              </div>
+            ) : (
+              /* === Chưa đăng nhập === */
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => navigate("/login")}
+                  className="font-label-bold text-label-bold text-primary px-4 py-2 hover:bg-surface-container-high rounded-lg transition-colors"
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => navigate("/register")}
+                  className="bg-primary text-on-primary font-label-bold text-label-bold px-6 py-2.5 rounded-lg shadow-sm hover:bg-primary/90 transition-colors"
+                >
+                  Register
+                </button>
+              </div>
+            )}
         </div>
       </header>
+
 
       <main className="flex-1 w-full flex flex-col">
         {/* Hero Section */}
@@ -219,60 +303,40 @@ const HorseRaceApp = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-surface-variant">
-                  <tr className="hover:bg-surface-container-low transition-colors">
-                    <td className="py-4 px-4 text-center">
-                      <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container font-label-bold text-label-bold">
-                        1
-                      </span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <p className="font-body-lg text-body-lg text-on-surface font-medium leading-tight">
-                        L. Dettori
-                      </p>
-                      <p className="font-body-md text-on-surface-variant mt-1">
-                        Golden Horn
-                      </p>
-                    </td>
-                    <td className="py-4 px-4 text-right font-body-lg text-body-lg text-primary font-bold">
-                      68%
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-surface-container-low transition-colors">
-                    <td className="py-4 px-4 text-center">
-                      <span className="font-label-bold text-[16px] text-on-surface-variant">
-                        2
-                      </span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <p className="font-body-lg text-body-lg text-on-surface font-medium leading-tight">
-                        R. Moore
-                      </p>
-                      <p className="font-body-md text-on-surface-variant mt-1">
-                        Auguste Rodin
-                      </p>
-                    </td>
-                    <td className="py-4 px-4 text-right font-body-lg text-body-lg text-primary font-bold">
-                      64%
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-surface-container-low transition-colors">
-                    <td className="py-4 px-4 text-center">
-                      <span className="font-label-bold text-[16px] text-on-surface-variant">
-                        3
-                      </span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <p className="font-body-lg text-body-lg text-on-surface font-medium leading-tight">
-                        W. Buick
-                      </p>
-                      <p className="font-body-md text-on-surface-variant mt-1">
-                        Rebel's Romance
-                      </p>
-                    </td>
-                    <td className="py-4 px-4 text-right font-body-lg text-body-lg text-primary font-bold">
-                      59%
-                    </td>
-                  </tr>
+                  {standings.length === 0 ? (
+                    <tr>
+                      <td colSpan="3" className="py-8 px-4 text-center text-on-surface-variant">
+                        No standings available.
+                      </td>
+                    </tr>
+                  ) : (
+                    standings.slice(0, 5).map((s, idx) => (
+                      <tr key={s.horseId} className="hover:bg-surface-container-low transition-colors">
+                        <td className="py-4 px-4 text-center">
+                          {idx === 0 ? (
+                            <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container font-label-bold text-label-bold">
+                              1
+                            </span>
+                          ) : (
+                            <span className="font-label-bold text-[16px] text-on-surface-variant">
+                              {idx + 1}
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-4 px-4">
+                          <p className="font-body-lg text-body-lg text-on-surface font-medium leading-tight">
+                            {s.horseName}
+                          </p>
+                          <p className="font-body-md text-on-surface-variant mt-1">
+                            {s.totalPoints} pts
+                          </p>
+                        </td>
+                        <td className="py-4 px-4 text-right font-body-lg text-body-lg text-primary font-bold">
+                          {s.bestFinishTime ? s.bestFinishTime.toFixed(2) + 's' : '-'}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
               <div className="p-4 border-t border-surface-variant bg-surface-container-lowest">
