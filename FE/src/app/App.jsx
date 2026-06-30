@@ -15,6 +15,11 @@ import VerifyEmailPage from "../features/auth/pages/VerifyEmailPage";
 import HorseReviewPage from "../features/admin/pages/HorseReviewPage";
 import JockeyWorkspacePage from "../features/jockey/pages/JockeyWorkspacePage";
 import RefereeDashboard from "../features/referee/pages/RefereeDashboard";
+import ViolationPage from "../features/referee/pages/ViolationPage";
+import ReportFormPage from "../features/referee/pages/ReportFormPage";
+import AdminResultPage from "../features/admin/pages/AdminResultPage";
+import PublicSchedulePage from "../features/spectator/pages/PublicSchedulePage";
+import LiveResultPage from "../features/spectator/pages/LiveResultPage";
 import "../styles/fonts.css";
 import "../styles/theme.css";
 import "../styles/globals.css";
@@ -27,6 +32,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
+        <Route path="/schedule" element={<PublicSchedulePage />} />
+        <Route path="/live" element={<LiveResultPage />} />
 
         {/* Protected Routes with Layout */}
         <Route element={<ProtectedRoute />}>
@@ -34,6 +41,7 @@ function App() {
           <Route path="/admin/users" element={<AdminUsersPage />} />
           <Route path="/admin/tournaments" element={<TournamentManagementPage />} />
           <Route path="/admin/horses" element={<HorseReviewPage />} />
+          <Route path="/admin/results" element={<AdminResultPage />} />
           <Route path="/owner" element={<HorseManagementPage />} />
           <Route path="/owner/horses" element={<HorseManagementPage />} />
           <Route path="/owner/hiring" element={<HiringPage />} />
@@ -42,6 +50,8 @@ function App() {
           <Route path="/jockey/invitations" element={<InvitationPage />} />
           <Route path="/referee" element={<RefereeDashboard />} />
           <Route path="/referee/pre-race" element={<RefereeDashboard />} />
+          <Route path="/referee/violations" element={<ViolationPage />} />
+          <Route path="/referee/report" element={<ReportFormPage />} />
         </Route>
 
         {/* Public Routes with Layout */}
@@ -54,3 +64,4 @@ function App() {
 }
 
 export default App;
+
