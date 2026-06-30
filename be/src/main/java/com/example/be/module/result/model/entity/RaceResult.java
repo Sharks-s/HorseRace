@@ -44,6 +44,11 @@ public class RaceResult {
 	@Column(nullable = false)
 	private Double points;
 
+	@Column(nullable = false)
+	private Double finishTime;
+
+	private Boolean violation;
+
 	@Column(nullable = false, updatable = false)
 	private LocalDateTime createdAt;
 
