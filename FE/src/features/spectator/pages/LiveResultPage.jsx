@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
 import { publicResultApi } from '../../../api/publicResultApi';
+import LiveStandings from '../components/LiveStandings';
+import Leaderboard from '../components/Leaderboard';
 
 const AUTO_REFRESH_INTERVAL = 10000; // 10 seconds
 
 const LiveResultPage = () => {
+  const location = useLocation();
   const [tournaments, setTournaments] = useState([]);
   const [races, setRaces] = useState([]);
-  const [selectedTournamentId, setSelectedTournamentId] = useState('');
-  const [selectedRaceId, setSelectedRaceId] = useState('');
+  const [selectedTournamentId, setSelectedTournamentId] = useState(location.state?.tournamentId || '');
+  const [selectedRaceId, setSelectedRaceId] = useState(location.state?.raceId || '');
   const [raceResults, setRaceResults] = useState([]);
   const [standings, setStandings] = useState([]);
   const [countdown, setCountdown] = useState(AUTO_REFRESH_INTERVAL / 1000);
@@ -21,7 +25,9 @@ const LiveResultPage = () => {
         const res = await publicResultApi.getTournaments();
         const data = res?.data || [];
         setTournaments(data);
-        if (data.length > 0) setSelectedTournamentId(data[0].id);
+        if (data.length > 0 && !selectedTournamentId) {
+          setSelectedTournamentId(data[0].id);
+        }
       } catch {
         // ignore – show empty state
       }
@@ -37,8 +43,16 @@ const LiveResultPage = () => {
         const res = await publicResultApi.getRacesByTournament(selectedTournamentId);
         const data = (res?.data || []).filter(r => r.status === 'OFFICIAL');
         setRaces(data);
-        if (data.length > 0) setSelectedRaceId(data[0].id);
-        else setSelectedRaceId('');
+        
+        // If we have a raceId from state and it exists in the fetched list, use it.
+        // Otherwise, default to the first one in the list.
+        if (data.length > 0) {
+          if (!selectedRaceId || !data.some(r => r.id === selectedRaceId)) {
+            setSelectedRaceId(data[0].id);
+          }
+        } else {
+          setSelectedRaceId('');
+        }
       } catch {
         setRaces([]);
       }
@@ -82,19 +96,12 @@ const LiveResultPage = () => {
     return () => clearInterval(tick);
   }, []);
 
-  const rankMedal = (rank) => {
-    if (rank === 1) return '🥇';
-    if (rank === 2) return '🥈';
-    if (rank === 3) return '🥉';
-    return null;
-  };
-
   const selectedTournament = tournaments.find(t => t.id === selectedTournamentId);
   const selectedRace = races.find(r => r.id === selectedRaceId);
 
   return (
     <div className="bg-[#0C1A2A] text-white font-body-md min-h-screen flex flex-col antialiased">
-      <main className="flex-grow w-full max-w-container-max mx-auto px-md md:px-xl py-lg space-y-xl mt-6">
+      <main className="flex-grow w-full max-w-[1200px] mx-auto px-md md:px-xl py-lg space-y-xl mt-6">
         {/* Hero Banner */}
         <section className="bg-[#0F172A] border border-outline-variant rounded-xl p-lg md:p-xl shadow-lg relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-lg">
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#009488] opacity-5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
@@ -141,105 +148,24 @@ const LiveResultPage = () => {
         {/* Two Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-lg">
           {/* Left Column: Race Standings */}
-          <div className="lg:col-span-8 flex flex-col gap-md">
-            <h2 className="text-[#009488] flex items-center gap-sm text-lg font-bold">
-              <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>flag</span>
-              Race Standings — {selectedRace?.name || 'Select an official race'}
-            </h2>
-
-            {raceError && (
-              <div className="p-md bg-[#131b2e] border border-yellow-800 rounded-lg text-yellow-300 text-sm">{raceError}</div>
-            )}
-
-            {!raceError && raceResults.length === 0 && !loading && (
-              <div className="bg-[#131b2e] border border-outline-variant rounded-lg p-xl text-center text-[#c5c7c8]">
-                <span className="material-symbols-outlined text-[48px] block mb-2 opacity-30">hourglass_empty</span>
-                <p>No official results to display. Please select an official race or wait for results to be published.</p>
-              </div>
-            )}
-
-            <div className="flex flex-col gap-sm">
-              {/* Header Row */}
-              {raceResults.length > 0 && (
-                <div className="grid grid-cols-12 gap-sm px-md py-xs text-[#c5c7c8] font-label-md uppercase border-b border-outline-variant pb-2">
-                  <div className="col-span-1 text-center">Pos</div>
-                  <div className="col-span-5">Horse & Jockey</div>
-                  <div className="col-span-3 text-right">Time (s)</div>
-                  <div className="col-span-2 text-right">Points</div>
-                  <div className="col-span-1 text-right">Status</div>
-                </div>
-              )}
-
-              {raceResults.map((r) => (
-                <div key={r.id} className={`bg-[#131b2e] border border-outline-variant rounded-lg p-md grid grid-cols-12 gap-sm items-center hover:bg-[#1a263d] transition-colors ${r.placement === 1 && !r.violation ? 'ring-1 ring-[#FBBF24]/30' : ''}`}>
-                  <div className="col-span-1 flex justify-center items-center">
-                    {!r.violation && rankMedal(r.placement) ? (
-                      <span className="text-2xl">{rankMedal(r.placement)}</span>
-                    ) : (
-                      <span className={`w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold ${r.violation ? 'bg-error/20 text-error' : 'bg-[#3f465c]'}`}>
-                        {r.violation ? '—' : r.placement}
-                      </span>
-                    )}
-                  </div>
-                  <div className="col-span-5 flex items-center gap-3">
-                    <div className="flex flex-col">
-                      <span className={`font-semibold text-white ${r.violation ? 'line-through opacity-60' : ''}`}>{r.horseName}</span>
-                      <span className="font-label-md text-[#c5c7c8]">J: {r.jockeyName}</span>
-                    </div>
-                  </div>
-                  <div className="col-span-3 flex justify-end font-tabular-nums text-white">{r.finishTime}s</div>
-                  <div className="col-span-2 flex justify-end font-tabular-nums text-[#009488] font-bold">{r.points?.toFixed(1)}</div>
-                  <div className="col-span-1 flex justify-end">
-                    {r.violation ? (
-                      <span className="inline-flex items-center px-2 py-1 rounded bg-error/10 text-error text-[10px] font-bold uppercase">DQ</span>
-                    ) : (
-                      <span className="inline-flex items-center px-2 py-1 rounded bg-[#064E3B] text-[#34D399] text-[10px] font-bold uppercase">✓</span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="lg:col-span-8">
+            <LiveStandings 
+              race={selectedRace} 
+              raceResults={raceResults} 
+              error={raceError} 
+              loading={loading}
+            />
           </div>
 
           {/* Right Column: Tournament Leaderboard */}
-          <div className="lg:col-span-4 flex flex-col gap-md">
-            <h2 className="text-white flex items-center gap-sm text-lg font-bold">
-              <span className="material-symbols-outlined text-[#FBBF24]" style={{ fontVariationSettings: "'FILL' 1" }}>trophy</span>
-              {selectedTournament?.name || 'Tournament'} Standings
-            </h2>
-            <div className="bg-[#131b2e] border border-outline-variant rounded-xl overflow-hidden flex flex-col shadow-sm">
-              <div className="bg-[#3f465c] px-md py-sm border-b border-outline-variant flex justify-between items-center">
-                <span className="font-label-md text-[#c5c7c8] uppercase">Horse</span>
-                <span className="font-label-md text-[#c5c7c8] uppercase">Points</span>
-              </div>
-
-              {standings.length === 0 ? (
-                <div className="p-xl text-center text-[#c5c7c8] opacity-60">
-                  <p className="text-sm">No standings yet. Publish official race results first.</p>
-                </div>
-              ) : (
-                <ul className="flex flex-col divide-y divide-outline-variant">
-                  {standings.slice(0, 10).map((s) => (
-                    <li key={s.horseId} className="flex items-center justify-between p-md hover:bg-[#1a263d] transition-colors">
-                      <div className="flex items-center gap-sm">
-                        <span className={`font-tabular-nums font-bold w-5 ${s.rank <= 3 ? 'text-[#FBBF24]' : 'text-[#c5c7c8]'}`}>{s.rank}.</span>
-                        <span className="font-tabular-nums text-white">{s.horseName}</span>
-                      </div>
-                      <div className="flex flex-col items-end">
-                        <span className="font-tabular-nums text-[#009488] font-bold">{s.totalPoints?.toFixed(1)} pts</span>
-                        <span className="font-label-md text-[#c5c7c8] text-[10px]">Best: {s.bestFinishTime?.toFixed(2)}s</span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-
-            {standings.length > 0 && (
-              <p className="text-[#c5c7c8] text-xs text-center mt-2">
-                Tie-breaking: best finish time ascending
-              </p>
-            )}
+          <div className="lg:col-span-4">
+            <Leaderboard 
+              title={`${selectedTournament?.name || 'Tournament'} Standings`}
+              standings={standings}
+              limit={10}
+              variant="list"
+              showTieBreaker={true}
+            />
           </div>
         </div>
       </main>

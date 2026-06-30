@@ -65,13 +65,13 @@ export function Header() {
         <nav className="header-nav">
           {/* Menu chung cho tất cả mọi người hoặc Khán giả (Spectator) */}
           <NavLink
-            to="/tournaments"
+            to="/schedule"
             className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
           >
             Giải đấu & Lịch đua
           </NavLink>
           <NavLink
-            to="/leaderboard"
+            to="/live"
             className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
           >
             Bảng xếp hạng
@@ -83,12 +83,12 @@ export function Header() {
               {/* 1. ADMIN: Quản lý giải, duyệt hồ sơ, phân công */}
               {user.role === "ADMIN" && (
                 <NavLink
-                  to="/admin/users"
+                  to="/admin"
                   className={({ isActive }) =>
                     `nav-link ${isActive ? "active" : ""}`
                   }
                 >
-                  Quản trị hệ thống
+                  Trang quản trị
                 </NavLink>
               )}
 
@@ -104,7 +104,7 @@ export function Header() {
                     Quản lý ngựa
                   </NavLink>
                   <NavLink
-                    to="/owner/hire-jockey"
+                    to="/owner/hiring"
                     className={({ isActive }) =>
                       `nav-link ${isActive ? "active" : ""}`
                     }
@@ -116,26 +116,54 @@ export function Header() {
 
               {/* 3. JOCKEY: Nhận lời mời, xem lịch thi đấu */}
               {user.role === "JOCKEY" && (
-                <NavLink
-                  to="/jockey/schedule"
-                  className={({ isActive }) =>
-                    `nav-link ${isActive ? "active" : ""}`
-                  }
-                >
-                  Lịch trình & Lời mời
-                </NavLink>
+                <>
+                  <NavLink
+                    to="/jockey/workspace"
+                    className={({ isActive }) =>
+                      `nav-link ${isActive ? "active" : ""}`
+                    }
+                  >
+                    Lịch trình & Profile
+                  </NavLink>
+                  <NavLink
+                    to="/jockey/invitations"
+                    className={({ isActive }) =>
+                      `nav-link ${isActive ? "active" : ""}`
+                    }
+                  >
+                    Lời mời thuê
+                  </NavLink>
+                </>
               )}
 
               {/* 4. RACE REFEREE: Kiểm tra điều kiện, ghi nhận lỗi, lập biên bản */}
               {user.role === "REFEREE" && (
-                <NavLink
-                  to="/referee/reports"
-                  className={({ isActive }) =>
-                    `nav-link ${isActive ? "active" : ""}`
-                  }
-                >
-                  Biên bản trọng tài
-                </NavLink>
+                <>
+                  <NavLink
+                    to="/referee/pre-race"
+                    className={({ isActive }) =>
+                      `nav-link ${isActive ? "active" : ""}`
+                    }
+                  >
+                    Kiểm tra trước đua
+                  </NavLink>
+                  <NavLink
+                    to="/referee/violations"
+                    className={({ isActive }) =>
+                      `nav-link ${isActive ? "active" : ""}`
+                    }
+                  >
+                    Ghi nhận vi phạm
+                  </NavLink>
+                  <NavLink
+                    to="/referee/report"
+                    className={({ isActive }) =>
+                      `nav-link ${isActive ? "active" : ""}`
+                    }
+                  >
+                    Lập biên bản
+                  </NavLink>
+                </>
               )}
             </>
           )}

@@ -48,14 +48,8 @@ const InvitationPage = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col h-screen overflow-hidden bg-background text-on-background antialiased">
-      <header className="bg-surface border-b border-outline-variant flex justify-between items-center px-6 h-16 z-10 shrink-0">
-        <h1 className="text-2xl font-bold tracking-tighter text-secondary" style={{ fontFamily: "'Oswald', sans-serif" }}>
-          My Invitations
-        </h1>
-      </header>
-
-      <main className="flex-1 overflow-y-auto p-4 md:p-6 flex flex-col gap-4">
+    <div className="flex-1 flex flex-col bg-background text-on-background antialiased py-6">
+      <main className="flex-1 p-4 md:p-6 flex flex-col gap-4">
         {invitations.length === 0 ? (
             <p className="text-on-surface-variant text-center mt-10">You have no pending invitations.</p>
         ) : (

@@ -100,8 +100,8 @@ const ReportFormPage = () => {
   const selectedRace = races.find(r => r.id === selectedRaceId);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
-      <main className="flex-grow h-screen overflow-y-auto bg-background p-md md:p-xl transition-all">
+    <div className="flex bg-background py-6">
+      <main className="flex-grow p-md md:p-xl transition-all">
         <div className="max-w-[1200px] mx-auto">
           {/* Breadcrumb & Header */}
           <div className="mb-lg">
