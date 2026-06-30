@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PublicSchedulePage = () => {
+  const navigate = useNavigate();
   return (
     <div className="bg-[#f8f9ff] text-[#0b1c30] antialiased min-h-screen flex flex-col font-body-md text-body-md">
       {/* Main Content Area */}
@@ -68,7 +70,9 @@ const PublicSchedulePage = () => {
                 </div>
                 <div className="text-left md:text-right mt-2 md:mt-0">
                   <div className="font-tabular-nums text-tabular-nums text-on-surface font-semibold">12 Races Total</div>
-                  <button className="mt-2 text-secondary font-label-md text-label-md hover:underline flex items-center gap-1 md:justify-end w-full group">
+                  <button 
+                    onClick={() => navigate('/live')}
+                    className="mt-2 text-secondary font-label-md text-label-md hover:underline flex items-center gap-1 md:justify-end w-full group">
                     View Details <span className="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
                   </button>
                 </div>

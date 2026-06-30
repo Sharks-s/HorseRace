@@ -263,7 +263,13 @@ const HorseRaceApp = () => {
                         {new Date(race.startTime).toLocaleString("vi-VN")}
                       </p>
                       <button 
-                        onClick={() => navigate(`/login`)}
+                        onClick={() => {
+                          if (race.status === 'IN_PROGRESS' || race.status === 'OFFICIAL') {
+                            navigate('/live');
+                          } else {
+                            navigate('/schedule');
+                          }
+                        }}
                         className="bg-surface-container-high text-on-surface font-label-bold px-4 py-2 rounded-lg hover:bg-surface-container-highest transition-colors w-full sm:w-auto"
                       >
                         View Details
