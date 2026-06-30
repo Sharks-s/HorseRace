@@ -84,21 +84,8 @@ const JockeyWorkspacePage = () => {
   };
 
   return (
-    <div className="jockey-shell">
-      <header className="jockey-topbar">
-        <div className="jockey-brand">HorseRace</div>
-        <nav className="jockey-nav">
-          <a href="#profile" className="jockey-nav-active">Profile</a>
-          <a href="#ranking">Ranking</a>
-          <a href="#schedule">Schedule</a>
-          <a href="#br02">BR-02</a>
-        </nav>
-        <div className="jockey-avatar">
-          <span className="material-symbols-outlined">sports_kabaddi</span>
-        </div>
-      </header>
-
-      <main className="jockey-main">
+    <div className="jockey-shell" style={{ display: "block" }}>
+      <main className="jockey-main" style={{ padding: "24px" }}>
         <section className="jockey-hero">
           <div>
             <p>Jockey Workspace</p>

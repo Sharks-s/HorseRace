@@ -19,12 +19,12 @@ import java.util.UUID;
 @RestController("adminModuleUserController")
 @RequestMapping("/api/admin/users")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
 public class AdminUserController {
 
 	private final AdminUserService adminUserService;
 
 	@GetMapping
+	@PreAuthorize("hasAnyRole('ADMIN', 'HORSE_OWNER')")
 	public ApiResponse<Page<UserAdminResponse>> getUsers(
 			@RequestParam(required = false) Role role,
 			@RequestParam(required = false) UserStatus status,
@@ -33,11 +33,13 @@ public class AdminUserController {
 	}
 
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'HORSE_OWNER')")
 	public ApiResponse<UserAdminResponse> getUser(@PathVariable UUID id) {
 		return ApiResponse.success(adminUserService.getUser(id));
 	}
 
 	@PutMapping("/{id}/status")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ApiResponse<UserAdminResponse> updateUserStatus(
 			@PathVariable UUID id,
 			@Valid @RequestBody UpdateUserStatusRequest request) {
@@ -45,6 +47,7 @@ public class AdminUserController {
 	}
 
 	@PutMapping("/{id}/role")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ApiResponse<UserAdminResponse> updateUserRole(
 			@PathVariable UUID id,
 			@Valid @RequestBody UpdateUserRoleRequest request) {

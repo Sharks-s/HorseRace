@@ -127,8 +127,8 @@ const ViolationPage = () => {
   const raceRegistrations = registrations.filter(r => r.raceId === raceId);
 
   return (
-    <div className="bg-[#F7F8FA] text-on-surface flex min-h-screen font-body-md text-body-md overflow-x-hidden">
-      <main className="flex-1 min-h-screen">
+    <div className="bg-[#F7F8FA] text-on-surface flex font-body-md text-body-md overflow-x-hidden py-6">
+      <main className="flex-1">
         <div className="max-w-container-max mx-auto p-xl">
           {/* Breadcrumb */}
           <nav aria-label="Breadcrumb" className="mb-lg flex text-on-surface-variant font-label-md text-label-md">

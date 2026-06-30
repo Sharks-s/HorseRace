@@ -5,6 +5,7 @@ import Login from "../features/auth/pages/Login";
 import Register from "../features/auth/pages/Register";
 import ProtectedRoute from "../shared/components/ProtectedRoute";
 import HorseRaceApp from "../pages/LandingPage";
+import AdminLayout from "../shared/components/AdminLayout";
 import AdminDashboard from "../features/admin/pages/AdminDashboard";
 import AdminUsersPage from "../features/admin/pages/UserManagementPage";
 import TournamentManagementPage from "../features/admin/pages/TournamentManagementPage";
@@ -34,21 +35,26 @@ function App() {
 
         {/* Protected Routes with Layout */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/users" element={<AdminUsersPage />} />
-          <Route path="/admin/tournaments" element={<TournamentManagementPage />} />
-          <Route path="/admin/horses" element={<HorseReviewPage />} />
-          <Route path="/admin/results" element={<AdminResultPage />} />
-          <Route path="/owner" element={<HorseManagementPage />} />
-          <Route path="/owner/horses" element={<HorseManagementPage />} />
-          <Route path="/owner/hiring" element={<HiringPage />} />
-          <Route path="/jockey" element={<JockeyWorkspacePage />} />
-          <Route path="/jockey/workspace" element={<JockeyWorkspacePage />} />
-          <Route path="/jockey/invitations" element={<InvitationPage />} />
-          <Route path="/referee" element={<RefereeDashboard />} />
-          <Route path="/referee/pre-race" element={<RefereeDashboard />} />
-          <Route path="/referee/violations" element={<ViolationPage />} />
-          <Route path="/referee/report" element={<ReportFormPage />} />
+          <Route element={<AdminLayout />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/users" element={<AdminUsersPage />} />
+            <Route path="/admin/tournaments" element={<TournamentManagementPage />} />
+            <Route path="/admin/horses" element={<HorseReviewPage />} />
+            <Route path="/admin/results" element={<AdminResultPage />} />
+          </Route>
+
+          <Route element={<MainLayout />}>
+            <Route path="/owner" element={<HorseManagementPage />} />
+            <Route path="/owner/horses" element={<HorseManagementPage />} />
+            <Route path="/owner/hiring" element={<HiringPage />} />
+            <Route path="/jockey" element={<JockeyWorkspacePage />} />
+            <Route path="/jockey/workspace" element={<JockeyWorkspacePage />} />
+            <Route path="/jockey/invitations" element={<InvitationPage />} />
+            <Route path="/referee" element={<RefereeDashboard />} />
+            <Route path="/referee/pre-race" element={<RefereeDashboard />} />
+            <Route path="/referee/violations" element={<ViolationPage />} />
+            <Route path="/referee/report" element={<ReportFormPage />} />
+          </Route>
         </Route>
 
         {/* Public Routes with Layout */}

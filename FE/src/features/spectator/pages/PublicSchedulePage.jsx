@@ -1,17 +1,132 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { tournamentApi } from '../../../api/tournamentApi';
+import { registrationApi } from '../../../api/registrationApi';
+import TournamentCard from '../components/TournamentCard';
+import AdBanners from '../components/AdBanners';
+import RaceDetailModal from '../components/RaceDetailModal';
 
 const PublicSchedulePage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [tournaments, setTournaments] = useState([]);
+  const [tournamentRaces, setTournamentRaces] = useState({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterType, setFilterType] = useState('ALL'); // ALL, THIS_WEEK, THIS_MONTH
+  const [loading, setLoading] = useState(true);
+
+  // Detail Modal States
+  const [selectedRaceForDetail, setSelectedRaceForDetail] = useState(null);
+  const [participants, setParticipants] = useState([]);
+  const [loadingParticipants, setLoadingParticipants] = useState(false);
+
+  const handleRaceClick = async (race, tournamentId) => {
+    setSelectedRaceForDetail({ ...race, tournamentId });
+    setLoadingParticipants(true);
+    setParticipants([]);
+    try {
+      const res = await registrationApi.getRaceRegistrations(race.id);
+      if (res.success && res.data) {
+        setParticipants(res.data);
+      }
+    } catch (err) {
+      console.error("Failed to load race participants", err);
+    } finally {
+      setLoadingParticipants(false);
+    }
+  };
+
+  useEffect(() => {
+    const fetchTournamentsAndRaces = async () => {
+      setLoading(true);
+      try {
+        const tResponse = await tournamentApi.getAllTournaments();
+        if (tResponse.success && tResponse.data) {
+          const list = tResponse.data;
+          setTournaments(list);
+
+          const racesMap = {};
+          await Promise.all(
+            list.map(async (t) => {
+              try {
+                const rResponse = await tournamentApi.getRacesByTournament(t.id);
+                if (rResponse.success) {
+                  racesMap[t.id] = rResponse.data;
+                }
+              } catch {
+                racesMap[t.id] = [];
+              }
+            })
+          );
+          setTournamentRaces(racesMap);
+        }
+      } catch (error) {
+        console.error("Failed to load public schedule data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void fetchTournamentsAndRaces();
+  }, []);
+
+  useEffect(() => {
+    if (loading) return;
+    const openRaceId = location.state?.openRaceId;
+    if (openRaceId) {
+      let foundRace = null;
+      for (const tId in tournamentRaces) {
+        const race = tournamentRaces[tId].find(r => r.id === openRaceId);
+        if (race) {
+          foundRace = race;
+          break;
+        }
+      }
+      if (foundRace) {
+        void handleRaceClick(foundRace, tId);
+        // Clear location state from history so it doesn't open again on page refresh
+        window.history.replaceState({}, document.title);
+      }
+    }
+  }, [loading, tournamentRaces, location.state]);
+
+  const filteredTournaments = tournaments.filter((t) => {
+    const matchesSearch =
+      t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (t.description && t.description.toLowerCase().includes(searchQuery.toLowerCase()));
+
+    if (!matchesSearch) return false;
+
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    const tStart = new Date(t.startDate);
+
+
+    if (filterType === 'THIS_WEEK') {
+      const oneWeekLater = new Date(now);
+      oneWeekLater.setDate(now.getDate() + 7);
+      oneWeekLater.setHours(23, 59, 59, 999);
+      return tStart >= now && tStart <= oneWeekLater;
+    }
+
+    if (filterType === 'THIS_MONTH') {
+      const oneMonthLater = new Date(now);
+      oneMonthLater.setMonth(now.getMonth() + 1);
+      oneMonthLater.setHours(23, 59, 59, 999);
+      return tStart >= now && tStart <= oneMonthLater;
+    }
+
+    return true;
+  });
+
   return (
-    <div className="bg-[#f8f9ff] text-[#0b1c30] antialiased min-h-screen flex flex-col font-body-md text-body-md">
-      {/* Main Content Area */}
+    <div className="bg-[#f8f9ff] text-[#0b1c30] antialiased min-h-screen flex flex-col font-body-md text-body-md py-6">
       <main className="flex-grow flex flex-col">
         {/* Hero Section */}
-        <section className="bg-[#131b2e] text-white py-[80px] px-md md:px-xl relative overflow-hidden">
+        <section className="bg-[#131b2e] text-white py-[60px] px-md md:px-xl relative overflow-hidden rounded-xl mx-4">
           <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 80% -20%, #009488 0%, transparent 50%)" }}></div>
           <div className="max-w-[1200px] mx-auto relative z-10 flex flex-col items-center text-center space-y-xl">
-            <h1 className="font-display-lg text-display-lg md:text-[64px] leading-tight font-bold text-4xl">Race Schedule</h1>
+            <h1 className="font-display-lg text-display-lg md:text-[48px] leading-tight font-bold text-4xl">Race Schedule</h1>
             <p className="font-body-lg text-body-lg text-[#7c839b] max-w-2xl mt-4">Discover upcoming tournaments, track live races, and analyze historical performance data across premier global tracks.</p>
             {/* Search & Filter Bar */}
             <div className="w-full max-w-4xl mt-lg">
@@ -21,14 +136,39 @@ const PublicSchedulePage = () => {
                   <input
                     type="text"
                     placeholder="Search tournaments, tracks, or horses..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full bg-white/5 border-none text-white placeholder:text-white/50 pl-[40px] pr-sm py-sm rounded focus:ring-2 focus:ring-secondary outline-none font-body-md text-body-md"
                   />
                 </div>
                 <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 custom-scrollbar">
-                  <button className="whitespace-nowrap px-md py-sm bg-[#006a61] text-white rounded-full font-label-md text-label-md px-3 py-1">All</button>
-                  <button className="whitespace-nowrap px-md py-sm bg-white/10 text-white hover:bg-white/20 transition-colors rounded-full font-label-md text-label-md border border-white/20 px-3 py-1">This Week</button>
-                  <button className="whitespace-nowrap px-md py-sm bg-white/10 text-white hover:bg-white/20 transition-colors rounded-full font-label-md text-label-md border border-white/20 px-3 py-1">This Month</button>
-                  <button className="whitespace-nowrap px-md py-sm bg-white/10 text-white hover:bg-white/20 transition-colors rounded-full font-label-md text-label-md border border-white/20 px-3 py-1">Archived</button>
+                  <button 
+                    type="button"
+                    onClick={() => setFilterType('ALL')}
+                    className={`whitespace-nowrap px-4 py-1.5 rounded-full font-label-md text-label-md transition-colors ${
+                      filterType === 'ALL' ? 'bg-[#006a61] text-white' : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
+                    }`}
+                  >
+                    All
+                  </button>
+                  <button 
+                    type="button"
+                    onClick={() => setFilterType('THIS_WEEK')}
+                    className={`whitespace-nowrap px-4 py-1.5 rounded-full font-label-md text-label-md transition-colors ${
+                      filterType === 'THIS_WEEK' ? 'bg-[#006a61] text-white' : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
+                    }`}
+                  >
+                    This Week
+                  </button>
+                  <button 
+                    type="button"
+                    onClick={() => setFilterType('THIS_MONTH')}
+                    className={`whitespace-nowrap px-4 py-1.5 rounded-full font-label-md text-label-md transition-colors ${
+                      filterType === 'THIS_MONTH' ? 'bg-[#006a61] text-white' : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
+                    }`}
+                  >
+                    This Month
+                  </button>
                 </div>
               </div>
             </div>
@@ -39,89 +179,57 @@ const PublicSchedulePage = () => {
         <section className="py-12 px-4 md:px-8 max-w-[1200px] mx-auto w-full mt-8 mb-12">
           <div className="flex justify-between items-end mb-lg">
             <h2 className="font-headline-lg text-headline-lg font-bold text-on-surface text-2xl">Featured Tournaments</h2>
-            <div className="flex items-center space-x-sm text-on-surface-variant font-label-md text-label-md gap-1">
-              <span className="material-symbols-outlined text-[18px]">filter_list</span>
-              <span>Sort by: Date</span>
-            </div>
+            <span className="font-label-md text-on-surface-variant">{filteredTournaments.length} tournament(s) found</span>
           </div>
           
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-lg mt-4">
-            {/* Tournament Card 1 (Live) */}
-            <div className="bg-white rounded-xl shadow-[0_2px_4px_rgba(0,0,0,0.05)] border border-outline-variant overflow-hidden flex flex-col border-t-4 border-t-secondary relative">
-              {/* Banner Info */}
-              <div className="p-lg bg-[#f8f9ff] border-b border-outline-variant flex flex-col md:flex-row justify-between md:items-center gap-md p-4">
-                <div className="flex items-start gap-md">
-                  <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-gray-200">
-                    <div className="w-full h-full object-cover bg-teal-800 flex items-center justify-center text-white font-bold text-xs">Royal</div>
-                  </div>
-                  <div className="pl-3">
-                    <div className="flex items-center gap-xs mb-1">
-                      <h3 className="font-headline-sm text-headline-sm font-bold text-on-surface text-lg">Royal Ascot Summer Series</h3>
-                      <span className="flex items-center gap-[4px] px-2 py-1 bg-secondary-container/20 text-on-secondary-container rounded text-[10px] font-bold tracking-wider uppercase ml-2">
-                        <span className="w-[6px] h-[6px] bg-secondary rounded-full pulse-live inline-block"></span>
-                        LIVE
-                      </span>
-                    </div>
-                    <div className="flex flex-wrap gap-x-md gap-y-1 text-on-surface-variant font-body-md text-body-md gap-3">
-                      <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[16px]">location_on</span> Ascot, UK</span>
-                      <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[16px]">calendar_month</span> Jun 18 - Jun 22, 2024</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="text-left md:text-right mt-2 md:mt-0">
-                  <div className="font-tabular-nums text-tabular-nums text-on-surface font-semibold">12 Races Total</div>
-                  <button 
-                    onClick={() => navigate('/live')}
-                    className="mt-2 text-secondary font-label-md text-label-md hover:underline flex items-center gap-1 md:justify-end w-full group">
-                    View Details <span className="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                  </button>
-                </div>
+          {loading ? (
+            <div className="text-center py-12 text-on-surface-variant font-medium">Loading schedules...</div>
+          ) : filteredTournaments.length === 0 ? (
+            <div className="text-center py-12 bg-white border border-outline-variant rounded-xl text-on-surface-variant">
+              <span className="material-symbols-outlined text-[48px] opacity-40 mb-2">calendar_today</span>
+              <p>No tournaments scheduled for the selected criteria.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-6 w-full">
+              {/* Left Column: Tournaments List (takes 8 cols) */}
+              <div className="lg:col-span-8 flex flex-col gap-8">
+                {filteredTournaments.map((t) => (
+                  <TournamentCard 
+                    key={t.id} 
+                    tournament={t} 
+                    races={tournamentRaces[t.id] || []} 
+                    onRaceClick={(race) => handleRaceClick(race, t.id)}
+                    onViewStandings={() => navigate('/live')}
+                  />
+                ))}
               </div>
-              {/* Expanded Race List (Data Table) */}
-              <div className="p-0 overflow-hidden">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="bg-[#f8f9ff] border-b border-outline-variant font-label-md text-label-md text-on-surface-variant">
-                      <th className="py-sm px-lg font-semibold p-3">Race Name</th>
-                      <th className="py-sm px-lg font-semibold p-3">Time (Local)</th>
-                      <th className="py-sm px-lg font-semibold p-3">Track Condition</th>
-                      <th className="py-sm px-lg font-semibold text-right p-3">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody className="font-tabular-nums text-tabular-nums text-on-surface divide-y divide-outline-variant">
-                    <tr className="hover:bg-surface-container-low transition-colors group cursor-pointer">
-                      <td className="py-sm px-lg p-3">
-                        <div className="font-medium text-secondary group-hover:underline">Queen Anne Stakes (G1)</div>
-                        <div className="text-[12px] text-on-surface-variant font-body-md font-normal mt-0.5">1m (Straight) • 4yo+</div>
-                      </td>
-                      <td className="py-sm px-lg p-3">14:30 GMT</td>
-                      <td className="py-sm px-lg p-3">Good to Firm</td>
-                      <td className="py-sm px-lg text-right p-3">
-                        <span className="inline-flex items-center px-2 py-1 rounded bg-[#86f5e7]/20 text-[#007168] text-[11px] font-bold uppercase border border-[#86f5e7]/50 whitespace-nowrap">
-                          In Progress
-                        </span>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-surface-container-low transition-colors group cursor-pointer">
-                      <td className="py-sm px-lg p-3">
-                        <div className="font-medium text-on-surface group-hover:text-secondary group-hover:underline">Coventry Stakes (G2)</div>
-                        <div className="text-[12px] text-on-surface-variant font-body-md font-normal mt-0.5">6f • 2yo</div>
-                      </td>
-                      <td className="py-sm px-lg p-3">15:05 GMT</td>
-                      <td className="py-sm px-lg p-3">Good to Firm</td>
-                      <td className="py-sm px-lg text-right p-3">
-                        <span className="inline-flex items-center px-2 py-1 rounded bg-primary-fixed text-on-primary-fixed-variant text-[11px] font-bold uppercase border border-primary-fixed-dim/50 whitespace-nowrap">
-                          Scheduled
-                        </span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+
+              {/* Right Column: Advertising Banner (takes 4 cols) */}
+              <div className="lg:col-span-4 w-full">
+                <AdBanners />
               </div>
             </div>
-          </div>
+          )}
         </section>
       </main>
+
+      {/* Race Detail Modal */}
+      <RaceDetailModal 
+        isOpen={selectedRaceForDetail !== null}
+        race={selectedRaceForDetail}
+        participants={participants}
+        loading={loadingParticipants}
+        onClose={() => setSelectedRaceForDetail(null)}
+        onViewLive={() => {
+          setSelectedRaceForDetail(null);
+          navigate('/live', { 
+            state: { 
+              tournamentId: selectedRaceForDetail.tournamentId, 
+              raceId: selectedRaceForDetail.id 
+            } 
+          });
+        }}
+      />
     </div>
   );
 };

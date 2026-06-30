@@ -77,22 +77,8 @@ const RefereeDashboard = () => {
   const totalDisqualified = registrations.filter((item) => item.status === "DISQUALIFIED").length;
 
   return (
-    <div className="referee-shell">
-      <aside className="referee-sidebar">
-        <div className="referee-logo">HorseRace</div>
-        <nav>
-          <a href="/referee" className="referee-active">
-            <span className="material-symbols-outlined">fact_check</span>
-            Pre-race
-          </a>
-          <a href="/referee/reports">
-            <span className="material-symbols-outlined">assignment</span>
-            Reports
-          </a>
-        </nav>
-      </aside>
-
-      <main className="referee-main">
+    <div className="referee-shell" style={{ display: "block" }}>
+      <main className="referee-main" style={{ padding: "24px" }}>
         <header className="referee-header">
           <div>
             <p>Race Referee</p>

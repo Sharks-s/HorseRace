@@ -85,14 +85,8 @@ const HiringPage = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col h-screen overflow-hidden bg-background text-on-background antialiased">
-      <header className="bg-surface border-b border-outline-variant flex justify-between items-center px-6 h-16 z-10 shrink-0">
-        <h1 className="text-2xl font-bold tracking-tighter text-secondary" style={{ fontFamily: "'Oswald', sans-serif" }}>
-          Hire a Jockey
-        </h1>
-      </header>
-
-      <main className="flex-1 overflow-y-auto p-4 md:p-6 flex flex-col items-center">
+    <div className="flex-1 flex flex-col bg-background text-on-background antialiased py-6">
+      <main className="flex-1 p-4 md:p-6 flex flex-col items-center">
         <div className="w-full max-w-2xl bg-surface-container-lowest rounded-xl shadow border border-outline-variant/30 p-6">
             <h2 className="text-xl font-semibold mb-6">Send Race Invitation</h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
