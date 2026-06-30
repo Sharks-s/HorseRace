@@ -10,12 +10,12 @@ const PublicSchedulePage = () => {
         {/* Hero Section */}
         <section className="bg-[#131b2e] text-white py-[80px] px-md md:px-xl relative overflow-hidden">
           <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 80% -20%, #009488 0%, transparent 50%)" }}></div>
-          <div className="max-w-container-max mx-auto relative z-10 flex flex-col items-center text-center space-y-xl">
+          <div className="max-w-[1200px] mx-auto relative z-10 flex flex-col items-center text-center space-y-xl">
             <h1 className="font-display-lg text-display-lg md:text-[64px] leading-tight font-bold text-4xl">Race Schedule</h1>
             <p className="font-body-lg text-body-lg text-[#7c839b] max-w-2xl mt-4">Discover upcoming tournaments, track live races, and analyze historical performance data across premier global tracks.</p>
             {/* Search & Filter Bar */}
             <div className="w-full max-w-4xl mt-lg">
-              <div className="glass-panel rounded-xl p-xs flex flex-col md:flex-row items-center gap-sm bg-white/10 border-white/20 p-2">
+              <div className="glass-panel rounded-xl flex flex-col md:flex-row items-center gap-sm bg-white/10 border-white/20 p-2">
                 <div className="relative w-full flex-grow">
                   <span className="material-symbols-outlined absolute left-sm top-1/2 transform -translate-y-1/2 text-white/50 pl-2">search</span>
                   <input
@@ -24,7 +24,7 @@ const PublicSchedulePage = () => {
                     className="w-full bg-white/5 border-none text-white placeholder:text-white/50 pl-[40px] pr-sm py-sm rounded focus:ring-2 focus:ring-secondary outline-none font-body-md text-body-md"
                   />
                 </div>
-                <div className="flex space-x-xs overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-hide gap-1">
+                <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 custom-scrollbar">
                   <button className="whitespace-nowrap px-md py-sm bg-[#006a61] text-white rounded-full font-label-md text-label-md px-3 py-1">All</button>
                   <button className="whitespace-nowrap px-md py-sm bg-white/10 text-white hover:bg-white/20 transition-colors rounded-full font-label-md text-label-md border border-white/20 px-3 py-1">This Week</button>
                   <button className="whitespace-nowrap px-md py-sm bg-white/10 text-white hover:bg-white/20 transition-colors rounded-full font-label-md text-label-md border border-white/20 px-3 py-1">This Month</button>
@@ -36,7 +36,7 @@ const PublicSchedulePage = () => {
         </section>
 
         {/* Tournament Grid */}
-        <section className="py-xl px-md md:px-xl max-w-container-max mx-auto w-full mt-8">
+        <section className="py-12 px-4 md:px-8 max-w-[1200px] mx-auto w-full mt-8 mb-12">
           <div className="flex justify-between items-end mb-lg">
             <h2 className="font-headline-lg text-headline-lg font-bold text-on-surface text-2xl">Featured Tournaments</h2>
             <div className="flex items-center space-x-sm text-on-surface-variant font-label-md text-label-md gap-1">
@@ -78,8 +78,8 @@ const PublicSchedulePage = () => {
                 </div>
               </div>
               {/* Expanded Race List (Data Table) */}
-              <div className="p-0 overflow-x-auto">
-                <table className="w-full text-left border-collapse min-w-[600px]">
+              <div className="p-0 overflow-hidden">
+                <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="bg-[#f8f9ff] border-b border-outline-variant font-label-md text-label-md text-on-surface-variant">
                       <th className="py-sm px-lg font-semibold p-3">Race Name</th>
@@ -97,7 +97,7 @@ const PublicSchedulePage = () => {
                       <td className="py-sm px-lg p-3">14:30 GMT</td>
                       <td className="py-sm px-lg p-3">Good to Firm</td>
                       <td className="py-sm px-lg text-right p-3">
-                        <span className="inline-flex items-center px-2 py-1 rounded bg-[#86f5e7]/20 text-[#007168] text-[11px] font-bold uppercase border border-[#86f5e7]/50">
+                        <span className="inline-flex items-center px-2 py-1 rounded bg-[#86f5e7]/20 text-[#007168] text-[11px] font-bold uppercase border border-[#86f5e7]/50 whitespace-nowrap">
                           In Progress
                         </span>
                       </td>
@@ -110,7 +110,7 @@ const PublicSchedulePage = () => {
                       <td className="py-sm px-lg p-3">15:05 GMT</td>
                       <td className="py-sm px-lg p-3">Good to Firm</td>
                       <td className="py-sm px-lg text-right p-3">
-                        <span className="inline-flex items-center px-2 py-1 rounded bg-primary-fixed text-on-primary-fixed-variant text-[11px] font-bold uppercase border border-primary-fixed-dim/50">
+                        <span className="inline-flex items-center px-2 py-1 rounded bg-primary-fixed text-on-primary-fixed-variant text-[11px] font-bold uppercase border border-primary-fixed-dim/50 whitespace-nowrap">
                           Scheduled
                         </span>
                       </td>

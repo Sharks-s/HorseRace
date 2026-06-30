@@ -65,13 +65,13 @@ export function Header() {
         <nav className="header-nav">
           {/* Menu chung cho tất cả mọi người hoặc Khán giả (Spectator) */}
           <NavLink
-            to="/tournaments"
+            to="/schedule"
             className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
           >
             Giải đấu & Lịch đua
           </NavLink>
           <NavLink
-            to="/leaderboard"
+            to="/live"
             className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
           >
             Bảng xếp hạng

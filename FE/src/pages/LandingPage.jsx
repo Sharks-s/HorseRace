@@ -96,81 +96,6 @@ const HorseRaceApp = () => {
 
   return (
     <div className="bg-background text-on-background font-body-md min-h-screen flex flex-col">
-      {/* TopAppBar */}
-      <header className="bg-surface border-b border-outline-variant sticky top-0 w-full z-50 flex justify-center items-center h-20 px-8">
-        <div className="w-full max-w-[1440px] flex justify-between items-center">
-          <div className="flex items-center gap-12">
-            <h1
-              className="font-display-lg text-[40px] text-secondary font-bold tracking-tighter leading-none cursor-pointer"
-              onClick={() => navigate("/")}
-            >
-              HorseRace
-            </h1>
-            <nav className="hidden md:flex items-center gap-8">
-              <a
-                className="font-label-bold text-body-md text-on-surface-variant hover:text-primary transition-colors"
-                href="#"
-              >
-                Tournaments
-              </a>
-              <a
-                className="font-label-bold text-body-md text-on-surface-variant hover:text-primary transition-colors"
-                href="#"
-              >
-                Leaderboard
-              </a>
-            </nav>
-          </div>
-          {currentUser ? (
-              /* === Đã đăng nhập === */
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => navigate(getDashboardPath(currentUser.role))}
-                  className="flex items-center gap-2 font-label-bold text-primary px-4 py-2 hover:bg-surface-container-high rounded-lg transition-colors"
-                >
-                  <span className="material-symbols-outlined text-[20px]">dashboard</span>
-                  Dashboard
-                </button>
-
-                <div className="flex items-center gap-2 bg-surface-container-high px-3 py-1.5 rounded-full">
-                  <span className="material-symbols-outlined text-[18px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>account_circle</span>
-                  <span className="font-label-bold text-on-surface text-sm">
-                    {currentUser.fullName || currentUser.username || currentUser.email}
-                  </span>
-                  <span className="text-xs px-1.5 py-0.5 rounded bg-primary/10 text-primary font-semibold uppercase">
-                    {currentUser.role?.replace("_", " ")}
-                  </span>
-                </div>
-
-                <button
-                  onClick={handleLogout}
-                  className="font-label-bold text-label-bold text-on-surface-variant px-3 py-2 hover:bg-error/10 hover:text-error rounded-lg transition-colors flex items-center gap-1"
-                >
-                  <span className="material-symbols-outlined text-[18px]">logout</span>
-                  Logout
-                </button>
-              </div>
-            ) : (
-              /* === Chưa đăng nhập === */
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={() => navigate("/login")}
-                  className="font-label-bold text-label-bold text-primary px-4 py-2 hover:bg-surface-container-high rounded-lg transition-colors"
-                >
-                  Login
-                </button>
-                <button
-                  onClick={() => navigate("/register")}
-                  className="bg-primary text-on-primary font-label-bold text-label-bold px-6 py-2.5 rounded-lg shadow-sm hover:bg-primary/90 transition-colors"
-                >
-                  Register
-                </button>
-              </div>
-            )}
-        </div>
-      </header>
-
-
       <main className="flex-1 w-full flex flex-col">
         {/* Hero Section */}
         <section
@@ -354,49 +279,6 @@ const HorseRaceApp = () => {
           </aside>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-surface-container-high py-16 px-8 text-center border-t border-outline-variant mt-auto">
-        <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex flex-col items-start">
-            <h2 className="font-display-lg text-[32px] text-primary mb-2 opacity-80">
-              HorseRace
-            </h2>
-            <p className="font-label-sm text-label-sm text-on-surface-variant text-left">
-              © 2024 HorseRace Inc. All rights reserved.
-            </p>
-          </div>
-          <div className="flex justify-center gap-8">
-            <a
-              className="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2"
-              href="#"
-            >
-              <span className="material-symbols-outlined text-[24px]">
-                share
-              </span>
-              <span className="font-label-sm hidden md:inline">Share</span>
-            </a>
-            <a
-              className="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2"
-              href="#"
-            >
-              <span className="material-symbols-outlined text-[24px]">
-                mail
-              </span>
-              <span className="font-label-sm hidden md:inline">Contact</span>
-            </a>
-            <a
-              className="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2"
-              href="#"
-            >
-              <span className="material-symbols-outlined text-[24px]">
-                language
-              </span>
-              <span className="font-label-sm hidden md:inline">EN</span>
-            </a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

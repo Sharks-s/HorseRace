@@ -94,7 +94,7 @@ const LiveResultPage = () => {
 
   return (
     <div className="bg-[#0C1A2A] text-white font-body-md min-h-screen flex flex-col antialiased">
-      <main className="flex-grow w-full max-w-container-max mx-auto px-md md:px-xl py-lg space-y-xl mt-6">
+      <main className="flex-grow w-full max-w-[1200px] mx-auto px-md md:px-xl py-lg space-y-xl mt-6">
         {/* Hero Banner */}
         <section className="bg-[#0F172A] border border-outline-variant rounded-xl p-lg md:p-xl shadow-lg relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-lg">
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#009488] opacity-5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>

@@ -28,12 +28,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HorseRaceApp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
-        <Route path="/schedule" element={<PublicSchedulePage />} />
-        <Route path="/live" element={<LiveResultPage />} />
 
         {/* Protected Routes with Layout */}
         <Route element={<ProtectedRoute />}>
@@ -56,6 +53,9 @@ function App() {
 
         {/* Public Routes with Layout */}
         <Route element={<MainLayout />}>
+          <Route path="/" element={<HorseRaceApp />} />
+          <Route path="/schedule" element={<PublicSchedulePage />} />
+          <Route path="/live" element={<LiveResultPage />} />
           <Route path="*" element={<div>404 Not Found</div>} />
         </Route>
       </Routes>
