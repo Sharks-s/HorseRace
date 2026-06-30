@@ -2,17 +2,12 @@ import React, { useState, useEffect } from "react";
 import { registrationApi } from "../../../api/registrationApi";
 import { tournamentApi } from "../../../api/tournamentApi";
 import { adminUserApi } from "../../../api/adminUserApi";
+import { api } from "../../../api/axios";
 
 const HiringPage = () => {
   const [jockeys, setJockeys] = useState([]);
   const [races, setRaces] = useState([]);
-  
-  // Note: Since Horse module isn't fully implemented, we'll mock horse selection for the UI
-  // Real implementation would fetch horses belonging to the current owner.
-  const [myHorses] = useState([
-      { id: "123e4567-e89b-12d3-a456-426614174000", name: "Thunderstrike" },
-      { id: "223e4567-e89b-12d3-a456-426614174001", name: "Midnight Runner" }
-  ]);
+  const [myHorses, setMyHorses] = useState([]);
 
   const [formData, setFormData] = useState({
     raceId: "",
@@ -23,7 +18,20 @@ const HiringPage = () => {
   useEffect(() => {
     fetchJockeys();
     fetchRaces();
+    fetchMyHorses();
   }, []);
+
+  const fetchMyHorses = async () => {
+    try {
+      const res = await api.get("/owner/horses");
+      if (res.data && res.data.success) {
+        // Only allow APPROVED or REGISTERED horses to be hired / invited
+        setMyHorses(res.data.data.filter(h => h.status === 'APPROVED' || h.status === 'REGISTERED'));
+      }
+    } catch (err) {
+      console.error("Error fetching stable", err);
+    }
+  };
 
   const fetchJockeys = async () => {
     try {

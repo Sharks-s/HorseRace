@@ -1,0 +1,26 @@
+sequenceDiagram
+    actor Jockey as Jockey
+    participant Page as InvitationPage
+    participant Ctrl as InvitationController
+    participant Svc as InvitationService
+    participant RegSvc as RegistrationService
+    participant DB as DB
+
+    Jockey->>Page: viewInvitation()
+    Page->>Ctrl: respondInvitation(status)
+    Ctrl->>Svc: processResponse()
+    
+    alt Accept Invitation
+        Svc->>RegSvc: confirmRegistration()
+        RegSvc->>DB: UPDATE registration status
+        DB-->>RegSvc: success
+        RegSvc-->>Svc: registrationConfirmed()
+        Svc-->>Ctrl: invitationAccepted()
+    else Reject Invitation
+        Svc->>DB: UPDATE registration status
+        DB-->>Svc: rejected
+        Svc-->>Ctrl: invitationRejected()
+    end
+    
+    Ctrl-->>Page: displayResult()
+    Page-->>Jockey: showResponseStatus()

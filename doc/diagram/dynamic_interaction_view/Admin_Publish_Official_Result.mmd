@@ -1,0 +1,28 @@
+sequenceDiagram
+    actor Admin as Admin
+    participant Dash as AdminDashboard
+    participant Ctrl as ResultController
+    participant Svc as ResultService
+    participant RepSvc as ReportService
+    participant Repo as RaceResultRepository
+    participant DB as DB
+
+    Admin->>Dash: openPublishPage()
+    Dash->>Ctrl: publishResult(raceID)
+    Ctrl->>Svc: processPublishRequest()
+    Svc->>RepSvc: checkRefereeReport()
+    
+    alt Referee report exists
+        RepSvc-->>Svc: reportConfirmed
+        Svc->>Repo: markOfficial()
+        Repo->>DB: UPDATE race result
+        DB-->>Repo: success
+        Repo-->>Svc: resultPublished()
+        Svc-->>Ctrl: publishSuccess()
+    else Referee report missing
+        RepSvc-->>Svc: reportNotFound
+        Svc-->>Ctrl: publishRejected()
+    end
+    
+    Ctrl-->>Dash: displayPublishStatus()
+    Dash-->>Admin: showPublishResult()

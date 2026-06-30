@@ -1,0 +1,57 @@
+flowchart LR
+    %% Actors
+    Admin(((Admin)))
+    Owner(((Horse Owner)))
+    Jockey(((Jockey)))
+    Referee(((Race Referee)))
+    Spectator(((Spectator)))
+
+    subgraph SystemBoundary [Horse Racing Management System]
+        UC_Admin_Accounts(["Quản lý tài khoản và phân quyền"])
+        UC_Admin_Tournament(["Tạo và quản lý giải đấu (vòng đua)"])
+        UC_Admin_Approve(["Duyệt hồ sơ ngựa & Phân công trọng tài"])
+        UC_Admin_Publish(["Công bố kết quả thi đấu chính thức"])
+
+        UC_Owner_Horse(["Thêm và quản lý hồ sơ ngựa"])
+        UC_Owner_Hire(["Giao dịch thuê Jockey"])
+        UC_Owner_Confirm(["Xác nhận tham gia giải đấu"])
+
+        UC_Jockey_Profile(["Cập nhật hồ sơ & năng lực"])
+        UC_Jockey_Schedule(["Theo dõi lịch đua & thành tích"])
+
+        UC_Ref_Check(["Kiểm tra & Xác nhận điều kiện ngựa (BR-01)"])
+        UC_Ref_Violation(["Ghi nhận lỗi vi phạm"])
+        UC_Ref_Submit(["Lập biên bản & Submit kết quả (BR-05)"])
+
+        UC_Spec_Register(["Đăng ký tài khoản"])
+        UC_Spec_View(["Xem lịch đua, kết quả & BXH trực tiếp"])
+    end
+
+    %% Admin Links
+    Admin --- UC_Admin_Accounts
+    Admin --- UC_Admin_Tournament
+    Admin --- UC_Admin_Approve
+    Admin --- UC_Admin_Publish
+
+    %% Owner Links
+    Owner --- UC_Owner_Horse
+    Owner --- UC_Owner_Hire
+    Owner --- UC_Owner_Confirm
+    Owner -.-> UC_Spec_View
+
+    %% Jockey Links
+    Jockey --- UC_Jockey_Profile
+    Jockey --- UC_Owner_Hire
+    Jockey --- UC_Jockey_Schedule
+
+    %% Referee Links
+    Referee --- UC_Ref_Check
+    Referee --- UC_Ref_Violation
+    Referee --- UC_Ref_Submit
+
+    %% Spectator Links
+    Spectator --- UC_Spec_Register
+    Spectator --- UC_Spec_View
+
+    %% Includes
+    UC_Admin_Publish -. "«include» (BR-05)" .-> UC_Ref_Submit
