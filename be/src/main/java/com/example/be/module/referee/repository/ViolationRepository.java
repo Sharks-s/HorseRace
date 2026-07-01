@@ -9,5 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface ViolationRepository extends JpaRepository<Violation, UUID> {
-    List<Violation> findByRaceId(UUID raceId);
+
+	List<Violation> findByRaceId(UUID raceId);
 }

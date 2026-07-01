@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ViolationService {
-    ViolationResponse recordViolation(UUID raceId, RecordViolationRequest request);
-    List<ViolationResponse> getViolationsByRace(UUID raceId);
-    void deleteViolation(UUID violationId);
+
+	ViolationResponse recordViolation(UUID raceId, RecordViolationRequest request);
+
+	List<ViolationResponse> getViolationsByRace(UUID raceId);
+
+	void deleteViolation(UUID violationId);
 }

@@ -1,5 +1,6 @@
 package com.example.be.module.auth.service.impl;
 
+import com.example.be.common.service.EmailService;
 import com.example.be.module.auth.dto.response.AuthResponse;
 import com.example.be.module.auth.dto.request.LoginRequest;
 import com.example.be.module.auth.dto.request.RegisterRequest;
@@ -17,10 +18,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +31,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final EmailService emailService;
+
+	@Value("${app.frontend-url:http://localhost:5173}")
+	private String frontendUrl;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -73,12 +80,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 				.password(passwordEncoder.encode(request.getPassword()))
 				.phoneNumber(request.getEmail())
 				.role(dynamicRole)
-				.status(UserStatus.ACTIVE)
-				.emailVerifiedAt(LocalDateTime.now())
-				.emailVerificationToken(null)
+				.status(UserStatus.PENDING_VERIFICATION)
+				.emailVerificationToken(UUID.randomUUID().toString())
 				.build();
 
 		User saved = userRepository.save(user);
+		emailService.sendVerificationEmail(
+				saved.getEmail(),
+				saved.getUsername(),
+				frontendUrl + "/verify-email?token=" + saved.getEmailVerificationToken());
 
 		return new AuthResponse(saved.getId(), saved.getUsername(), saved.getFullName(), saved.getEmail(), saved.getPhoneNumber(), saved.getRole(), saved.getStatus(), saved.getLastLoginAt());
 	}

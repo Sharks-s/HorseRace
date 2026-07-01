@@ -12,19 +12,19 @@ class BeApplicationTests {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 		// Admin
-		assertTrue(encoder.matches("Admin@123", "$2a$10$7QxCOmwKhFfHaBCFpOHuIO/D1tWLNH7pGCpAh.iFvMRJSsBIR2v5m"), "Admin password hash is invalid");
+		assertTrue(encoder.matches("Admin@123", "$2a$10$SSJA316TyAC5H/fqi1lMxOshQ5zcEkvPvtNF9my2ZHtbP7uHJy2i."), "Admin password hash is invalid");
 
 		// Owner
-		assertTrue(encoder.matches("Owner@123", "$2a$10$iK3G1bIFzLI9MiJKa.K3QuBvDOnJuQ2PQ1R8bT6VbnMkjLUn5tN02"), "Owner password hash is invalid");
+		assertTrue(encoder.matches("Owner@123", "$2a$10$q/TwkEI66GBe.WN1wgidb.M3MX4Npz0QQYPr1S5iu0IPbJSxIYZLW"), "Owner password hash is invalid");
 
 		// Jockey
-		assertTrue(encoder.matches("Jockey@123", "$2a$10$8TGdQ1FJJqCMnq0KbApMqe4cRu3Kxl3pIPPp0jGiS0dLIaRAHFvwO"), "Jockey password hash is invalid");
+		assertTrue(encoder.matches("Jockey@123", "$2a$10$uyvnlS8XX2DpjZt62URx9eud0Izy9H4J2II9a65MW6iDdBel.WJQO"), "Jockey password hash is invalid");
 
 		// Referee
-		assertTrue(encoder.matches("Referee@123", "$2a$10$5rRKYvZ0J5/K4B7g2aBaXuyMFmkXfRkxTwIq0m2R81MDr3/6grqyq"), "Referee password hash is invalid");
+		assertTrue(encoder.matches("Referee@123", "$2a$10$isD2kQCFV2/F7MpayF/eyOowTj3osbhH8CMcsoEraPIbxmMF0gJ0a"), "Referee password hash is invalid");
 
 		// Spectator
-		assertTrue(encoder.matches("Spec@123", "$2a$10$U2LVpxNS5AvkxSzXHgvfauh2Lg0.B0IiEy3kK1nNBF7UE8Yz9cAUW"), "Spectator password hash is invalid");
+		assertTrue(encoder.matches("Spec@123", "$2a$10$M.vdZNxRQU17RTI1IOvOzuml/4u74nEnWwQWicaO1LdCu3bBfin7O"), "Spectator password hash is invalid");
 
 		System.out.println(">>> All BCrypt password hashes in data.sql verified successfully!");
 	}

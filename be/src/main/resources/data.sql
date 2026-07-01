@@ -16,70 +16,70 @@ KEY (id) VALUES
 -- Admin (password: Admin@123)
 ('00000000-0000-0000-0000-000000000001',
  'admin', 'System Admin', 'admin@horserace.local',
- '$2a$10$7QxCOmwKhFfHaBCFpOHuIO/D1tWLNH7pGCpAh.iFvMRJSsBIR2v5m',
+ '$2a$10$SSJA316TyAC5H/fqi1lMxOshQ5zcEkvPvtNF9my2ZHtbP7uHJy2i.',
  'admin@horserace.local', 'ADMIN', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Horse Owner 1 (password: Owner@123)
 ('00000000-0000-0000-0000-000000000002',
  'nguyen_van_a', 'Nguyễn Văn A', 'owner1@horserace.local',
- '$2a$10$iK3G1bIFzLI9MiJKa.K3QuBvDOnJuQ2PQ1R8bT6VbnMkjLUn5tN02',
+ '$2a$10$q/TwkEI66GBe.WN1wgidb.M3MX4Npz0QQYPr1S5iu0IPbJSxIYZLW',
  '0901234001', 'HORSE_OWNER', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Horse Owner 2 (password: Owner@123)
 ('00000000-0000-0000-0000-000000000003',
  'tran_thi_b', 'Trần Thị B', 'owner2@horserace.local',
- '$2a$10$iK3G1bIFzLI9MiJKa.K3QuBvDOnJuQ2PQ1R8bT6VbnMkjLUn5tN02',
+ '$2a$10$q/TwkEI66GBe.WN1wgidb.M3MX4Npz0QQYPr1S5iu0IPbJSxIYZLW',
  '0901234002', 'HORSE_OWNER', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Jockey 1 (password: Jockey@123)
 ('00000000-0000-0000-0000-000000000004',
  'jockey_minh', 'Lê Văn Minh', 'jockey1@horserace.local',
- '$2a$10$8TGdQ1FJJqCMnq0KbApMqe4cRu3Kxl3pIPPp0jGiS0dLIaRAHFvwO',
+ '$2a$10$uyvnlS8XX2DpjZt62URx9eud0Izy9H4J2II9a65MW6iDdBel.WJQO',
  '0901234003', 'JOCKEY', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Jockey 2 (password: Jockey@123)
 ('00000000-0000-0000-0000-000000000005',
  'jockey_hung', 'Phạm Văn Hùng', 'jockey2@horserace.local',
- '$2a$10$8TGdQ1FJJqCMnq0KbApMqe4cRu3Kxl3pIPPp0jGiS0dLIaRAHFvwO',
+ '$2a$10$uyvnlS8XX2DpjZt62URx9eud0Izy9H4J2II9a65MW6iDdBel.WJQO',
  '0901234004', 'JOCKEY', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Jockey 3 (password: Jockey@123)
 ('00000000-0000-0000-0000-000000000006',
  'jockey_lan', 'Hoàng Thị Lan', 'jockey3@horserace.local',
- '$2a$10$8TGdQ1FJJqCMnq0KbApMqe4cRu3Kxl3pIPPp0jGiS0dLIaRAHFvwO',
+ '$2a$10$uyvnlS8XX2DpjZt62URx9eud0Izy9H4J2II9a65MW6iDdBel.WJQO',
  '0901234005', 'JOCKEY', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Jockey 4 (password: Jockey@123)
 ('00000000-0000-0000-0000-000000000007',
  'jockey_trong', 'Nguyễn Văn C', 'jockey4@horserace.local',
- '$2a$10$8TGdQ1FJJqCMnq0KbApMqe4cRu3Kxl3pIPPp0jGiS0dLIaRAHFvwO',
+ '$2a$10$uyvnlS8XX2DpjZt62URx9eud0Izy9H4J2II9a65MW6iDdBel.WJQO',
  '0901234006', 'JOCKEY', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Referee 1 (password: Referee@123)
 ('00000000-0000-0000-0000-000000000008',
  'referee_duc', 'Nguyễn Đức Trọng', 'referee1@horserace.local',
- '$2a$10$5rRKYvZ0J5/K4B7g2aBaXuyMFmkXfRkxTwIq0m2R81MDr3/6grqyq',
+ '$2a$10$isD2kQCFV2/F7MpayF/eyOowTj3osbhH8CMcsoEraPIbxmMF0gJ0a',
  '0901234007', 'REFEREE', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Referee 2 (password: Referee@123)
 ('00000000-0000-0000-0000-000000000009',
  'referee_mai', 'Lê Thị Mai', 'referee2@horserace.local',
- '$2a$10$5rRKYvZ0J5/K4B7g2aBaXuyMFmkXfRkxTwIq0m2R81MDr3/6grqyq',
+ '$2a$10$isD2kQCFV2/F7MpayF/eyOowTj3osbhH8CMcsoEraPIbxmMF0gJ0a',
  '0901234008', 'REFEREE', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Spectator (password: Spec@123)
 ('00000000-0000-0000-0000-000000000010',
  'spectator_1', 'Khán Giả Một', 'spectator1@horserace.local',
- '$2a$10$U2LVpxNS5AvkxSzXHgvfauh2Lg0.B0IiEy3kK1nNBF7UE8Yz9cAUW',
+ '$2a$10$M.vdZNxRQU17RTI1IOvOzuml/4u74nEnWwQWicaO1LdCu3bBfin7O',
  '0901234009', 'SPECTATOR', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
