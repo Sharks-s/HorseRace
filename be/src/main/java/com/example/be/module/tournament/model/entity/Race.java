@@ -44,6 +44,7 @@ public class Race {
     @Column(nullable = false)
     private RaceStatus status;
 
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

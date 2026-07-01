@@ -105,20 +105,8 @@ const HorseManagementPage = () => {
   );
 
   return (
-    <div className="owner-shell">
-      <header className="owner-topbar">
-        <div className="owner-brand">HorseRace</div>
-        <nav className="owner-nav">
-          <a href="#stable" className="owner-nav-active">My Stable</a>
-          <a href="#form">Horse Profile</a>
-          <a href="#rules">BR-01</a>
-        </nav>
-        <div className="owner-avatar">
-          <span className="material-symbols-outlined">person</span>
-        </div>
-      </header>
-
-      <main className="owner-main">
+    <div className="owner-shell" style={{ display: "block" }}>
+      <main className="owner-main" style={{ padding: "24px" }}>
         <section className="owner-hero">
           <div>
             <p>Owner Workspace</p>

@@ -11,8 +11,8 @@ import com.example.be.module.jockey.dto.response.JockeyScheduleResponse;
 import com.example.be.module.jockey.model.entity.JockeyProfile;
 import com.example.be.module.jockey.repository.JockeyProfileRepository;
 import com.example.be.module.jockey.service.JockeyService;
-import com.example.be.module.registration.model.enums.RaceRegistrationStatus;
-import com.example.be.module.registration.repository.RaceRegistrationRepository;
+import com.example.be.module.registration.model.enums.RegistrationStatus;
+import com.example.be.module.registration.repository.RegistrationRepository;
 import com.example.be.module.result.repository.RaceResultRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,7 +32,7 @@ public class JockeyServiceImpl implements JockeyService {
 
 	private final UserRepository userRepository;
 	private final JockeyProfileRepository jockeyProfileRepository;
-	private final RaceRegistrationRepository raceRegistrationRepository;
+	private final RegistrationRepository registrationRepository;
 	private final RaceResultRepository raceResultRepository;
 
 	@Override
@@ -74,10 +74,10 @@ public class JockeyServiceImpl implements JockeyService {
 	@Transactional(readOnly = true)
 	public List<JockeyScheduleResponse> getMyUpcomingSchedule() {
 		User jockey = getCurrentJockey();
-		return raceRegistrationRepository
+		return registrationRepository
 				.findByJockey_IdAndStatusAndRace_StartTimeAfterOrderByRace_StartTimeAsc(
 						jockey.getId(),
-						RaceRegistrationStatus.ACCEPTED,
+						RegistrationStatus.ACCEPTED,
 						LocalDateTime.now())
 				.stream()
 				.map(JockeyScheduleResponse::fromEntity)
@@ -89,9 +89,9 @@ public class JockeyServiceImpl implements JockeyService {
 	public DailyRaceLimitResponse checkDailyRaceLimit(LocalDate date) {
 		User jockey = getCurrentJockey();
 		LocalDate targetDate = date == null ? LocalDate.now() : date;
-		long acceptedRaceCount = raceRegistrationRepository.countByJockey_IdAndStatusAndRace_StartTimeBetween(
+		long acceptedRaceCount = registrationRepository.countByJockey_IdAndStatusAndRace_StartTimeBetween(
 				jockey.getId(),
-				RaceRegistrationStatus.ACCEPTED,
+				RegistrationStatus.ACCEPTED,
 				targetDate.atStartOfDay(),
 				targetDate.plusDays(1).atStartOfDay());
 		return new DailyRaceLimitResponse(targetDate, acceptedRaceCount, DAILY_RACE_LIMIT, acceptedRaceCount <= DAILY_RACE_LIMIT);

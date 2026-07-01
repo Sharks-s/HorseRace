@@ -1,6 +1,6 @@
 package com.example.be.module.jockey.dto.response;
 
-import com.example.be.module.registration.model.entity.RaceRegistration;
+import com.example.be.module.registration.model.entity.Registration;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -20,7 +20,7 @@ public class JockeyScheduleResponse {
 	private String horseName;
 	private String ownerUsername;
 
-	public static JockeyScheduleResponse fromEntity(RaceRegistration registration) {
+	public static JockeyScheduleResponse fromEntity(Registration registration) {
 		return new JockeyScheduleResponse(
 				registration.getId(),
 				registration.getRace().getId(),

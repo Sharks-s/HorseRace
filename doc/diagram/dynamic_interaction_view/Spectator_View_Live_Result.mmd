@@ -1,0 +1,18 @@
+sequenceDiagram
+    actor Spectator as Spectator
+    participant Page as LiveResultPage
+    participant Ctrl as ResultController
+    participant Svc as ResultService
+    participant Repo as RaceResultRepository
+    participant DB as DB
+
+    Spectator->>Page: viewLiveResult()
+    Page->>Ctrl: requestRaceRanking()
+    Ctrl->>Svc: getRaceRanking()
+    Svc->>Repo: fetchResults()
+    Repo->>DB: SELECT race results
+    DB-->>Repo: result data
+    Repo-->>Svc: rankingList
+    Svc-->>Ctrl: formattedRanking
+    Ctrl-->>Page: displayRanking()
+    Page-->>Spectator: showLiveRanking()

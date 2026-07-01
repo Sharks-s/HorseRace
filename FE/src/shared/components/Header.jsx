@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { api } from "../../api/axios";
 import "./Header.css";
 
 export function Header() {
@@ -19,11 +20,36 @@ export function Header() {
     }
   });
 
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchNotifications = async () => {
+      try {
+        const response = await api.get("/notifications/my");
+        if (response.data && response.data.success) {
+          setNotifications(response.data.data || []);
+        }
+      } catch (error) {
+        console.error("Failed to fetch notifications", error);
+      }
+    };
+
+    void fetchNotifications();
+    const interval = setInterval(fetchNotifications, 10000); // Poll every 10 seconds
+
+    return () => clearInterval(interval);
+  }, [user]);
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
     navigate("/login");
   };
+
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
     <header className="main-header">
@@ -39,13 +65,13 @@ export function Header() {
         <nav className="header-nav">
           {/* Menu chung cho tất cả mọi người hoặc Khán giả (Spectator) */}
           <NavLink
-            to="/tournaments"
+            to="/schedule"
             className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
           >
             Giải đấu & Lịch đua
           </NavLink>
           <NavLink
-            to="/leaderboard"
+            to="/live"
             className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
           >
             Bảng xếp hạng
@@ -57,12 +83,12 @@ export function Header() {
               {/* 1. ADMIN: Quản lý giải, duyệt hồ sơ, phân công */}
               {user.role === "ADMIN" && (
                 <NavLink
-                  to="/admin/users"
+                  to="/admin"
                   className={({ isActive }) =>
                     `nav-link ${isActive ? "active" : ""}`
                   }
                 >
-                  Quản trị hệ thống
+                  Trang quản trị
                 </NavLink>
               )}
 
@@ -78,7 +104,7 @@ export function Header() {
                     Quản lý ngựa
                   </NavLink>
                   <NavLink
-                    to="/owner/hire-jockey"
+                    to="/owner/hiring"
                     className={({ isActive }) =>
                       `nav-link ${isActive ? "active" : ""}`
                     }
@@ -90,26 +116,54 @@ export function Header() {
 
               {/* 3. JOCKEY: Nhận lời mời, xem lịch thi đấu */}
               {user.role === "JOCKEY" && (
-                <NavLink
-                  to="/jockey/schedule"
-                  className={({ isActive }) =>
-                    `nav-link ${isActive ? "active" : ""}`
-                  }
-                >
-                  Lịch trình & Lời mời
-                </NavLink>
+                <>
+                  <NavLink
+                    to="/jockey/workspace"
+                    className={({ isActive }) =>
+                      `nav-link ${isActive ? "active" : ""}`
+                    }
+                  >
+                    Lịch trình & Profile
+                  </NavLink>
+                  <NavLink
+                    to="/jockey/invitations"
+                    className={({ isActive }) =>
+                      `nav-link ${isActive ? "active" : ""}`
+                    }
+                  >
+                    Lời mời thuê
+                  </NavLink>
+                </>
               )}
 
               {/* 4. RACE REFEREE: Kiểm tra điều kiện, ghi nhận lỗi, lập biên bản */}
               {user.role === "REFEREE" && (
-                <NavLink
-                  to="/referee/reports"
-                  className={({ isActive }) =>
-                    `nav-link ${isActive ? "active" : ""}`
-                  }
-                >
-                  Biên bản trọng tài
-                </NavLink>
+                <>
+                  <NavLink
+                    to="/referee/pre-race"
+                    className={({ isActive }) =>
+                      `nav-link ${isActive ? "active" : ""}`
+                    }
+                  >
+                    Kiểm tra trước đua
+                  </NavLink>
+                  <NavLink
+                    to="/referee/violations"
+                    className={({ isActive }) =>
+                      `nav-link ${isActive ? "active" : ""}`
+                    }
+                  >
+                    Ghi nhận vi phạm
+                  </NavLink>
+                  <NavLink
+                    to="/referee/report"
+                    className={({ isActive }) =>
+                      `nav-link ${isActive ? "active" : ""}`
+                    }
+                  >
+                    Lập biên bản
+                  </NavLink>
+                </>
               )}
             </>
           )}
@@ -150,21 +204,66 @@ export function Header() {
                   {user.role}
                 </span>
               </div>
-              <button className="icon-btn" aria-label="Notifications">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+              <div className="notifications-wrapper">
+                <button 
+                  className="icon-btn" 
+                  aria-label="Notifications"
+                  onClick={() => setShowNotifications(!showNotifications)}
+                  style={{ position: 'relative' }}
                 >
-                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                </svg>
-              </button>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                  </svg>
+                  {unreadCount > 0 && (
+                    <span className="notification-badge">{unreadCount}</span>
+                  )}
+                </button>
+
+                {showNotifications && (
+                  <div className="notifications-dropdown">
+                    <div className="notifications-header">
+                      <span>Notifications</span>
+                      <button 
+                        onClick={() => setShowNotifications(false)}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: 'var(--color-primary)' }}
+                      >
+                        Close
+                      </button>
+                    </div>
+                    <div className="notifications-list">
+                      {notifications.length === 0 ? (
+                        <div className="notifications-empty">No notifications yet</div>
+                      ) : (
+                        notifications.map(n => (
+                          <div 
+                            key={n.id} 
+                            className={`notification-item ${!n.read ? 'unread' : ''}`}
+                            onClick={() => {
+                              setShowNotifications(false);
+                            }}
+                          >
+                            <div className="notification-title">{n.title}</div>
+                            <div className="notification-message">{n.message}</div>
+                            <span className="notification-time">
+                              {new Date(n.createdAt).toLocaleString("vi-VN")}
+                            </span>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
               <button
                 className="icon-btn"
                 aria-label="Logout"

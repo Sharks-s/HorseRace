@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "HorseModuleHorse")
 @Table(name = "horses")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Getter

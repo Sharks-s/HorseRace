@@ -1,7 +1,7 @@
 package com.example.be.module.referee.dto.response;
 
-import com.example.be.module.registration.model.entity.RaceRegistration;
-import com.example.be.module.registration.model.enums.RaceRegistrationStatus;
+import com.example.be.module.registration.model.entity.Registration;
+import com.example.be.module.registration.model.enums.RegistrationStatus;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,7 +14,7 @@ import java.util.UUID;
 public class PreRaceHorseInspectionResponse {
 
 	private UUID registrationId;
-	private RaceRegistrationStatus status;
+	private RegistrationStatus status;
 	private UUID raceId;
 	private String raceName;
 	private LocalDateTime raceStartTime;
@@ -41,7 +41,7 @@ public class PreRaceHorseInspectionResponse {
 	private UUID inspectedById;
 
 	public static PreRaceHorseInspectionResponse fromEntity(
-			RaceRegistration registration,
+			Registration registration,
 			double minWeight,
 			double maxWeight,
 			LocalDate today) {

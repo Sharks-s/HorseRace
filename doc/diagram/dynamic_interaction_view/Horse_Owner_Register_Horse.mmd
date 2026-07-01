@@ -1,0 +1,19 @@
+sequenceDiagram
+    actor Owner as Horse Owner
+    participant Page as HorseRegistrationPage
+    participant Ctrl as HorseController
+    participant Svc as HorseService
+    participant Repo as HorseRepository
+    participant DB as DB
+
+    Owner->>Page: openRegistrationForm()
+    Page->>Ctrl: submitHorseData(horseData)
+    Ctrl->>Svc: validateHorseEligibility()
+    Note over Svc: BR-01: Health certificate <= 6 months<br/>Weight must be valid
+    Svc->>Repo: saveHorse(horse)
+    Repo->>DB: INSERT horse
+    DB-->>Repo: success
+    Repo-->>Svc: horseSaved
+    Svc-->>Ctrl: registrationSuccess()
+    Ctrl-->>Page: displaySuccessMessage()
+    Page-->>Owner: showRegistrationCompleted()

@@ -1,55 +1,80 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { tournamentApi } from "../api/tournamentApi";
+import { publicResultApi } from "../api/publicResultApi";
+import UpcomingRaceCard from "../features/spectator/components/UpcomingRaceCard";
+import Leaderboard from "../features/spectator/components/Leaderboard";
+
+// Helper: đọc user từ localStorage
+const getStoredUser = () => {
+  try {
+    const raw = localStorage.getItem("user");
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+};
 
 const HorseRaceApp = () => {
   const navigate = useNavigate();
+  const [races, setRaces] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState(getStoredUser);
+  const [standings, setStandings] = useState([]);
+
+  // Sync auth state when localStorage changes (e.g. login from another tab or after navigate back)
+  useEffect(() => {
+    const syncUser = () => setCurrentUser(getStoredUser());
+    window.addEventListener("storage", syncUser);
+    syncUser();
+    return () => window.removeEventListener("storage", syncUser);
+  }, []);
+
+  useEffect(() => {
+    const fetchUpcomingRaces = async () => {
+      try {
+        const response = await tournamentApi.getAllTournaments();
+        if (response.success && response.data) {
+          let allRaces = [];
+          for (const tournament of response.data) {
+            const racesRes = await tournamentApi.getRacesByTournament(tournament.id);
+            if (racesRes.success && racesRes.data) {
+              const mapped = racesRes.data.map(r => ({
+                ...r,
+                tournamentName: tournament.name
+              }));
+              allRaces = [...allRaces, ...mapped];
+            }
+          }
+          allRaces.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
+          const upcoming = allRaces.filter(r => r.status === "SCHEDULED" || r.status === "CLOSED_REGISTRATION" || r.status === "IN_PROGRESS");
+          setRaces(upcoming);
+
+          const ongoingTournaments = response.data.filter(t => t.status === "ONGOING");
+          const targetTournament = ongoingTournaments.length > 0 ? ongoingTournaments[0] : (response.data.length > 0 ? response.data[0] : null);
+          if (targetTournament) {
+            try {
+              const standingsRes = await publicResultApi.getTournamentStandings(targetTournament.id);
+              if (standingsRes && standingsRes.data) {
+                setStandings(standingsRes.data);
+              }
+            } catch (err) {
+              console.error("Failed to load standings", err);
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Failed to load upcoming races schedule:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void fetchUpcomingRaces();
+  }, []);
 
   return (
     <div className="bg-background text-on-background font-body-md min-h-screen flex flex-col">
-      {/* TopAppBar */}
-      <header className="bg-surface border-b border-outline-variant sticky top-0 w-full z-50 flex justify-center items-center h-20 px-8">
-        <div className="w-full max-w-[1440px] flex justify-between items-center">
-          <div className="flex items-center gap-12">
-            <h1
-              className="font-display-lg text-[40px] text-secondary font-bold tracking-tighter leading-none cursor-pointer"
-              onClick={() => navigate("/")}
-            >
-              HorseRace
-            </h1>
-            <nav className="hidden md:flex items-center gap-8">
-              <a
-                className="font-label-bold text-body-md text-on-surface-variant hover:text-primary transition-colors"
-                href="#"
-              >
-                Tournaments
-              </a>
-              <a
-                className="font-label-bold text-body-md text-on-surface-variant hover:text-primary transition-colors"
-                href="#"
-              >
-                Leaderboard
-              </a>
-            </nav>
-          </div>
-          <div className="flex items-center gap-4">
-            {/* 3. Thêm onClick chuyển tuyến vào nút Login */}
-            <button
-              onClick={() => navigate("/login")}
-              className="font-label-bold text-label-bold text-primary px-4 py-2 hover:bg-surface-container-high rounded-lg transition-colors"
-            >
-              Login
-            </button>
-
-            {/* 4. Thêm onClick chuyển tuyến vào nút Register */}
-            <button
-              onClick={() => navigate("/register")}
-              className="bg-primary text-on-primary font-label-bold text-label-bold px-6 py-2.5 rounded-lg shadow-sm hover:bg-primary/90 transition-colors"
-            >
-              Register
-            </button>
-          </div>
-        </div>
-      </header>
-
       <main className="flex-1 w-full flex flex-col">
         {/* Hero Section */}
         <section
@@ -72,7 +97,6 @@ const HorseRaceApp = () => {
                 owners, and high-volume bettors.
               </p>
 
-              {/* 5. Thêm chuyển tuyến vào nút Join Now (Thường dẫn đến trang Đăng ký) */}
               <button
                 onClick={() => navigate("/register")}
                 className="bg-secondary-container text-on-secondary-container font-label-bold text-[16px] px-8 py-4 rounded-lg shadow-xl hover:-translate-y-[2px] transition-transform flex items-center gap-2 w-fit"
@@ -94,7 +118,10 @@ const HorseRaceApp = () => {
               <h3 className="font-headline-lg text-headline-lg text-primary">
                 Live & Upcoming Races Schedule
               </h3>
-              <button className="font-label-bold text-label-bold text-secondary flex items-center hover:underline">
+              <button 
+                onClick={() => navigate("/schedule")}
+                className="font-label-bold text-label-bold text-secondary flex items-center hover:underline"
+              >
                 View All Schedule{" "}
                 <span className="material-symbols-outlined text-[16px] ml-1">
                   chevron_right
@@ -103,214 +130,34 @@ const HorseRaceApp = () => {
             </div>
 
             <div className="flex flex-col gap-6">
-              {/* Race Card 1 */}
-              <article className="bg-surface-container-lowest shadow-[0px_4px_16px_rgba(0,0,0,0.04)] border border-outline-variant rounded-xl p-6 relative overflow-hidden transition-transform hover:-translate-y-[2px] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-                <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-inverse-primary"></div>
-                <div className="flex-1 ml-2">
-                  <div className="flex items-center gap-4 mb-2">
-                    <span className="bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full px-3 py-1 font-label-sm text-label-sm flex items-center gap-1.5 w-fit">
-                      <span className="material-symbols-outlined text-[14px]">
-                        schedule
-                      </span>{" "}
-                      Upcoming
-                    </span>
-                    <span className="font-label-sm text-label-sm text-on-surface-variant">
-                      ID: #TR-8492
-                    </span>
-                  </div>
-                  <h4 className="font-headline-md text-[28px] text-on-surface mb-1">
-                    Ascot Gold Cup Qualifier
-                  </h4>
-                  <p className="font-body-md text-on-surface-variant">
-                    Semi-Finals
-                  </p>
-                </div>
-                <div className="text-left sm:text-right flex-shrink-0">
-                  <p className="font-label-sm text-label-sm text-on-surface-variant mb-1">
-                    Race Date
-                  </p>
-                  <p className="font-body-lg text-body-lg text-on-surface font-semibold mb-3">
-                    Oct 24, 14:30 GMT
-                  </p>
-                  <button className="bg-surface-container-high text-on-surface font-label-bold px-4 py-2 rounded-lg hover:bg-surface-container-highest transition-colors w-full sm:w-auto">
-                    View Details
-                  </button>
-                </div>
-              </article>
-
-              {/* Race Card 2 */}
-              <article className="bg-surface-container-lowest shadow-[0px_4px_16px_rgba(0,0,0,0.04)] border border-outline-variant rounded-xl p-6 relative overflow-hidden transition-transform hover:-translate-y-[2px] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-                <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-inverse-primary"></div>
-                <div className="flex-1 ml-2">
-                  <div className="flex items-center gap-4 mb-2">
-                    <span className="bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full px-3 py-1 font-label-sm text-label-sm flex items-center gap-1.5 w-fit">
-                      <span className="material-symbols-outlined text-[14px]">
-                        schedule
-                      </span>{" "}
-                      Upcoming
-                    </span>
-                    <span className="font-label-sm text-label-sm text-on-surface-variant">
-                      ID: #TR-8493
-                    </span>
-                  </div>
-                  <h4 className="font-headline-md text-[28px] text-on-surface mb-1">
-                    Belmont Stakes Sprint
-                  </h4>
-                  <p className="font-body-md text-on-surface-variant">
-                    Qualifier 3
-                  </p>
-                </div>
-                <div className="text-left sm:text-right flex-shrink-0">
-                  <p className="font-label-sm text-label-sm text-on-surface-variant mb-1">
-                    Race Date
-                  </p>
-                  <p className="font-body-lg text-body-lg text-on-surface font-semibold mb-3">
-                    Oct 25, 10:00 EST
-                  </p>
-                  <button className="bg-surface-container-high text-on-surface font-label-bold px-4 py-2 rounded-lg hover:bg-surface-container-highest transition-colors w-full sm:w-auto">
-                    View Details
-                  </button>
-                </div>
-              </article>
+              {loading ? (
+                <div className="text-center py-8 text-on-surface-variant font-medium">Loading schedule...</div>
+              ) : races.length === 0 ? (
+                <div className="text-center py-8 text-on-surface-variant font-medium">No upcoming races found.</div>
+              ) : (
+                races.map(race => (
+                  <UpcomingRaceCard 
+                    key={race.id}
+                    race={race}
+                    onViewDetails={() => navigate('/schedule', { state: { openRaceId: race.id } })}
+                  />
+                ))
+              )}
             </div>
           </section>
 
           {/* Right Column: Leaderboard */}
           <aside className="lg:col-span-1 w-full">
-            <h3 className="font-headline-lg text-headline-lg text-primary mb-8">
-              Top Performers
-            </h3>
-            <div className="bg-surface-container-lowest shadow-[0px_8px_24px_rgba(0,0,0,0.06)] border border-outline-variant rounded-2xl overflow-hidden flex flex-col h-fit">
-              <div className="bg-primary text-on-primary p-4 flex items-center justify-between">
-                <h4 className="font-label-bold text-[16px]">
-                  Jockey / Horse Leaderboard
-                </h4>
-                <span className="material-symbols-outlined">leaderboard</span>
-              </div>
-
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-surface-container-low border-b border-surface-variant">
-                    <th className="font-label-sm text-label-sm py-3 px-4 w-12 text-center text-on-surface-variant">
-                      Rnk
-                    </th>
-                    <th className="font-label-sm text-label-sm py-3 px-4 text-on-surface-variant">
-                      Jockey / Horse
-                    </th>
-                    <th className="font-label-sm text-label-sm py-3 px-4 text-right text-on-surface-variant">
-                      Win %
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-surface-variant">
-                  <tr className="hover:bg-surface-container-low transition-colors">
-                    <td className="py-4 px-4 text-center">
-                      <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container font-label-bold text-label-bold">
-                        1
-                      </span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <p className="font-body-lg text-body-lg text-on-surface font-medium leading-tight">
-                        L. Dettori
-                      </p>
-                      <p className="font-body-md text-on-surface-variant mt-1">
-                        Golden Horn
-                      </p>
-                    </td>
-                    <td className="py-4 px-4 text-right font-body-lg text-body-lg text-primary font-bold">
-                      68%
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-surface-container-low transition-colors">
-                    <td className="py-4 px-4 text-center">
-                      <span className="font-label-bold text-[16px] text-on-surface-variant">
-                        2
-                      </span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <p className="font-body-lg text-body-lg text-on-surface font-medium leading-tight">
-                        R. Moore
-                      </p>
-                      <p className="font-body-md text-on-surface-variant mt-1">
-                        Auguste Rodin
-                      </p>
-                    </td>
-                    <td className="py-4 px-4 text-right font-body-lg text-body-lg text-primary font-bold">
-                      64%
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-surface-container-low transition-colors">
-                    <td className="py-4 px-4 text-center">
-                      <span className="font-label-bold text-[16px] text-on-surface-variant">
-                        3
-                      </span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <p className="font-body-lg text-body-lg text-on-surface font-medium leading-tight">
-                        W. Buick
-                      </p>
-                      <p className="font-body-md text-on-surface-variant mt-1">
-                        Rebel's Romance
-                      </p>
-                    </td>
-                    <td className="py-4 px-4 text-right font-body-lg text-body-lg text-primary font-bold">
-                      59%
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div className="p-4 border-t border-surface-variant bg-surface-container-lowest">
-                <button className="w-full py-2 text-primary font-label-bold hover:bg-surface-container-low rounded-lg transition-colors">
-                  View Full Leaderboard
-                </button>
-              </div>
-            </div>
+            <Leaderboard 
+              title="Top Performers"
+              standings={standings}
+              limit={5}
+              variant="table"
+              onViewFull={() => navigate('/live')}
+            />
           </aside>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-surface-container-high py-16 px-8 text-center border-t border-outline-variant mt-auto">
-        <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex flex-col items-start">
-            <h2 className="font-display-lg text-[32px] text-primary mb-2 opacity-80">
-              HorseRace
-            </h2>
-            <p className="font-label-sm text-label-sm text-on-surface-variant text-left">
-              © 2024 HorseRace Inc. All rights reserved.
-            </p>
-          </div>
-          <div className="flex justify-center gap-8">
-            <a
-              className="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2"
-              href="#"
-            >
-              <span className="material-symbols-outlined text-[24px]">
-                share
-              </span>
-              <span className="font-label-sm hidden md:inline">Share</span>
-            </a>
-            <a
-              className="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2"
-              href="#"
-            >
-              <span className="material-symbols-outlined text-[24px]">
-                mail
-              </span>
-              <span className="font-label-sm hidden md:inline">Contact</span>
-            </a>
-            <a
-              className="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2"
-              href="#"
-            >
-              <span className="material-symbols-outlined text-[24px]">
-                language
-              </span>
-              <span className="font-label-sm hidden md:inline">EN</span>
-            </a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

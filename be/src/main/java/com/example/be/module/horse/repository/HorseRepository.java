@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.UUID;
 
-@Repository
+@Repository("horseModuleHorseRepository")
 public interface HorseRepository extends JpaRepository<Horse, UUID>, JpaSpecificationExecutor<Horse> {
 
 	List<Horse> findByOwner_IdOrderByCreatedAtDesc(UUID ownerId);

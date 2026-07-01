@@ -1,6 +1,6 @@
 package com.example.be.module.referee.service;
 
-import com.example.be.module.referee.dto.request.ViolationRequest;
+import com.example.be.module.referee.dto.request.RecordViolationRequest;
 import com.example.be.module.referee.dto.response.ViolationResponse;
 
 import java.util.List;
@@ -8,11 +8,9 @@ import java.util.UUID;
 
 public interface ViolationService {
 
-	List<ViolationResponse> getViolations(UUID raceId);
+	ViolationResponse recordViolation(UUID raceId, RecordViolationRequest request);
 
-	ViolationResponse createViolation(ViolationRequest request);
+	List<ViolationResponse> getViolationsByRace(UUID raceId);
 
-	ViolationResponse updateViolation(UUID id, ViolationRequest request);
-
-	void deleteViolation(UUID id);
+	void deleteViolation(UUID violationId);
 }
