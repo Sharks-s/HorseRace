@@ -24,7 +24,7 @@ public class AdminUserController {
 	private final AdminUserService adminUserService;
 
 	@GetMapping
-	@PreAuthorize("hasAnyRole('ADMIN', 'HORSE_OWNER')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ApiResponse<Page<UserAdminResponse>> getUsers(
 			@RequestParam(required = false) Role role,
 			@RequestParam(required = false) UserStatus status,
@@ -33,7 +33,7 @@ public class AdminUserController {
 	}
 
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN', 'HORSE_OWNER')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ApiResponse<UserAdminResponse> getUser(@PathVariable UUID id) {
 		return ApiResponse.success(adminUserService.getUser(id));
 	}

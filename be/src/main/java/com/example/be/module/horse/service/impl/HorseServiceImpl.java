@@ -10,6 +10,7 @@ import com.example.be.module.horse.model.entity.Horse;
 import com.example.be.module.horse.model.enums.HorseStatus;
 import com.example.be.module.horse.repository.HorseRepository;
 import com.example.be.module.horse.service.HorseService;
+import com.example.be.module.registration.repository.RegistrationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -28,6 +29,7 @@ public class HorseServiceImpl implements HorseService {
 
 	private final HorseRepository horseRepository;
 	private final UserRepository userRepository;
+	private final RegistrationRepository registrationRepository;
 
 	@Value("${app.horse.max-weight}")
 	private double maxHorseWeight;
@@ -71,7 +73,7 @@ public class HorseServiceImpl implements HorseService {
 			throw new IllegalArgumentException("Bạn không có quyền chỉnh sửa ngựa này");
 		}
 
-		if (horse.getStatus() == HorseStatus.REGISTERED) {
+		if (horse.getStatus() == HorseStatus.REGISTERED || registrationRepository.existsByHorse_Id(horse.getId())) {
 			throw new IllegalArgumentException("Không thể chỉnh sửa ngựa đã tham gia đua");
 		}
 
