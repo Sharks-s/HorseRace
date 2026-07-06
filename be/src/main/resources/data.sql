@@ -22,63 +22,63 @@ KEY (id) VALUES
 
 -- Horse Owner 1 (password: Owner@123)
 ('00000000-0000-0000-0000-000000000002',
- 'nguyen_van_a', 'Nguyễn Văn A', 'owner1@horserace.local',
+ 'nguyen_van_a', 'Nguyen Van A', 'owner1@horserace.local',
  '$2a$10$q/TwkEI66GBe.WN1wgidb.M3MX4Npz0QQYPr1S5iu0IPbJSxIYZLW',
  '0901234001', 'HORSE_OWNER', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Horse Owner 2 (password: Owner@123)
 ('00000000-0000-0000-0000-000000000003',
- 'tran_thi_b', 'Trần Thị B', 'owner2@horserace.local',
+ 'tran_thi_b', 'Tran Thi B', 'owner2@horserace.local',
  '$2a$10$q/TwkEI66GBe.WN1wgidb.M3MX4Npz0QQYPr1S5iu0IPbJSxIYZLW',
  '0901234002', 'HORSE_OWNER', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Jockey 1 (password: Jockey@123)
 ('00000000-0000-0000-0000-000000000004',
- 'jockey_minh', 'Lê Văn Minh', 'jockey1@horserace.local',
+ 'jockey_minh', 'Le Van Minh', 'jockey1@horserace.local',
  '$2a$10$uyvnlS8XX2DpjZt62URx9eud0Izy9H4J2II9a65MW6iDdBel.WJQO',
  '0901234003', 'JOCKEY', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Jockey 2 (password: Jockey@123)
 ('00000000-0000-0000-0000-000000000005',
- 'jockey_hung', 'Phạm Văn Hùng', 'jockey2@horserace.local',
+ 'jockey_hung', 'Pham Van Hung', 'jockey2@horserace.local',
  '$2a$10$uyvnlS8XX2DpjZt62URx9eud0Izy9H4J2II9a65MW6iDdBel.WJQO',
  '0901234004', 'JOCKEY', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Jockey 3 (password: Jockey@123)
 ('00000000-0000-0000-0000-000000000006',
- 'jockey_lan', 'Hoàng Thị Lan', 'jockey3@horserace.local',
+ 'jockey_lan', 'Hoang Thi Lan', 'jockey3@horserace.local',
  '$2a$10$uyvnlS8XX2DpjZt62URx9eud0Izy9H4J2II9a65MW6iDdBel.WJQO',
  '0901234005', 'JOCKEY', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Jockey 4 (password: Jockey@123)
 ('00000000-0000-0000-0000-000000000007',
- 'jockey_trong', 'Nguyễn Văn C', 'jockey4@horserace.local',
+ 'jockey_trong', 'Nguyen Van C', 'jockey4@horserace.local',
  '$2a$10$uyvnlS8XX2DpjZt62URx9eud0Izy9H4J2II9a65MW6iDdBel.WJQO',
  '0901234006', 'JOCKEY', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Referee 1 (password: Referee@123)
 ('00000000-0000-0000-0000-000000000008',
- 'referee_duc', 'Nguyễn Đức Trọng', 'referee1@horserace.local',
+ 'referee_duc', 'Nguyen Duc Trong', 'referee1@horserace.local',
  '$2a$10$isD2kQCFV2/F7MpayF/eyOowTj3osbhH8CMcsoEraPIbxmMF0gJ0a',
  '0901234007', 'REFEREE', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Referee 2 (password: Referee@123)
 ('00000000-0000-0000-0000-000000000009',
- 'referee_mai', 'Lê Thị Mai', 'referee2@horserace.local',
+ 'referee_mai', 'Le Thi Mai', 'referee2@horserace.local',
  '$2a$10$isD2kQCFV2/F7MpayF/eyOowTj3osbhH8CMcsoEraPIbxmMF0gJ0a',
  '0901234008', 'REFEREE', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Spectator (password: Spec@123)
 ('00000000-0000-0000-0000-000000000010',
- 'spectator_1', 'Khán Giả Một', 'spectator1@horserace.local',
+ 'spectator_1', 'Spectator One', 'spectator1@horserace.local',
  '$2a$10$M.vdZNxRQU17RTI1IOvOzuml/4u74nEnWwQWicaO1LdCu3bBfin7O',
  '0901234009', 'SPECTATOR', 'ACTIVE',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
@@ -90,26 +90,26 @@ MERGE INTO jockey_profiles (id, user_id, license_no, name, weight, bio, created_
 KEY (id) VALUES
 ('00000000-0000-0000-0001-000000000001',
  '00000000-0000-0000-0000-000000000004',
- 'JLN-001', 'Lê Văn Minh', 58.5,
- 'Jockey chuyên nghiệp 8 năm kinh nghiệm, chuyên đường đua sprint.',
+ 'JLN-001', 'Le Van Minh', 58.5,
+ 'Professional jockey with 8 years of experience, specializing in sprint races.',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 ('00000000-0000-0000-0001-000000000002',
  '00000000-0000-0000-0000-000000000005',
- 'JLN-002', 'Phạm Văn Hùng', 57.0,
- 'Từng vô địch giải đua nội địa 2022, mạnh nhất ở đường dài.',
+ 'JLN-002', 'Pham Van Hung', 57.0,
+ 'Former national champion in 2022, strongest in long-distance races.',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 ('00000000-0000-0000-0001-000000000003',
  '00000000-0000-0000-0000-000000000006',
- 'JLN-003', 'Hoàng Thị Lan', 55.2,
- 'Jockey nữ đầu tiên đạt danh hiệu tại giải ASEAN 2023.',
+ 'JLN-003', 'Hoang Thi Lan', 55.2,
+ 'First female jockey to achieve the title at the ASEAN championship 2023.',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 ('00000000-0000-0000-0001-000000000004',
  '00000000-0000-0000-0000-000000000007',
- 'JLN-004', 'Nguyễn Văn C', 56.5,
- 'Tân binh đầy triển vọng với tốc độ phản xạ xuất sắc.',
+ 'JLN-004', 'Nguyen Van C', 56.5,
+ 'Promising rookie jockey with exceptional reaction speed.',
  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- ----------------------------------------------------------------
@@ -164,21 +164,21 @@ KEY (id) VALUES
 ('00000000-0000-0000-0003-000000000001',
  'Spring Championship 2026',
  '2026-03-01', '2026-03-31',
- 'Giải đua ngựa vô địch mùa xuân nămf 2026, đánh dấu mùa giải mở đầu.',
+ 'The 2026 Spring Horse Racing Championship, marking the opening tournament of the racing season.',
  'COMPLETED', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Tournament 2: Present & Ongoing (covers system date 2026-06-30)
 ('00000000-0000-0000-0003-000000000002',
  'Vietnam Summer Derby 2026',
  '2026-06-15', '2026-07-15',
- 'Cúp Derby Mùa Hè Việt Nam 2026 quy tụ các chiến mã hàng đầu khu vực.',
+ 'The 2026 Vietnam Summer Derby, bringing together the top horses from the region.',
  'ONGOING', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Tournament 3: Future & Upcoming
 ('00000000-0000-0000-0003-000000000003',
  'Grand Autumn Classic 2026',
  '2026-09-01', '2026-09-30',
- 'Giải đấu cổ điển mùa thu 2026, có hệ số điểm cao đặc biệt.',
+ 'The 2026 Grand Autumn Classic, featuring a high-point system.',
  'UPCOMING', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- ----------------------------------------------------------------
@@ -407,28 +407,28 @@ KEY (id) VALUES
 ('00000000-0000-0000-0006-000000000001',
  '00000000-0000-0000-0004-000000000001',
  '00000000-0000-0000-0000-000000000008', -- Referee 1
- 'Trận đua Spring Sprint Qualifier diễn ra thuận lợi, không ghi nhận hành vi vi phạm nào.',
+ 'The Spring Sprint Qualifier was completed successfully with no rule violations recorded.',
  TRUE, '2026-03-10 10:00:00'),
 
 -- Report for Race 2
 ('00000000-0000-0000-0006-000000000002',
  '00000000-0000-0000-0004-000000000002',
  '00000000-0000-0000-0000-000000000009', -- Referee 2
- 'Spring Classic Final kết thúc. Ghi nhận 1 trường hợp lấn làn của Horse 1 ở phút thứ 1.',
+ 'The Spring Classic Final has concluded. One lane violation involving Horse 1 was recorded during the first minute of the race.',
  TRUE, '2026-03-25 11:30:00'),
 
 -- Report for Race 3
 ('00000000-0000-0000-0006-000000000003',
  '00000000-0000-0000-0004-000000000003',
  '00000000-0000-0000-0000-000000000008', -- Referee 1
- 'Trận Derby Sprint Qualifier diễn ra kịch tính. Phát hiện Horse 3 xuất phát sai luật.',
+ 'The Derby Sprint Qualifier was highly competitive. Horse 3 committed a false start.',
  TRUE, '2026-06-20 10:15:00'),
 
 -- Report for Race 4
 ('00000000-0000-0000-0006-000000000004',
  '00000000-0000-0000-0004-000000000004',
  '00000000-0000-0000-0000-000000000009', -- Referee 2
- 'Báo cáo kết quả trận Derby Classic Semifinal. Chờ phê duyệt công bố chính thức.',
+ 'The race results for the Derby Classic Semifinal have been submitted and are awaiting official approval.',
  TRUE, '2026-06-28 11:00:00');
 
 -- ----------------------------------------------------------------
@@ -441,14 +441,14 @@ KEY (id) VALUES
  '00000000-0000-0000-0004-000000000002', -- Race 2
  '00000000-0000-0000-0002-000000000001', -- Horse 1
  '00000000-0000-0000-0000-000000000004', -- Jockey 1
- 'LANE_VIOLATION', 'Chạy lấn làn của ngựa số 3 ở khúc cua thứ hai.', 1, CURRENT_TIMESTAMP),
+ 'LANE_VIOLATION', 'A lane violation occurred at the second turn.', 1, CURRENT_TIMESTAMP),
 
 -- Violation in Race 3
 ('00000000-0000-0000-0007-000000000002',
  '00000000-0000-0000-0004-000000000003', -- Race 3
  '00000000-0000-0000-0002-000000000003', -- Horse 3
  '00000000-0000-0000-0000-000000000006', -- Jockey 3
- 'FALSE_START', 'Xuất phát sớm trước hiệu lệnh còi báo hiệu.', 0, CURRENT_TIMESTAMP);
+ 'FALSE_START', 'False start before the official starting signal.', 0, CURRENT_TIMESTAMP);
 
 -- ----------------------------------------------------------------
 -- 9. RACE RESULTS
