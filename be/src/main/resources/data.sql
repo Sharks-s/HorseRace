@@ -164,7 +164,7 @@ KEY (id) VALUES
 ('00000000-0000-0000-0003-000000000001',
  'Spring Championship 2026',
  '2026-03-01', '2026-03-31',
- 'Giải đua ngựa vô địch mùa xuân năm 2026, đánh dấu mùa giải mở đầu.',
+ 'Giải đua ngựa vô địch mùa xuân nămf 2026, đánh dấu mùa giải mở đầu.',
  'COMPLETED', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
 -- Tournament 2: Present & Ongoing (covers system date 2026-06-30)

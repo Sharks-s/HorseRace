@@ -31,7 +31,7 @@ public class RaceServiceImpl implements RaceService {
     @Transactional
     public RaceResponse createRace(UUID tournamentId, RaceRequest request) {
         Tournament tournament = tournamentRepository.findById(tournamentId)
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy giải đấu"));
+                .orElseThrow(() -> new IllegalArgumentException("Tournament not found."));
 
         validateSchedule(tournament, request);
 
@@ -51,7 +51,7 @@ public class RaceServiceImpl implements RaceService {
     @Transactional
     public RaceResponse updateRace(UUID id, RaceRequest request) {
         Race race = raceRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy vòng đua"));
+                .orElseThrow(() -> new IllegalArgumentException("Race not found."));
 
         validateSchedule(race.getTournament(), request);
 
@@ -68,7 +68,7 @@ public class RaceServiceImpl implements RaceService {
     @Transactional
     public void deleteRace(UUID id) {
         Race race = raceRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy vòng đua"));
+                .orElseThrow(() -> new IllegalArgumentException("Race not found."));
         raceRepository.delete(race);
     }
 
@@ -76,7 +76,7 @@ public class RaceServiceImpl implements RaceService {
     @Transactional(readOnly = true)
     public RaceResponse getRace(UUID id) {
         Race race = raceRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy vòng đua"));
+                .orElseThrow(() -> new IllegalArgumentException("Race not found."));
         return RaceResponse.fromEntity(race);
     }
 
@@ -92,13 +92,13 @@ public class RaceServiceImpl implements RaceService {
     @Transactional
     public RaceResponse assignReferee(UUID raceId, UUID refereeId) {
         Race race = raceRepository.findById(raceId)
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy vòng đua"));
-        
+                .orElseThrow(() -> new IllegalArgumentException("Race not found."));
+
         com.example.be.module.auth.model.entity.User referee = userRepository.findById(refereeId)
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy người dùng"));
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
         if (referee.getRole() != com.example.be.module.auth.model.enums.Role.REFEREE) {
-            throw new IllegalArgumentException("Người dùng không có quyền trọng tài (REFEREE)");
+            throw new IllegalArgumentException("User does not have the role of referee.");
         }
 
         // Validate conflict: check if this referee is already assigned to a race overlapping in time
@@ -109,7 +109,7 @@ public class RaceServiceImpl implements RaceService {
                         && r.getStartTime().equals(race.getStartTime()));
         
         if (hasConflict) {
-            throw new IllegalArgumentException("Trọng tài đã được phân công cho một vòng đua khác cùng thời điểm");
+            throw new IllegalArgumentException("Referee is already assigned to a race at the same time.");
         }
 
         race.setReferee(referee);
@@ -120,8 +120,8 @@ public class RaceServiceImpl implements RaceService {
     private void validateSchedule(Tournament tournament, RaceRequest request) {
         LocalDate raceDate = request.getStartTime().toLocalDate();
         if (raceDate.isBefore(tournament.getStartDate()) || raceDate.isAfter(tournament.getEndDate())) {
-            throw new IllegalArgumentException("Thời gian bắt đầu của vòng đua phải nằm trong khoảng thời gian diễn ra giải đấu ("
-                    + tournament.getStartDate() + " đến " + tournament.getEndDate() + ")");
+            throw new IllegalArgumentException("The start time of the race must be within the tournament duration ("
+                    + tournament.getStartDate() + " to " + tournament.getEndDate() + ")");
         }
     }
 

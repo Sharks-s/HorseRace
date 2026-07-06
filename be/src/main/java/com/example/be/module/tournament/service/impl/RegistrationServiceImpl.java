@@ -40,29 +40,29 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Transactional
     public RegistrationResponse sendInvitation(UUID raceId, RegistrationRequest request) {
         Race race = raceRepository.findById(raceId)
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy vòng đua"));
+                .orElseThrow(() -> new IllegalArgumentException("Race not found."));
 
         // BR-04 Guard check: Cannot register if less than 48 hours to race
         if (LocalDateTime.now().plusHours(48).isAfter(race.getStartTime())) {
-            throw new IllegalArgumentException("Không thể đăng ký. Vòng đua sẽ bắt đầu trong vòng 48h tới.");
+            throw new IllegalArgumentException("Registration is closed because the race will start within the next 48 hours.");
         }
 
         if (race.getStatus() != RaceStatus.SCHEDULED) {
-            throw new IllegalArgumentException("Vòng đua không ở trạng thái mở đăng ký");
+            throw new IllegalArgumentException("Race is not in a registrable state.");
         }
 
         Horse horse = horseRepository.findById(request.getHorseId())
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy ngựa"));
+                .orElseThrow(() -> new IllegalArgumentException("Horse not found."));
 
         User jockey = userRepository.findById(request.getJockeyId())
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy jockey"));
+                .orElseThrow(() -> new IllegalArgumentException("Jockey not found."));
 
         if (jockey.getRole() != Role.JOCKEY) {
-            throw new IllegalArgumentException("Người dùng không phải là Jockey");
+            throw new IllegalArgumentException("User is not a jockey.");
         }
 
         if (registrationRepository.existsByRaceIdAndHorseId(raceId, horse.getId())) {
-            throw new IllegalArgumentException("Ngựa đã được đăng ký cho vòng đua này");
+            throw new IllegalArgumentException("Horse is already registered for this race.");
         }
 
         Registration registration = Registration.builder()
@@ -91,10 +91,10 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Transactional
     public RegistrationResponse respondToInvitation(UUID registrationId, boolean accept) {
         Registration registration = registrationRepository.findById(registrationId)
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy lời mời"));
+                .orElseThrow(() -> new IllegalArgumentException("Registration not found."));
 
         if (registration.getStatus() != RegistrationStatus.PENDING_JOCKEY) {
-            throw new IllegalArgumentException("Lời mời không còn ở trạng thái chờ");
+            throw new IllegalArgumentException("Registration is no longer in a pending state.");
         }
 
         if (accept) {
@@ -107,7 +107,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                     raceDate.plusDays(1).atStartOfDay()
             );
             if (acceptedRaces >= 3) {
-                throw new IllegalArgumentException("Jockey đã đạt giới hạn tham gia tối đa 3 vòng đua trong ngày.");
+                throw new IllegalArgumentException("Jockey has reached the maximum limit of 3 races per day.");
             }
             registration.setStatus(RegistrationStatus.ACCEPTED);
         } else {

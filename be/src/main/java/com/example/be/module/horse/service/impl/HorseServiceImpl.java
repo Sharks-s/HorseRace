@@ -67,14 +67,14 @@ public class HorseServiceImpl implements HorseService {
 	public HorseResponse updateHorse(UUID id, HorseUpdateRequest request) {
 		User owner = getCurrentUser();
 		Horse horse = horseRepository.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("Không tìm thấy ngựa"));
+				.orElseThrow(() -> new IllegalArgumentException("Horse not found."));
 
 		if (!horse.getOwner().getId().equals(owner.getId())) {
-			throw new IllegalArgumentException("Bạn không có quyền chỉnh sửa ngựa này");
+			throw new IllegalArgumentException("You are not authorized to update this horse.");
 		}
 
 		if (horse.getStatus() == HorseStatus.REGISTERED || registrationRepository.existsByHorse_Id(horse.getId())) {
-			throw new IllegalArgumentException("Không thể chỉnh sửa ngựa đã tham gia đua");
+			throw new IllegalArgumentException("This horse cannot be updated because it has already been registered for a race.");
 		}
 
 		validateHealthCertificateExpiry(request.getHealthCertExpiry());
@@ -91,13 +91,13 @@ public class HorseServiceImpl implements HorseService {
 	private User getCurrentUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication == null || authentication.getName() == null) {
-			throw new IllegalArgumentException("Không xác định được người dùng hiện tại");
+			throw new IllegalArgumentException("Unable to identify the currently authenticated user.");
 		}
 
 		User user = userRepository.findByEmail(authentication.getName())
-				.orElseThrow(() -> new IllegalArgumentException("Không tìm thấy tài khoản đang đăng nhập"));
+				.orElseThrow(() -> new IllegalArgumentException("Authenticated user account not found."));
 		if (user.getStatus() != UserStatus.ACTIVE) {
-			throw new IllegalArgumentException("Tài khoản chưa được kích hoạt");
+			throw new IllegalArgumentException("Your account is not active.");
 		}
 		return user;
 	}
@@ -106,21 +106,21 @@ public class HorseServiceImpl implements HorseService {
 		LocalDate today = LocalDate.now();
 		LocalDate maxAllowed = today.plusMonths(6);
 		if (healthCertExpiry.isBefore(today)) {
-			throw new IllegalArgumentException("Giấy chứng nhận sức khỏe phải còn hiệu lực");
+			throw new IllegalArgumentException("The health certificate must still be valid.");
 		}
 		if (healthCertExpiry.isAfter(maxAllowed)) {
-			throw new IllegalArgumentException("BR-01: healthCertExpiry phải trong vòng 6 tháng kể từ hôm nay");
+			throw new IllegalArgumentException("BR-01: The health certificate expiry date must be within 6 months from today.");
 		}
 	}
 
 	private void validateWeightLimit(Double weight) {
 		if (weight == null || weight <= 0) {
-			throw new IllegalArgumentException("BR-01: Cân nặng phải lớn hơn 0");
+			throw new IllegalArgumentException("BR-01: Horse weight must be greater than 0 kg.");
 		}
 
 		if (weight > maxHorseWeight) {
 			throw new IllegalArgumentException(
-					"BR-01: Cân nặng vượt quá giới hạn hạng cân cho phép (" + maxHorseWeight + " kg)");
+					"BR-01: Horse weight exceeds the maximum allowed limit (" + maxHorseWeight + " kg).");
 		}
 	}
 }

@@ -62,6 +62,6 @@ public class AuthController {
 	@PostMapping("/logout")
 	public ResponseEntity<ApiResponse<String>> logout(HttpServletRequest contextRequest) {
 		userService.logout(contextRequest);
-		return ResponseEntity.ok(ApiResponse.success("Đăng xuất thành công!"));
+		return ResponseEntity.ok(ApiResponse.success("Logout successful."));
 	}
 }

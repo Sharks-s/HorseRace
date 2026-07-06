@@ -12,20 +12,20 @@ import java.time.LocalDate;
 @Setter
 public class HorseCreateRequest {
 
-	@NotBlank(message = "Tên ngựa không được để trống")
+	@NotBlank(message = "Horse name must not be blank.")
 	private String name;
 
-	@NotBlank(message = "Giống ngựa không được để trống")
+	@NotBlank(message = "Horse breed must not be blank.")
 	private String breed;
 
-	@NotNull(message = "Tuổi ngựa không được để trống")
-	@Positive(message = "Tuổi ngựa phải lớn hơn 0")
+	@NotNull(message = "Horse age must not be blank.")
+	@Positive(message = "Horse age must be a positive number.")
 	private Integer age;
 
-	@NotNull(message = "Cân nặng không được để trống")
-	@Positive(message = "Cân nặng phải lớn hơn 0")
+	@NotNull(message = "Horse weight must not be blank.")
+	@Positive(message = "Horse weight must be a positive number.")
 	private Double weight;
 
-	@NotNull(message = "Ngày hết hạn giấy chứng nhận sức khỏe không được để trống")
+	@NotNull(message = "Horse health certificate expiry date must not be blank.")
 	private LocalDate healthCertExpiry;
 }
