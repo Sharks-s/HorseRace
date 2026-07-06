@@ -75,7 +75,7 @@ export default function AdminLayout() {
             className="w-full flex items-center gap-3 text-error hover:bg-red-50 rounded-xl px-4 py-3 transition-colors font-semibold text-sm"
           >
             <span className="material-symbols-outlined text-[24px]">logout</span>
-            <span>Đăng xuất</span>
+            <span>Sign Out</span>
           </button>
         </div>
       </aside>
@@ -138,7 +138,7 @@ export default function AdminLayout() {
             className="w-full flex items-center gap-3 text-error hover:bg-red-50 rounded-xl px-4 py-3 transition-colors font-semibold text-sm"
           >
             <span className="material-symbols-outlined">logout</span>
-            <span>Đăng xuất</span>
+            <span>Sign Out</span>
           </button>
         </div>
       </aside>

@@ -68,13 +68,13 @@ export function Header() {
             to="/schedule"
             className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
           >
-            Giải đấu & Lịch đua
+            Race Schedule
           </NavLink>
           <NavLink
             to="/live"
             className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
           >
-            Bảng xếp hạng
+            Leaderboard
           </NavLink>
 
           {/* CHỨC NĂNG PHÂN QUYỀN THEO ĐÚNG SRS */}
@@ -88,7 +88,7 @@ export function Header() {
                     `nav-link ${isActive ? "active" : ""}`
                   }
                 >
-                  Trang quản trị
+                  Admin Dashboard
                 </NavLink>
               )}
 
@@ -101,7 +101,7 @@ export function Header() {
                       `nav-link ${isActive ? "active" : ""}`
                     }
                   >
-                    Quản lý ngựa
+                    My Horses
                   </NavLink>
                   <NavLink
                     to="/owner/hiring"
@@ -109,7 +109,7 @@ export function Header() {
                       `nav-link ${isActive ? "active" : ""}`
                     }
                   >
-                    Thuê Jockey
+                    Hire Jockey
                   </NavLink>
                 </>
               )}
@@ -123,7 +123,7 @@ export function Header() {
                       `nav-link ${isActive ? "active" : ""}`
                     }
                   >
-                    Lịch trình & Profile
+                    Schedule & Profile
                   </NavLink>
                   <NavLink
                     to="/jockey/invitations"
@@ -131,7 +131,7 @@ export function Header() {
                       `nav-link ${isActive ? "active" : ""}`
                     }
                   >
-                    Lời mời thuê
+                    Hiring Invitations
                   </NavLink>
                 </>
               )}
@@ -145,7 +145,7 @@ export function Header() {
                       `nav-link ${isActive ? "active" : ""}`
                     }
                   >
-                    Kiểm tra trước đua
+                    Pre-Race Inspection
                   </NavLink>
                   <NavLink
                     to="/referee/violations"
@@ -153,7 +153,7 @@ export function Header() {
                       `nav-link ${isActive ? "active" : ""}`
                     }
                   >
-                    Ghi nhận vi phạm
+                    Record Violations
                   </NavLink>
                   <NavLink
                     to="/referee/report"
@@ -161,7 +161,7 @@ export function Header() {
                       `nav-link ${isActive ? "active" : ""}`
                     }
                   >
-                    Lập biên bản
+                    Submit Reports
                   </NavLink>
                 </>
               )}
@@ -268,7 +268,7 @@ export function Header() {
                 className="icon-btn"
                 aria-label="Logout"
                 onClick={handleLogout}
-                title="Đăng xuất"
+                title="Sign Out"
               >
                 <svg
                   width="20"
@@ -298,7 +298,7 @@ export function Header() {
                   marginRight: "16px",
                 }}
               >
-                Đăng nhập
+                Sign In
               </button>
               <button
                 onClick={() => navigate("/register")}
@@ -312,7 +312,7 @@ export function Header() {
                   fontWeight: "600",
                 }}
               >
-                Đăng ký
+                Sign Up
               </button>
             </>
           )}

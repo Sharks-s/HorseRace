@@ -36,18 +36,18 @@ api.interceptors.response.use(
         localStorage.removeItem("user");
         localStorage.removeItem("token");
         // Dispatch custom event for App/Toast to catch
-        window.dispatchEvent(new CustomEvent("auth-error", { detail: { message: "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại." } }));
+        window.dispatchEvent(new CustomEvent("auth-error", { detail: { message: "Your session has expired. Please sign in again." } }));
         window.location.href = "/login";
       } else if (status === 403) {
         // Forbidden: no permission
-        window.dispatchEvent(new CustomEvent("api-error", { detail: { message: "Bạn không có quyền thực hiện hành động này." } }));
+        window.dispatchEvent(new CustomEvent("api-error", { detail: { message: "You do not have permission to perform this action." } }));
       } else if (status >= 500) {
         // Server error
-        window.dispatchEvent(new CustomEvent("api-error", { detail: { message: "Đã xảy ra lỗi hệ thống, vui lòng thử lại sau." } }));
+        window.dispatchEvent(new CustomEvent("api-error", { detail: { message: "An internal server error occurred. Please try again later." } }));
       }
     } else if (error.request) {
       // Network error
-      window.dispatchEvent(new CustomEvent("api-error", { detail: { message: "Lỗi kết nối mạng." } }));
+      window.dispatchEvent(new CustomEvent("api-error", { detail: { message: "Unable to connect to the server. Please check your network connection." } }));
     }
     return Promise.reject(error);
   }

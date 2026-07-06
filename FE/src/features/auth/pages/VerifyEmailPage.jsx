@@ -11,7 +11,7 @@ const VerifyEmailPage = () => {
 
   useEffect(() => {
     if (!token) {
-      toast.error("Thiếu mã xác nhận email.");
+      toast.error("Email verification token is missing.");
       return;
     }
 
@@ -24,7 +24,7 @@ const VerifyEmailPage = () => {
           return;
         }
         setStatus("success");
-        toast.success("Xác nhận email thành công. Vui lòng đăng nhập.");
+        toast.success("Email verified successfully. Please sign in.");
         setTimeout(() => {
           navigate("/login");
         }, 1500);
@@ -36,7 +36,7 @@ const VerifyEmailPage = () => {
         toast.error(
           error.response?.data?.message ||
             error.response?.data ||
-            "Xác nhận email thất bại.",
+            "Email verification failed.",
         );
       }
     };
@@ -75,14 +75,14 @@ const VerifyEmailPage = () => {
           Email Verification
         </p>
         <h1 style={{ margin: "12px 0 8px", fontSize: "32px", lineHeight: 1.1 }}>
-          {status === "loading" && "Đang xác nhận tài khoản"}
-          {status === "success" && "Xác nhận thành công"}
-          {status === "error" && "Xác nhận thất bại"}
+          {status === "loading" && "Verifying your account"}
+          {status === "success" && "Email verified successfully"}
+          {status === "error" && "Email verification failed"}
         </h1>
         <p style={{ margin: 0, color: "#cbd5e1", lineHeight: 1.6 }}>
-          {status === "loading" && "Hệ thống đang kiểm tra liên kết xác nhận email của bạn."}
-          {status === "success" && "Tài khoản đã được kích hoạt. Bạn sẽ được chuyển sang trang đăng nhập trong giây lát."}
-          {status === "error" && "Liên kết xác nhận không hợp lệ hoặc đã hết hạn."}
+          {status === "loading" && "System is checking your email verification link."}
+          {status === "success" && "Your account has been activated. You will be redirected to the login page shortly."}
+          {status === "error" && "The verification link is invalid or has expired."}
         </p>
         <div
           style={{
@@ -117,7 +117,7 @@ const VerifyEmailPage = () => {
               cursor: "pointer",
             }}
           >
-            Đi đến trang đăng nhập
+            Go to Login Page
           </button>
         )}
       </div>

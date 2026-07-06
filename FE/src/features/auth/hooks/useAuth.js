@@ -25,7 +25,7 @@ export const useAuth = () => {
 
         // <-- 2. Thay alert bằng toast.success
         toast.success(
-          `Đăng nhập thành công! Chào mừng ${result.data.fullName}`,
+          `Login successful! Welcome ${result.data.fullName}`,
         );
 
         // <-- 3. Trì hoãn chuyển trang một chút để kịp nhìn thấy Toast
@@ -47,7 +47,7 @@ export const useAuth = () => {
       // <-- 4. Thay alert lỗi bằng toast.error
       toast.error(
         error.response?.data?.message ||
-          "Đăng nhập thất bại, vui lòng kiểm tra lại!",
+          "Login failed, please check your information!",
       );
     } finally {
       // Lưu ý: Giữ lại isLoading thích hợp để nút không bị click liên tục
@@ -75,14 +75,14 @@ export const useAuth = () => {
       });
 
       if (result.success) {
-        toast.success("Đăng ký thành công. Vui lòng kiểm tra email để xác nhận tài khoản.");
+        toast.success("Registration successful. Please check your email to verify your account.");
         setTimeout(() => {
           navigate("/login");
         }, 1200);
       }
     } catch (error) {
       // --- ĐOẠN MAP LỖI THÔ (PLAIN TEXT) TỪ BACKEND ---
-      let errorMessage = "Đăng ký thất bại, vui lòng kiểm tra lại thông tin!";
+      let errorMessage = "Registration failed. Please verify your information and try again.";
 
       if (error.response && error.response.data) {
         // Nếu data trả về là Object có chứa message (đề phòng sau này đổi cấu trúc)
@@ -93,9 +93,9 @@ export const useAuth = () => {
         else if (typeof error.response.data === "string") {
           // Bạn có thể để nguyên tiếng Anh hoặc dịch sang tiếng Việt tùy ý:
           if (error.response.data === "Username already exists") {
-            errorMessage = "Username này đã được sử dụng trên hệ thống!";
+            errorMessage = "This username is already in use.";
           } else if (error.response.data === "Email already exists") {
-            errorMessage = "Email này đã được sử dụng trên hệ thống!";
+            errorMessage = "This email address is already in use.";
           } else {
             errorMessage = error.response.data; // Hiển thị trực tiếp chuỗi lỗi từ BE
           }
