@@ -24,8 +24,7 @@ public class RaceResult {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "result_id")
-	private UUID resultID;
+	private UUID id;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "race_id", nullable = false)
@@ -40,19 +39,24 @@ public class RaceResult {
 	private User jockey;
 
 	@Column(nullable = false)
-	private Integer rank;
+	private Integer placement;
 
 	@Column(nullable = false)
 	private Double finishTime;
 
-	@Column(nullable = false)
-	private Double calculatedTime;
+	@Column(nullable = true)
+	private Integer rank;
 
-	@Column(nullable = false)
-	private boolean violationFlag;
+	@Column(nullable = true)
+	private Double score;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
+	private Boolean violationFlag;
+
+	@Column(nullable = true)
 	private Double points;
+
+	private Boolean violation;
 
 	@Column(nullable = false, updatable = false)
 	private LocalDateTime createdAt;
@@ -61,7 +65,16 @@ public class RaceResult {
 	protected void onCreate() {
 		createdAt = LocalDateTime.now();
 		if (points == null) {
-			points = calculatePoints(rank);
+			points = calculatePoints(placement);
+		}
+		if (rank == null) {
+			rank = placement;
+		}
+		if (placement == null) {
+			placement = rank;
+		}
+		if (violationFlag == null) {
+			violationFlag = false;
 		}
 	}
 

@@ -1,0 +1,309 @@
+-- PostgreSQL seed for live race testing.
+-- Run this after the base seed data has created tournaments, users, horses,
+-- and the registrations table.
+
+BEGIN;
+
+INSERT INTO tournaments (
+    id,
+    name,
+    start_date,
+    end_date,
+    description,
+    status,
+    created_at,
+    updated_at
+) VALUES
+    (
+        '00000000-0000-0000-0003-000000000101',
+        'Live Broadcast Championship',
+        CURRENT_DATE - 1,
+        CURRENT_DATE + 2,
+        'Seed tournament for testing live race screens with active races.',
+        'ONGOING',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0003-000000000102',
+        'Next Wave Racing Cup',
+        CURRENT_DATE + 1,
+        CURRENT_DATE + 4,
+        'Seed tournament for testing upcoming race schedules.',
+        'UPCOMING',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    )
+ON CONFLICT (id) DO UPDATE SET
+    name = EXCLUDED.name,
+    start_date = EXCLUDED.start_date,
+    end_date = EXCLUDED.end_date,
+    description = EXCLUDED.description,
+    status = EXCLUDED.status,
+    updated_at = CURRENT_TIMESTAMP;
+
+INSERT INTO races (
+    id,
+    tournament_id,
+    referee_id,
+    name,
+    start_time,
+    distance_factor,
+    status,
+    created_at,
+    updated_at
+) VALUES
+    (
+        '00000000-0000-0000-0004-000000000101',
+        '00000000-0000-0000-0003-000000000101',
+        '00000000-0000-0000-0000-000000000008',
+        'Live Broadcast Sprint 1 (1000m)',
+        CURRENT_TIMESTAMP - INTERVAL '5 minutes',
+        1.0,
+        'IN_PROGRESS',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0004-000000000102',
+        '00000000-0000-0000-0003-000000000101',
+        '00000000-0000-0000-0000-000000000009',
+        'Live Broadcast Sprint 2 (1200m)',
+        CURRENT_TIMESTAMP + INTERVAL '10 minutes',
+        1.2,
+        'IN_PROGRESS',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0004-000000000103',
+        '00000000-0000-0000-0003-000000000101',
+        '00000000-0000-0000-0000-000000000008',
+        'Live Broadcast Derby 3 (1600m)',
+        CURRENT_TIMESTAMP + INTERVAL '25 minutes',
+        1.6,
+        'IN_PROGRESS',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0004-000000000104',
+        '00000000-0000-0000-0003-000000000101',
+        '00000000-0000-0000-0000-000000000009',
+        'Today Night Stakes (1800m)',
+        CURRENT_TIMESTAMP + INTERVAL '45 minutes',
+        1.8,
+        'SCHEDULED',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0004-000000000105',
+        '00000000-0000-0000-0003-000000000102',
+        '00000000-0000-0000-0000-000000000008',
+        'Tomorrow Opening Heat (1000m)',
+        CURRENT_TIMESTAMP + INTERVAL '1 day',
+        1.0,
+        'SCHEDULED',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0004-000000000106',
+        '00000000-0000-0000-0003-000000000102',
+        '00000000-0000-0000-0000-000000000009',
+        'Tomorrow Middle Distance Heat (1400m)',
+        CURRENT_TIMESTAMP + INTERVAL '1 day 30 minutes',
+        1.4,
+        'SCHEDULED',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    )
+ON CONFLICT (id) DO UPDATE SET
+    tournament_id = EXCLUDED.tournament_id,
+    referee_id = EXCLUDED.referee_id,
+    name = EXCLUDED.name,
+    start_time = EXCLUDED.start_time,
+    distance_factor = EXCLUDED.distance_factor,
+    status = EXCLUDED.status,
+    updated_at = CURRENT_TIMESTAMP;
+
+INSERT INTO registrations (
+    id,
+    race_id,
+    horse_id,
+    owner_id,
+    jockey_id,
+    status,
+    created_at,
+    updated_at
+) VALUES
+    (
+        '00000000-0000-0000-0005-000000000101',
+        '00000000-0000-0000-0004-000000000101',
+        '00000000-0000-0000-0002-000000000001',
+        '00000000-0000-0000-0000-000000000002',
+        '00000000-0000-0000-0000-000000000004',
+        'RACE_READY',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0005-000000000102',
+        '00000000-0000-0000-0004-000000000101',
+        '00000000-0000-0000-0002-000000000002',
+        '00000000-0000-0000-0000-000000000002',
+        '00000000-0000-0000-0000-000000000005',
+        'RACE_READY',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0005-000000000103',
+        '00000000-0000-0000-0004-000000000101',
+        '00000000-0000-0000-0002-000000000003',
+        '00000000-0000-0000-0000-000000000003',
+        '00000000-0000-0000-0000-000000000006',
+        'RACE_READY',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0005-000000000104',
+        '00000000-0000-0000-0004-000000000102',
+        '00000000-0000-0000-0002-000000000004',
+        '00000000-0000-0000-0000-000000000003',
+        '00000000-0000-0000-0000-000000000004',
+        'RACE_READY',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0005-000000000105',
+        '00000000-0000-0000-0004-000000000102',
+        '00000000-0000-0000-0002-000000000005',
+        '00000000-0000-0000-0000-000000000002',
+        '00000000-0000-0000-0000-000000000007',
+        'RACE_READY',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0005-000000000106',
+        '00000000-0000-0000-0004-000000000102',
+        '00000000-0000-0000-0002-000000000006',
+        '00000000-0000-0000-0000-000000000003',
+        '00000000-0000-0000-0000-000000000005',
+        'RACE_READY',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0005-000000000107',
+        '00000000-0000-0000-0004-000000000103',
+        '00000000-0000-0000-0002-000000000001',
+        '00000000-0000-0000-0000-000000000002',
+        '00000000-0000-0000-0000-000000000006',
+        'RACE_READY',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0005-000000000108',
+        '00000000-0000-0000-0004-000000000103',
+        '00000000-0000-0000-0002-000000000005',
+        '00000000-0000-0000-0000-000000000002',
+        '00000000-0000-0000-0000-000000000004',
+        'RACE_READY',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0005-000000000109',
+        '00000000-0000-0000-0004-000000000103',
+        '00000000-0000-0000-0002-000000000006',
+        '00000000-0000-0000-0000-000000000003',
+        '00000000-0000-0000-0000-000000000007',
+        'RACE_READY',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0005-000000000110',
+        '00000000-0000-0000-0004-000000000104',
+        '00000000-0000-0000-0002-000000000002',
+        '00000000-0000-0000-0000-000000000002',
+        '00000000-0000-0000-0000-000000000005',
+        'RACE_READY',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0005-000000000111',
+        '00000000-0000-0000-0004-000000000104',
+        '00000000-0000-0000-0002-000000000004',
+        '00000000-0000-0000-0000-000000000003',
+        '00000000-0000-0000-0000-000000000006',
+        'RACE_READY',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0005-000000000112',
+        '00000000-0000-0000-0004-000000000104',
+        '00000000-0000-0000-0002-000000000006',
+        '00000000-0000-0000-0000-000000000003',
+        '00000000-0000-0000-0000-000000000007',
+        'RACE_READY',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0005-000000000113',
+        '00000000-0000-0000-0004-000000000105',
+        '00000000-0000-0000-0002-000000000001',
+        '00000000-0000-0000-0000-000000000002',
+        '00000000-0000-0000-0000-000000000004',
+        'ACCEPTED',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0005-000000000114',
+        '00000000-0000-0000-0004-000000000105',
+        '00000000-0000-0000-0002-000000000003',
+        '00000000-0000-0000-0000-000000000003',
+        '00000000-0000-0000-0000-000000000006',
+        'ACCEPTED',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0005-000000000115',
+        '00000000-0000-0000-0004-000000000106',
+        '00000000-0000-0000-0002-000000000005',
+        '00000000-0000-0000-0000-000000000002',
+        '00000000-0000-0000-0000-000000000007',
+        'ACCEPTED',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        '00000000-0000-0000-0005-000000000116',
+        '00000000-0000-0000-0004-000000000106',
+        '00000000-0000-0000-0002-000000000006',
+        '00000000-0000-0000-0000-000000000003',
+        '00000000-0000-0000-0000-000000000005',
+        'ACCEPTED',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    )
+ON CONFLICT (id) DO UPDATE SET
+    race_id = EXCLUDED.race_id,
+    horse_id = EXCLUDED.horse_id,
+    owner_id = EXCLUDED.owner_id,
+    jockey_id = EXCLUDED.jockey_id,
+    status = EXCLUDED.status,
+    updated_at = CURRENT_TIMESTAMP;
+
+COMMIT;

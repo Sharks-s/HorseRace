@@ -1,0 +1,562 @@
+    -- =============================================================
+    -- HorseRace Seed Data (H2 compatible — spring.sql.init.mode=always)
+    -- Passwords are BCrypt-encoded → plain text shown in comments
+    -- All IDs are fixed UUIDs so data.sql is idempotent via MERGE
+    -- Current mock system date: June 30, 2026
+    -- =============================================================
+
+    -- ----------------------------------------------------------------
+    -- 1. USERS
+    --    Roles : ADMIN | HORSE_OWNER | JOCKEY | REFEREE | SPECTATOR
+    --    Status: ACTIVE | PENDING_VERIFICATION | PENDING_APPROVAL | INACTIVE | SUSPENDED
+    -- ----------------------------------------------------------------
+    MERGE INTO users (id, username, full_name, email, password, phone_number, role, status,
+                      email_verified_at, created_at, updated_at)
+    KEY (id) VALUES
+    -- Admin (password: Admin@123)
+    ('00000000-0000-0000-0000-000000000001',
+     'admin', 'System Admin', 'admin@horserace.local',
+     '$2a$10$SSJA316TyAC5H/fqi1lMxOshQ5zcEkvPvtNF9my2ZHtbP7uHJy2i.',
+     'admin@horserace.local', 'ADMIN', 'ACTIVE',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Horse Owner 1 (password: Owner@123)
+    ('00000000-0000-0000-0000-000000000002',
+     'nguyen_van_a', 'Nguyen Van A', 'owner1@horserace.local',
+     '$2a$10$q/TwkEI66GBe.WN1wgidb.M3MX4Npz0QQYPr1S5iu0IPbJSxIYZLW',
+     '0901234001', 'HORSE_OWNER', 'ACTIVE',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Horse Owner 2 (password: Owner@123)
+    ('00000000-0000-0000-0000-000000000003',
+     'tran_thi_b', 'Tran Thi B', 'owner2@horserace.local',
+     '$2a$10$q/TwkEI66GBe.WN1wgidb.M3MX4Npz0QQYPr1S5iu0IPbJSxIYZLW',
+     '0901234002', 'HORSE_OWNER', 'ACTIVE',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Jockey 1 (password: Jockey@123)
+    ('00000000-0000-0000-0000-000000000004',
+     'jockey_minh', 'Le Van Minh', 'jockey1@horserace.local',
+     '$2a$10$uyvnlS8XX2DpjZt62URx9eud0Izy9H4J2II9a65MW6iDdBel.WJQO',
+     '0901234003', 'JOCKEY', 'ACTIVE',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Jockey 2 (password: Jockey@123)
+    ('00000000-0000-0000-0000-000000000005',
+     'jockey_hung', 'Pham Van Hung', 'jockey2@horserace.local',
+     '$2a$10$uyvnlS8XX2DpjZt62URx9eud0Izy9H4J2II9a65MW6iDdBel.WJQO',
+     '0901234004', 'JOCKEY', 'ACTIVE',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Jockey 3 (password: Jockey@123)
+    ('00000000-0000-0000-0000-000000000006',
+     'jockey_lan', 'Hoang Thi Lan', 'jockey3@horserace.local',
+     '$2a$10$uyvnlS8XX2DpjZt62URx9eud0Izy9H4J2II9a65MW6iDdBel.WJQO',
+     '0901234005', 'JOCKEY', 'ACTIVE',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Jockey 4 (password: Jockey@123)
+    ('00000000-0000-0000-0000-000000000007',
+     'jockey_trong', 'Nguyen Van C', 'jockey4@horserace.local',
+     '$2a$10$uyvnlS8XX2DpjZt62URx9eud0Izy9H4J2II9a65MW6iDdBel.WJQO',
+     '0901234006', 'JOCKEY', 'ACTIVE',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Referee 1 (password: Referee@123)
+    ('00000000-0000-0000-0000-000000000008',
+     'referee_duc', 'Nguyen Duc Trong', 'referee1@horserace.local',
+     '$2a$10$isD2kQCFV2/F7MpayF/eyOowTj3osbhH8CMcsoEraPIbxmMF0gJ0a',
+     '0901234007', 'REFEREE', 'ACTIVE',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Referee 2 (password: Referee@123)
+    ('00000000-0000-0000-0000-000000000009',
+     'referee_mai', 'Le Thi Mai', 'referee2@horserace.local',
+     '$2a$10$isD2kQCFV2/F7MpayF/eyOowTj3osbhH8CMcsoEraPIbxmMF0gJ0a',
+     '0901234008', 'REFEREE', 'ACTIVE',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Spectator (password: Spec@123)
+    ('00000000-0000-0000-0000-000000000010',
+     'spectator_1', 'Spectator One', 'spectator1@horserace.local',
+     '$2a$10$M.vdZNxRQU17RTI1IOvOzuml/4u74nEnWwQWicaO1LdCu3bBfin7O',
+     '0901234009', 'SPECTATOR', 'ACTIVE',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+    -- ----------------------------------------------------------------
+    -- 2. JOCKEY PROFILES
+    -- ----------------------------------------------------------------
+    MERGE INTO jockey_profiles (id, user_id, license_no, name, weight, bio, created_at, updated_at)
+    KEY (id) VALUES
+    ('00000000-0000-0000-0001-000000000001',
+     '00000000-0000-0000-0000-000000000004',
+     'JLN-001', 'Le Van Minh', 58.5,
+     'Professional jockey with 8 years of experience, specializing in sprint races.',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0001-000000000002',
+     '00000000-0000-0000-0000-000000000005',
+     'JLN-002', 'Pham Van Hung', 57.0,
+     'Former national champion in 2022, strongest in long-distance races.',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0001-000000000003',
+     '00000000-0000-0000-0000-000000000006',
+     'JLN-003', 'Hoang Thi Lan', 55.2,
+     'First female jockey to achieve the title at the ASEAN championship 2023.',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0001-000000000004',
+     '00000000-0000-0000-0000-000000000007',
+     'JLN-004', 'Nguyen Van C', 56.5,
+     'Promising rookie jockey with exceptional reaction speed.',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+    -- ----------------------------------------------------------------
+    -- 3. HORSES
+    --    Status: PENDING_REVIEW | APPROVED | REJECTED | REGISTERED
+    -- ----------------------------------------------------------------
+    MERGE INTO horses (id, name, breed, age, weight, health_cert_expiry,
+                       status, owner_id, created_at, updated_at)
+    KEY (id) VALUES
+    ('00000000-0000-0000-0002-000000000001',
+     'Thunder Storm', 'Thoroughbred', 5, 480.0, '2027-06-01',
+     'APPROVED', '00000000-0000-0000-0000-000000000002',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0002-000000000002',
+     'Golden Arrow', 'Arabian', 4, 450.0, '2027-03-15',
+     'APPROVED', '00000000-0000-0000-0000-000000000002',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0002-000000000003',
+     'Midnight Star', 'Quarter Horse', 6, 510.0, '2026-12-31',
+     'APPROVED', '00000000-0000-0000-0000-000000000003',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0002-000000000004',
+     'Desert Wind', 'Thoroughbred', 3, 430.0, '2027-08-20',
+     'APPROVED', '00000000-0000-0000-0000-000000000003',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0002-000000000005',
+     'Silver Lightning', 'Thoroughbred', 5, 475.0, '2027-05-10',
+     'APPROVED', '00000000-0000-0000-0000-000000000002',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0002-000000000006',
+     'Black Beauty', 'Arabian', 4, 460.0, '2027-01-20',
+     'APPROVED', '00000000-0000-0000-0000-000000000003',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0002-000000000007',
+     'Red Flame', 'Quarter Horse', 3, 440.0, '2027-09-01',
+     'PENDING_REVIEW', '00000000-0000-0000-0000-000000000003',
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+    -- ----------------------------------------------------------------
+    -- 4. TOURNAMENTS
+    --    Status: UPCOMING | ONGOING | COMPLETED
+    -- ----------------------------------------------------------------
+    MERGE INTO tournaments (id, name, start_date, end_date, description, status, created_at, updated_at)
+    KEY (id) VALUES
+    -- Tournament 1: Past & Completed
+    ('00000000-0000-0000-0003-000000000001',
+     'Spring Championship 2026',
+     '2026-03-01', '2026-03-31',
+     'The 2026 Spring Horse Racing Championship, marking the opening tournament of the racing season.',
+     'COMPLETED', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Tournament 2: Present & Ongoing (covers system date 2026-06-30)
+    ('00000000-0000-0000-0003-000000000002',
+     'Vietnam Summer Derby 2026',
+     '2026-06-15', '2026-07-15',
+     'The 2026 Vietnam Summer Derby, bringing together the top horses from the region.',
+     'ONGOING', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Tournament 3: Future & Upcoming
+    ('00000000-0000-0000-0003-000000000003',
+     'Grand Autumn Classic 2026',
+     '2026-09-01', '2026-09-30',
+     'The 2026 Grand Autumn Classic, featuring a high-point system.',
+     'UPCOMING', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+    -- ----------------------------------------------------------------
+    -- 5. RACES
+    --    Status: SCHEDULED | CLOSED_REGISTRATION | IN_PROGRESS | RESULT_SUBMITTED | OFFICIAL | CANCELLED
+    -- ----------------------------------------------------------------
+    MERGE INTO races (id, tournament_id, referee_id, name, start_time, distance_factor, status, created_at, updated_at)
+    KEY (id) VALUES
+    -- Tournament 1 Races (All Completed -> OFFICIAL)
+    ('00000000-0000-0000-0004-000000000001',
+     '00000000-0000-0000-0003-000000000001',
+     '00000000-0000-0000-0000-000000000008',
+     'Spring Sprint Qualifier (1000m)',
+     '2026-03-10 08:00:00', 1.0,
+     'OFFICIAL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0004-000000000002',
+     '00000000-0000-0000-0003-000000000001',
+     '00000000-0000-0000-0000-000000000009',
+     'Spring Classic Final (1600m)',
+     '2026-03-25 09:00:00', 1.6,
+     'OFFICIAL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Tournament 2 Races (Ongoing)
+    ('00000000-0000-0000-0004-000000000003',
+     '00000000-0000-0000-0003-000000000002',
+     '00000000-0000-0000-0000-000000000008',
+     'Derby Sprint Qualifier (1200m)',
+     '2026-06-20 08:00:00', 1.2,
+     'OFFICIAL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0004-000000000004',
+     '00000000-0000-0000-0003-000000000002',
+     '00000000-0000-0000-0000-000000000009',
+     'Derby Classic Semifinal (1500m)',
+     '2026-06-28 09:00:00', 1.5,
+     'RESULT_SUBMITTED', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0004-000000000005',
+     '00000000-0000-0000-0003-000000000002',
+     '00000000-0000-0000-0000-000000000008',
+     'Derby Championship Final (2000m)',
+     '2026-07-05 15:00:00', 2.0,
+     'CLOSED_REGISTRATION', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0004-000000000006',
+     '00000000-0000-0000-0003-000000000002',
+     '00000000-0000-0000-0000-000000000009',
+     'Derby Consolation Cup (1200m)',
+     '2026-07-12 14:00:00', 1.2,
+     'SCHEDULED', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Tournament 3 Races (Upcoming)
+    ('00000000-0000-0000-0004-000000000007',
+     '00000000-0000-0000-0003-000000000003',
+     '00000000-0000-0000-0000-000000000008',
+     'Autumn Sprint Cup (1000m)',
+     '2026-09-05 09:00:00', 1.0,
+     'SCHEDULED', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+    -- ----------------------------------------------------------------
+    -- 6. REGISTRATIONS
+    --    Status: PENDING_JOCKEY | ACCEPTED | DECLINED | RACE_READY | DISQUALIFIED | CANCELLED
+    -- ----------------------------------------------------------------
+    MERGE INTO registrations (id, race_id, horse_id, owner_id, jockey_id, status, created_at, updated_at)
+    KEY (id) VALUES
+    -- Race 1 Registrations
+    ('00000000-0000-0000-0005-000000000001',
+     '00000000-0000-0000-0004-000000000001',
+     '00000000-0000-0000-0002-000000000001', -- Horse 1
+     '00000000-0000-0000-0000-000000000002', -- Owner 1
+     '00000000-0000-0000-0000-000000000004', -- Jockey 1
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0005-000000000002',
+     '00000000-0000-0000-0004-000000000001',
+     '00000000-0000-0000-0002-000000000002', -- Horse 2
+     '00000000-0000-0000-0000-000000000002', -- Owner 1
+     '00000000-0000-0000-0000-000000000005', -- Jockey 2
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0005-000000000003',
+     '00000000-0000-0000-0004-000000000001',
+     '00000000-0000-0000-0002-000000000003', -- Horse 3
+     '00000000-0000-0000-0000-000000000003', -- Owner 2
+     '00000000-0000-0000-0000-000000000006', -- Jockey 3
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0005-000000000004',
+     '00000000-0000-0000-0004-000000000001',
+     '00000000-0000-0000-0002-000000000005', -- Horse 5
+     '00000000-0000-0000-0000-000000000002', -- Owner 1
+     '00000000-0000-0000-0000-000000000007', -- Jockey 4
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Race 2 Registrations
+    ('00000000-0000-0000-0005-000000000005',
+     '00000000-0000-0000-0004-000000000002',
+     '00000000-0000-0000-0002-000000000001', -- Horse 1
+     '00000000-0000-0000-0000-000000000002',
+     '00000000-0000-0000-0000-000000000004', -- Jockey 1
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0005-000000000006',
+     '00000000-0000-0000-0004-000000000002',
+     '00000000-0000-0000-0002-000000000003', -- Horse 3
+     '00000000-0000-0000-0000-000000000003',
+     '00000000-0000-0000-0000-000000000006', -- Jockey 3
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0005-000000000007',
+     '00000000-0000-0000-0004-000000000002',
+     '00000000-0000-0000-0002-000000000006', -- Horse 6
+     '00000000-0000-0000-0000-000000000003',
+     '00000000-0000-0000-0000-000000000005', -- Jockey 2
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Race 3 Registrations
+    ('00000000-0000-0000-0005-000000000008',
+     '00000000-0000-0000-0004-000000000003',
+     '00000000-0000-0000-0002-000000000001', -- Horse 1
+     '00000000-0000-0000-0000-000000000002',
+     '00000000-0000-0000-0000-000000000004', -- Jockey 1
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0005-000000000009',
+     '00000000-0000-0000-0004-000000000003',
+     '00000000-0000-0000-0002-000000000002', -- Horse 2
+     '00000000-0000-0000-0000-000000000002',
+     '00000000-0000-0000-0000-000000000005', -- Jockey 2
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0005-000000000010',
+     '00000000-0000-0000-0004-000000000003',
+     '00000000-0000-0000-0002-000000000003', -- Horse 3
+     '00000000-0000-0000-0000-000000000003',
+     '00000000-0000-0000-0000-000000000006', -- Jockey 3
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0005-000000000011',
+     '00000000-0000-0000-0004-000000000003',
+     '00000000-0000-0000-0002-000000000006', -- Horse 6
+     '00000000-0000-0000-0000-000000000003',
+     '00000000-0000-0000-0000-000000000007', -- Jockey 4
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Race 4 Registrations
+    ('00000000-0000-0000-0005-000000000012',
+     '00000000-0000-0000-0004-000000000004',
+     '00000000-0000-0000-0002-000000000001', -- Horse 1
+     '00000000-0000-0000-0000-000000000002',
+     '00000000-0000-0000-0000-000000000004', -- Jockey 1
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0005-000000000013',
+     '00000000-0000-0000-0004-000000000004',
+     '00000000-0000-0000-0002-000000000003', -- Horse 3
+     '00000000-0000-0000-0000-000000000003',
+     '00000000-0000-0000-0000-000000000006', -- Jockey 3
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0005-000000000014',
+     '00000000-0000-0000-0004-000000000004',
+     '00000000-0000-0000-0002-000000000005', -- Horse 5
+     '00000000-0000-0000-0000-000000000002',
+     '00000000-0000-0000-0000-000000000007', -- Jockey 4
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Race 5 Registrations
+    ('00000000-0000-0000-0005-000000000015',
+     '00000000-0000-0000-0004-000000000005',
+     '00000000-0000-0000-0002-000000000001', -- Horse 1
+     '00000000-0000-0000-0000-000000000002',
+     '00000000-0000-0000-0000-000000000004', -- Jockey 1
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0005-000000000016',
+     '00000000-0000-0000-0004-000000000005',
+     '00000000-0000-0000-0002-000000000002', -- Horse 2
+     '00000000-0000-0000-0000-000000000002',
+     '00000000-0000-0000-0000-000000000005', -- Jockey 2
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0005-000000000017',
+     '00000000-0000-0000-0004-000000000005',
+     '00000000-0000-0000-0002-000000000003', -- Horse 3
+     '00000000-0000-0000-0000-000000000003',
+     '00000000-0000-0000-0000-000000000006', -- Jockey 3
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    -- Race 6 Registrations (Scheduled, for active testing)
+    ('00000000-0000-0000-0005-000000000018',
+     '00000000-0000-0000-0004-000000000006',
+     '00000000-0000-0000-0002-000000000005', -- Horse 5
+     '00000000-0000-0000-0000-000000000002',
+     '00000000-0000-0000-0000-000000000007', -- Jockey 4
+     'PENDING_JOCKEY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0005-000000000019',
+     '00000000-0000-0000-0004-000000000006',
+     '00000000-0000-0000-0002-000000000006', -- Horse 6
+     '00000000-0000-0000-0000-000000000003',
+     '00000000-0000-0000-0000-000000000005', -- Jockey 2
+     'ACCEPTED', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0005-000000000020',
+     '00000000-0000-0000-0004-000000000006',
+     '00000000-0000-0000-0002-000000000002', -- Horse 2
+     '00000000-0000-0000-0000-000000000002',
+     '00000000-0000-0000-0000-000000000004', -- Jockey 1
+     'DECLINED', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+    ('00000000-0000-0000-0005-000000000021',
+     '00000000-0000-0000-0004-000000000006',
+     '00000000-0000-0000-0002-000000000001', -- Horse 1
+     '00000000-0000-0000-0000-000000000002',
+     '00000000-0000-0000-0000-000000000006', -- Jockey 3
+     'RACE_READY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+    -- ----------------------------------------------------------------
+    -- 7. REFEREE REPORTS
+    -- ----------------------------------------------------------------
+    MERGE INTO referee_reports (id, race_id, referee_id, notes, confirmed, submitted_at)
+    KEY (id) VALUES
+    -- Report for Race 1
+    ('00000000-0000-0000-0006-000000000001',
+     '00000000-0000-0000-0004-000000000001',
+     '00000000-0000-0000-0000-000000000008', -- Referee 1
+     'The Spring Sprint Qualifier was completed successfully with no rule violations recorded.',
+     TRUE, '2026-03-10 10:00:00'),
+
+    -- Report for Race 2
+    ('00000000-0000-0000-0006-000000000002',
+     '00000000-0000-0000-0004-000000000002',
+     '00000000-0000-0000-0000-000000000009', -- Referee 2
+     'The Spring Classic Final has concluded. One lane violation involving Horse 1 was recorded during the first minute of the race.',
+     TRUE, '2026-03-25 11:30:00'),
+
+    -- Report for Race 3
+    ('00000000-0000-0000-0006-000000000003',
+     '00000000-0000-0000-0004-000000000003',
+     '00000000-0000-0000-0000-000000000008', -- Referee 1
+     'The Derby Sprint Qualifier was highly competitive. Horse 3 committed a false start.',
+     TRUE, '2026-06-20 10:15:00'),
+
+    -- Report for Race 4
+    ('00000000-0000-0000-0006-000000000004',
+     '00000000-0000-0000-0004-000000000004',
+     '00000000-0000-0000-0000-000000000009', -- Referee 2
+     'The race results for the Derby Classic Semifinal have been submitted and are awaiting official approval.',
+     TRUE, '2026-06-28 11:00:00');
+
+    -- ----------------------------------------------------------------
+    -- 8. VIOLATIONS
+    -- ----------------------------------------------------------------
+    MERGE INTO violations (id, race_id, horse_id, jockey_id, type, notes, occurrence_minute, created_at)
+    KEY (id) VALUES
+    -- Violation in Race 2
+    ('00000000-0000-0000-0007-000000000001',
+     '00000000-0000-0000-0004-000000000002', -- Race 2
+     '00000000-0000-0000-0002-000000000001', -- Horse 1
+     '00000000-0000-0000-0000-000000000004', -- Jockey 1
+     'LANE_VIOLATION', 'A lane violation occurred at the second turn.', 1, CURRENT_TIMESTAMP),
+
+    -- Violation in Race 3
+    ('00000000-0000-0000-0007-000000000002',
+     '00000000-0000-0000-0004-000000000003', -- Race 3
+     '00000000-0000-0000-0002-000000000003', -- Horse 3
+     '00000000-0000-0000-0000-000000000006', -- Jockey 3
+     'FALSE_START', 'False start before the official starting signal.', 0, CURRENT_TIMESTAMP);
+
+    -- ----------------------------------------------------------------
+    -- 9. RACE RESULTS
+    --    Placements and points mathematically match DefaultRankingStrategy
+    -- ----------------------------------------------------------------
+    MERGE INTO race_results (id, race_id, horse_id, jockey_id, placement, points, finish_time, violation, created_at)
+    KEY (id) VALUES
+    -- Race 1 Results (distance_factor = 1.0)
+    -- 1. Horse 1: placement 1, points = (11-1)*1.0 = 10.0
+    ('00000000-0000-0000-0008-000000000001',
+     '00000000-0000-0000-0004-000000000001',
+     '00000000-0000-0000-0002-000000000001', -- Horse 1
+     '00000000-0000-0000-0000-000000000004', -- Jockey 1
+     1, 10.0, 59.2, FALSE, CURRENT_TIMESTAMP),
+
+    -- 2. Horse 3: placement 2, points = (11-2)*1.0 = 9.0
+    ('00000000-0000-0000-0008-000000000002',
+     '00000000-0000-0000-0004-000000000001',
+     '00000000-0000-0000-0002-000000000003', -- Horse 3
+     '00000000-0000-0000-0000-000000000006', -- Jockey 3
+     2, 9.0, 60.5, FALSE, CURRENT_TIMESTAMP),
+
+    -- 3. Horse 5: placement 3, points = (11-3)*1.0 = 8.0
+    ('00000000-0000-0000-0008-000000000003',
+     '00000000-0000-0000-0004-000000000001',
+     '00000000-0000-0000-0002-000000000005', -- Horse 5
+     '00000000-0000-0000-0000-000000000007', -- Jockey 4
+     3, 8.0, 61.8, FALSE, CURRENT_TIMESTAMP),
+
+    -- 4. Horse 2: placement 4, points = (11-4)*1.0 = 7.0
+    ('00000000-0000-0000-0008-000000000004',
+     '00000000-0000-0000-0004-000000000001',
+     '00000000-0000-0000-0002-000000000002', -- Horse 2
+     '00000000-0000-0000-0000-000000000005', -- Jockey 2
+     4, 7.0, 65.0, FALSE, CURRENT_TIMESTAMP),
+
+
+    -- Race 2 Results (distance_factor = 1.6)
+    -- 1. Horse 3: placement 1, points = (11-1)*1.6 = 16.0
+    ('00000000-0000-0000-0008-000000000005',
+     '00000000-0000-0000-0004-000000000002',
+     '00000000-0000-0000-0002-000000000003', -- Horse 3
+     '00000000-0000-0000-0000-000000000006', -- Jockey 3
+     1, 16.0, 98.4, FALSE, CURRENT_TIMESTAMP),
+
+    -- 2. Horse 6: placement 2, points = (11-2)*1.6 = 14.4
+    ('00000000-0000-0000-0008-000000000006',
+     '00000000-0000-0000-0004-000000000002',
+     '00000000-0000-0000-0002-000000000006', -- Horse 6
+     '00000000-0000-0000-0000-000000000005', -- Jockey 2
+     2, 14.4, 99.8, FALSE, CURRENT_TIMESTAMP),
+
+    -- 3. Horse 1: placement 99, points = 0.0 (violated)
+    ('00000000-0000-0000-0008-000000000007',
+     '00000000-0000-0000-0004-000000000002',
+     '00000000-0000-0000-0002-000000000001', -- Horse 1
+     '00000000-0000-0000-0000-000000000004', -- Jockey 1
+     99, 0.0, 105.2, TRUE, CURRENT_TIMESTAMP),
+
+
+    -- Race 3 Results (distance_factor = 1.2)
+    -- 1. Horse 2: placement 1, points = (11-1)*1.2 = 12.0
+    ('00000000-0000-0000-0008-000000000008',
+     '00000000-0000-0000-0004-000000000003',
+     '00000000-0000-0000-0002-000000000002', -- Horse 2
+     '00000000-0000-0000-0000-000000000005', -- Jockey 2
+     1, 12.0, 72.1, FALSE, CURRENT_TIMESTAMP),
+
+    -- 2. Horse 1: placement 2, points = (11-2)*1.2 = 10.8
+    ('00000000-0000-0000-0008-000000000009',
+     '00000000-0000-0000-0004-000000000003',
+     '00000000-0000-0000-0002-000000000001', -- Horse 1
+     '00000000-0000-0000-0000-000000000004', -- Jockey 1
+     2, 10.8, 72.5, FALSE, CURRENT_TIMESTAMP),
+
+    -- 3. Horse 6: placement 3, points = (11-3)*1.2 = 9.6
+    ('00000000-0000-0000-0008-000000000010',
+     '00000000-0000-0000-0004-000000000003',
+     '00000000-0000-0000-0002-000000000006', -- Horse 6
+     '00000000-0000-0000-0000-000000000007', -- Jockey 4
+     3, 9.6, 73.9, FALSE, CURRENT_TIMESTAMP),
+
+    -- 4. Horse 3: placement 99, points = 0.0 (violated)
+    ('00000000-0000-0000-0008-000000000011',
+     '00000000-0000-0000-0004-000000000003',
+     '00000000-0000-0000-0002-000000000003', -- Horse 3
+     '00000000-0000-0000-0000-000000000006', -- Jockey 3
+     99, 0.0, 75.1, TRUE, CURRENT_TIMESTAMP),
+
+
+    -- Race 4 Results (distance_factor = 1.5, pending publication, status = RESULT_SUBMITTED)
+    -- 1. Horse 1: placement 1, points = (11-1)*1.5 = 15.0
+    ('00000000-0000-0000-0008-000000000012',
+     '00000000-0000-0000-0004-000000000004',
+     '00000000-0000-0000-0002-000000000001', -- Horse 1
+     '00000000-0000-0000-0000-000000000004', -- Jockey 1
+     1, 15.0, 88.0, FALSE, CURRENT_TIMESTAMP),
+
+    -- 2. Horse 5: placement 2, points = (11-2)*1.5 = 13.5
+    ('00000000-0000-0000-0008-000000000013',
+     '00000000-0000-0000-0004-000000000004',
+     '00000000-0000-0000-0002-000000000005', -- Horse 5
+     '00000000-0000-0000-0000-000000000007', -- Jockey 4
+     2, 13.5, 90.2, FALSE, CURRENT_TIMESTAMP),
+
+    -- 3. Horse 3: placement 3, points = (11-3)*1.5 = 12.0
+    ('00000000-0000-0000-0008-000000000014',
+     '00000000-0000-0000-0004-000000000004',
+     '00000000-0000-0000-0002-000000000003', -- Horse 3
+     '00000000-0000-0000-0000-000000000006', -- Jockey 3
+     3, 12.0, 92.4, FALSE, CURRENT_TIMESTAMP);
