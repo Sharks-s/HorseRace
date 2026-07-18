@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { publicResultApi } from '../../../api/publicResultApi';
 import LiveStandings from '../components/LiveStandings';
 import Leaderboard from '../components/Leaderboard';
+import './LiveResultPage.css';
 
-const AUTO_REFRESH_INTERVAL = 10000; // 10 seconds
+const AUTO_REFRESH_INTERVAL = 10000;
 
 const LiveResultPage = () => {
   const location = useLocation();
@@ -18,156 +19,174 @@ const LiveResultPage = () => {
   const [loading, setLoading] = useState(false);
   const [raceError, setRaceError] = useState(null);
 
-  // Load tournaments
   useEffect(() => {
-    const load = async () => {
+    const loadTournaments = async () => {
       try {
         const res = await publicResultApi.getTournaments();
         const data = res?.data || [];
         setTournaments(data);
-        if (data.length > 0 && !selectedTournamentId) {
-          setSelectedTournamentId(data[0].id);
-        }
+        setSelectedTournamentId((current) => current || data[0]?.id || '');
       } catch {
-        // ignore – show empty state
+        setTournaments([]);
       }
     };
-    load();
+
+    void loadTournaments();
   }, []);
 
-  // When tournament changes, load races
   useEffect(() => {
     if (!selectedTournamentId) return;
-    const load = async () => {
+
+    const loadRaces = async () => {
       try {
         const res = await publicResultApi.getRacesByTournament(selectedTournamentId);
-        const data = (res?.data || []).filter(r => r.status === 'OFFICIAL');
-        setRaces(data);
-        
-        // If we have a raceId from state and it exists in the fetched list, use it.
-        // Otherwise, default to the first one in the list.
-        if (data.length > 0) {
-          if (!selectedRaceId || !data.some(r => r.id === selectedRaceId)) {
-            setSelectedRaceId(data[0].id);
-          }
-        } else {
-          setSelectedRaceId('');
-        }
+        const officialRaces = (res?.data || []).filter((race) => race.status === 'OFFICIAL');
+        setRaces(officialRaces);
+        setSelectedRaceId((current) => {
+          if (officialRaces.length === 0) return '';
+          return officialRaces.some((race) => race.id === current) ? current : officialRaces[0].id;
+        });
       } catch {
         setRaces([]);
+        setSelectedRaceId('');
       }
     };
-    load();
+
+    void loadRaces();
   }, [selectedTournamentId]);
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      if (selectedTournamentId) {
-        const standingsRes = await publicResultApi.getTournamentStandings(selectedTournamentId);
-        setStandings(standingsRes?.data || []);
-      }
-      if (selectedRaceId) {
-        try {
-          const resultsRes = await publicResultApi.getOfficialResults(selectedRaceId);
-          setRaceResults(resultsRes?.data || []);
-          setRaceError(null);
-        } catch {
-          setRaceResults([]);
-          setRaceError('Results for this race are not official yet.');
+  useEffect(() => {
+    const loadLiveData = async () => {
+      setLoading(true);
+      try {
+        if (selectedTournamentId) {
+          const standingsRes = await publicResultApi.getTournamentStandings(selectedTournamentId);
+          setStandings(standingsRes?.data || []);
         }
+
+        if (selectedRaceId) {
+          try {
+            const resultsRes = await publicResultApi.getOfficialResults(selectedRaceId);
+            setRaceResults(resultsRes?.data || []);
+            setRaceError(null);
+          } catch {
+            setRaceResults([]);
+            setRaceError('Results for this race are not official yet.');
+          }
+        } else {
+          setRaceResults([]);
+        }
+      } finally {
+        setLoading(false);
+        setCountdown(AUTO_REFRESH_INTERVAL / 1000);
       }
-    } finally {
-      setLoading(false);
-      setCountdown(AUTO_REFRESH_INTERVAL / 1000);
-    }
+    };
+
+    void loadLiveData();
+    const interval = setInterval(() => {
+      void loadLiveData();
+    }, AUTO_REFRESH_INTERVAL);
+
+    return () => clearInterval(interval);
   }, [selectedTournamentId, selectedRaceId]);
 
-  // Auto refresh
   useEffect(() => {
-    fetchData();
-    const interval = setInterval(fetchData, AUTO_REFRESH_INTERVAL);
-    return () => clearInterval(interval);
-  }, [fetchData]);
+    const tick = setInterval(() => {
+      setCountdown((prev) => (prev > 0 ? prev - 1 : AUTO_REFRESH_INTERVAL / 1000));
+    }, 1000);
 
-  // Countdown timer display
-  useEffect(() => {
-    const tick = setInterval(() => setCountdown(prev => (prev > 0 ? prev - 1 : AUTO_REFRESH_INTERVAL / 1000)), 1000);
     return () => clearInterval(tick);
   }, []);
 
-  const selectedTournament = tournaments.find(t => t.id === selectedTournamentId);
-  const selectedRace = races.find(r => r.id === selectedRaceId);
+  const selectedTournament = tournaments.find((tournament) => tournament.id === selectedTournamentId);
+  const selectedRace = races.find((race) => race.id === selectedRaceId);
+  const topResult = raceResults.find((result) => result.placement === 1 && !result.violation);
 
   return (
-    <div className="bg-[#0C1A2A] text-white font-body-md min-h-screen flex flex-col antialiased">
-      <main className="flex-grow w-full max-w-[1200px] mx-auto px-md md:px-xl py-lg space-y-xl mt-6">
-        {/* Hero Banner */}
-        <section className="bg-[#0F172A] border border-outline-variant rounded-xl p-lg md:p-xl shadow-lg relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-lg">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#009488] opacity-5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
-          <div className="flex flex-col gap-sm z-10">
-            <div className="flex items-center gap-sm">
-              <div className="w-3 h-3 rounded-full bg-red-600 animate-pulse"></div>
-              <h1 className="text-red-600 uppercase tracking-wider font-bold text-xl">LIVE RESULTS</h1>
+    <div className="live-results-page">
+      <main className="live-results-main">
+        <section className="live-results-hero">
+          <div className="live-results-hero-copy">
+            <div className="live-results-live-row">
+              <span className="live-results-live-dot"></span>
+              <span>Official Results</span>
             </div>
-            <p className="font-label-md text-label-md text-[#c5c7c8] uppercase flex items-center gap-xs">
-              <span className="material-symbols-outlined text-[16px]">refresh</span>
-              Auto-refreshing in {countdown}s...
+            <h1>Live Race Board</h1>
+            <p>
+              Track published race results, finish times, points, and tournament standings from one focused board.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-md z-10 w-full md:w-auto">
-            <div className="flex flex-col gap-1 w-full sm:w-48">
-              <label className="font-label-md text-[#c5c7c8]">Tournament</label>
-              <select
-                value={selectedTournamentId}
-                onChange={e => setSelectedTournamentId(e.target.value)}
-                className="bg-[#131b2e] border border-outline-variant text-white rounded-lg px-md py-sm focus:border-primary outline-none appearance-none"
-              >
+
+          <div className="live-results-controls">
+            <label>
+              <span>Tournament</span>
+              <select value={selectedTournamentId} onChange={(event) => setSelectedTournamentId(event.target.value)}>
                 {tournaments.length === 0 && <option>No tournaments</option>}
-                {tournaments.map(t => (
-                  <option key={t.id} value={t.id}>{t.name}</option>
+                {tournaments.map((tournament) => (
+                  <option key={tournament.id} value={tournament.id}>
+                    {tournament.name}
+                  </option>
                 ))}
               </select>
-            </div>
-            <div className="flex flex-col gap-1 w-full sm:w-48">
-              <label className="font-label-md text-[#c5c7c8]">Race (Official Only)</label>
-              <select
-                value={selectedRaceId}
-                onChange={e => setSelectedRaceId(e.target.value)}
-                className="bg-[#131b2e] border border-outline-variant text-white rounded-lg px-md py-sm focus:border-primary outline-none appearance-none"
-              >
+            </label>
+
+            <label>
+              <span>Official Race</span>
+              <select value={selectedRaceId} onChange={(event) => setSelectedRaceId(event.target.value)}>
                 {races.length === 0 && <option>No official races yet</option>}
-                {races.map(r => (
-                  <option key={r.id} value={r.id}>{r.name}</option>
+                {races.map((race) => (
+                  <option key={race.id} value={race.id}>
+                    {race.name}
+                  </option>
                 ))}
               </select>
-            </div>
+            </label>
           </div>
         </section>
 
-        {/* Two Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-lg">
-          {/* Left Column: Race Standings */}
-          <div className="lg:col-span-8">
-            <LiveStandings 
-              race={selectedRace} 
-              raceResults={raceResults} 
-              error={raceError} 
+        <section className="live-results-summary">
+          <article>
+            <span className="material-symbols-outlined">refresh</span>
+            <p>Auto refresh</p>
+            <strong>{countdown}s</strong>
+          </article>
+          <article>
+            <span className="material-symbols-outlined">flag</span>
+            <p>Official races</p>
+            <strong>{races.length}</strong>
+          </article>
+          <article>
+            <span className="material-symbols-outlined">emoji_events</span>
+            <p>Current leader</p>
+            <strong>{topResult?.horseName || '-'}</strong>
+          </article>
+          <article>
+            <span className="material-symbols-outlined">leaderboard</span>
+            <p>Tournament</p>
+            <strong>{selectedTournament?.name || '-'}</strong>
+          </article>
+        </section>
+
+        <section className="live-results-grid">
+          <div className="live-results-primary-panel">
+            <LiveStandings
+              race={selectedRace}
+              raceResults={raceResults}
+              error={raceError}
               loading={loading}
             />
           </div>
 
-          {/* Right Column: Tournament Leaderboard */}
-          <div className="lg:col-span-4">
-            <Leaderboard 
+          <aside className="live-results-side-panel">
+            <Leaderboard
               title={`${selectedTournament?.name || 'Tournament'} Standings`}
               standings={standings}
               limit={10}
               variant="list"
               showTieBreaker={true}
             />
-          </div>
-        </div>
+          </aside>
+        </section>
       </main>
     </div>
   );

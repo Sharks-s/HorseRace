@@ -1,0 +1,428 @@
+.admin-result-page {
+  min-height: 100%;
+  background: #f7f9fb;
+  color: #191c1e;
+  padding: 24px;
+}
+
+.admin-result-container {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 20px;
+}
+
+.admin-result-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.admin-result-header p,
+.admin-result-panel-head p,
+.admin-result-stat-card p {
+  margin: 0 0 6px;
+  color: #404942;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.admin-result-header h2 {
+  margin: 0;
+  color: #002a15;
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(32px, 4vw, 42px);
+  line-height: 1.05;
+}
+
+.admin-result-rule {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  background: #e0f2ea;
+  color: #004225;
+  padding: 0 14px;
+  font-weight: 900;
+}
+
+.admin-result-rule .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.admin-result-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.admin-result-stat-card,
+.admin-result-panel,
+.admin-result-race-card {
+  background: #ffffff;
+  border: 1px solid rgba(192, 201, 192, 0.55);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+}
+
+.admin-result-stat-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 122px;
+  padding: 18px;
+}
+
+.admin-result-stat-card > .material-symbols-outlined {
+  position: absolute;
+  right: -10px;
+  top: -14px;
+  color: #e0e3e5;
+  font-size: 82px;
+  font-variation-settings: "FILL" 1;
+}
+
+.admin-result-stat-card strong {
+  position: relative;
+  z-index: 1;
+  display: block;
+  color: #002a15;
+  font-family: "Oswald", sans-serif;
+  font-size: 34px;
+  line-height: 1.1;
+}
+
+.admin-result-stat-warning strong {
+  color: #b76b00;
+}
+
+.admin-result-stat-note strong {
+  max-width: 280px;
+  color: #191c1e;
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.admin-result-alert {
+  border-radius: 8px;
+  padding: 13px 15px;
+  font-weight: 700;
+}
+
+.admin-result-alert-error {
+  border: 1px solid #e9b5b0;
+  background: #fae4e2;
+  color: #9b2727;
+}
+
+.admin-result-alert-success {
+  border: 1px solid #b9d9bd;
+  background: #e6f4e7;
+  color: #1e6a35;
+}
+
+.admin-result-panel {
+  overflow: hidden;
+}
+
+.admin-result-panel-head {
+  padding: 18px;
+  border-bottom: 1px solid rgba(192, 201, 192, 0.45);
+}
+
+.admin-result-panel-head h3 {
+  margin: 0;
+  color: #191c1e;
+  font-family: "Oswald", sans-serif;
+  font-size: 28px;
+}
+
+.admin-result-list {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.admin-result-race-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-result-race-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: #f59e0b;
+}
+
+.admin-result-race-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 18px 18px 22px;
+}
+
+.admin-result-race-main {
+  min-width: 0;
+}
+
+.admin-result-meta,
+.admin-result-date,
+.admin-result-actions,
+.admin-result-confirm-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admin-result-meta {
+  margin-bottom: 7px;
+}
+
+.admin-result-status {
+  display: inline-flex;
+  width: fit-content;
+  border: 1px solid #fcd34d;
+  border-radius: 999px;
+  background: #fffbeb;
+  color: #b76b00;
+  padding: 5px 9px;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.admin-result-date {
+  color: #404942;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.admin-result-date .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.admin-result-race-main h3 {
+  margin: 0;
+  color: #002a15;
+  font-family: "Oswald", sans-serif;
+  font-size: 25px;
+  line-height: 1.15;
+}
+
+.admin-result-race-main p {
+  margin: 6px 0 0;
+  color: #404942;
+}
+
+.admin-result-race-main strong {
+  color: #b76b00;
+}
+
+.admin-result-race-main p span::before {
+  content: " / ";
+  color: #717971;
+}
+
+.admin-result-actions {
+  flex: 0 0 auto;
+  justify-content: flex-end;
+}
+
+.admin-result-secondary,
+.admin-result-primary,
+.admin-result-danger,
+.admin-result-cancel {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 8px;
+  padding: 0 14px;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+}
+
+.admin-result-secondary {
+  border: 1px solid #c0c9c0;
+  background: #ffffff;
+  color: #002a15;
+}
+
+.admin-result-primary {
+  background: #006a61;
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(0, 106, 97, 0.16);
+}
+
+.admin-result-primary .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.admin-result-secondary:hover,
+.admin-result-primary:hover:not(:disabled),
+.admin-result-danger:hover,
+.admin-result-cancel:hover {
+  transform: translateY(-1px);
+}
+
+.admin-result-secondary:hover,
+.admin-result-cancel:hover {
+  background: #eceef0;
+}
+
+.admin-result-primary:hover:not(:disabled) {
+  background: #005049;
+}
+
+.admin-result-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.admin-result-details {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  border-top: 1px solid rgba(192, 201, 192, 0.45);
+  background: #f7f9fb;
+  padding: 16px 18px 16px 22px;
+}
+
+.admin-result-details div {
+  display: grid;
+  gap: 5px;
+}
+
+.admin-result-details span {
+  color: #404942;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.admin-result-details strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: #191c1e;
+}
+
+.admin-result-confirm {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border-top: 1px solid #f2d1cf;
+  background: #fff7f6;
+  padding: 16px 18px 16px 22px;
+}
+
+.admin-result-confirm > .material-symbols-outlined {
+  color: #ba1a1a;
+  font-size: 25px;
+}
+
+.admin-result-confirm h4 {
+  margin: 0 0 5px;
+  color: #191c1e;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.admin-result-confirm p {
+  margin: 0 0 12px;
+  color: #404942;
+}
+
+.admin-result-danger {
+  background: #ba1a1a;
+  color: #ffffff;
+}
+
+.admin-result-danger:hover {
+  background: #93000a;
+}
+
+.admin-result-cancel {
+  border: 1px solid #c0c9c0;
+  background: #ffffff;
+  color: #404942;
+}
+
+.admin-result-empty {
+  margin: 18px;
+  border: 1px dashed #c0c9c0;
+  border-radius: 12px;
+  color: #404942;
+  padding: 30px 18px;
+  text-align: center;
+}
+
+.admin-result-empty-success {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+
+.admin-result-empty-success .material-symbols-outlined {
+  color: #1e6a35;
+  font-size: 48px;
+}
+
+.admin-result-empty p {
+  margin: 0;
+  font-weight: 800;
+}
+
+@media (max-width: 980px) {
+  .admin-result-stats,
+  .admin-result-details {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-result-race-content {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-result-actions {
+    justify-content: stretch;
+  }
+
+  .admin-result-actions > button {
+    flex: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-result-page {
+    padding: 18px 14px;
+  }
+
+  .admin-result-header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .admin-result-actions,
+  .admin-result-confirm-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-result-actions > button,
+  .admin-result-confirm-actions > button {
+    width: 100%;
+  }
+}
+

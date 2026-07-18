@@ -44,16 +44,16 @@ public class RaceResult {
 	@Column(nullable = false)
 	private Double finishTime;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private Integer rank;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private Double score;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private Boolean violationFlag;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private Double points;
 
 	private Boolean violation;

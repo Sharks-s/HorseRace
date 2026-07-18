@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { refereeApi } from '../../../api/refereeApi';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { refereeApi } from '../../../api/refereeApi';
+import './ReportFormPage.css';
 
 const ReportFormPage = () => {
   const navigate = useNavigate();
@@ -13,63 +14,79 @@ const ReportFormPage = () => {
   const [success, setSuccess] = useState(null);
   const [submittedReport, setSubmittedReport] = useState(null);
 
-  // Load available races from pre-race inspections
   useEffect(() => {
     const loadRaces = async () => {
       try {
         const res = await refereeApi.getAssignedInspections();
         const data = res?.data || [];
         const raceMap = new Map();
-        data.forEach(r => {
-          if (r.raceId && !raceMap.has(r.raceId)) {
-            raceMap.set(r.raceId, { id: r.raceId, name: r.raceName, distanceFactor: r.distanceFactor });
+
+        data.forEach((entry) => {
+          if (entry.raceId && !raceMap.has(entry.raceId)) {
+            raceMap.set(entry.raceId, {
+              id: entry.raceId,
+              name: entry.raceName,
+              distanceFactor: entry.distanceFactor,
+            });
           }
         });
+
         const racesArr = [...raceMap.values()];
         setRaces(racesArr);
         if (racesArr.length > 0) {
           setSelectedRaceId(racesArr[0].id);
         }
-      } catch (err) {
+      } catch {
         setError('Could not load assigned races.');
       }
     };
-    loadRaces();
+
+    void loadRaces();
   }, []);
 
-  // When race changes, load participants from registrations
   useEffect(() => {
     if (!selectedRaceId) return;
+
     const loadParticipants = async () => {
       try {
         const res = await refereeApi.getAssignedInspections();
         const data = res?.data || [];
-        const raceRegs = data.filter(r => r.raceId === selectedRaceId && r.jockeyId);
-        setParticipants(raceRegs.map(r => ({
-          registrationId: r.registrationId,
-          horseId: r.horseId,
-          horseName: r.horseName,
-          jockeyId: r.jockeyId,
-          jockeyName: r.jockeyName || 'Unknown',
-          finishTime: '',
-          violation: false,
-        })));
+        const raceRegs = data.filter((entry) => entry.raceId === selectedRaceId && entry.jockeyId);
+
+        setParticipants(
+          raceRegs.map((entry) => ({
+            registrationId: entry.registrationId,
+            horseId: entry.horseId,
+            horseName: entry.horseName,
+            jockeyId: entry.jockeyId,
+            jockeyName: entry.jockeyName || 'Unknown',
+            finishTime: '',
+            violation: false,
+          })),
+        );
       } catch {
         setParticipants([]);
       }
     };
-    loadParticipants();
+
+    void loadParticipants();
   }, [selectedRaceId]);
 
   const updateParticipant = (regId, field, value) => {
-    setParticipants(prev =>
-      prev.map(p => p.registrationId === regId ? { ...p, [field]: value } : p)
+    setParticipants((prev) =>
+      prev.map((participant) =>
+        participant.registrationId === regId ? { ...participant, [field]: value } : participant,
+      ),
     );
   };
 
   const handleSubmit = async () => {
     if (!selectedRaceId || participants.length === 0) return;
-    const anyMissingTime = participants.some(p => !p.finishTime || isNaN(parseFloat(p.finishTime)));
+
+    const anyMissingTime = participants.some((participant) => {
+      return !participant.finishTime || Number.isNaN(parseFloat(participant.finishTime));
+    });
+
     if (anyMissingTime) {
       setError('Please enter finish time for all participants.');
       return;
@@ -77,16 +94,18 @@ const ReportFormPage = () => {
 
     setLoading(true);
     setError(null);
+
     try {
       const reportData = {
         notes,
-        participants: participants.map(p => ({
-          horseId: p.horseId,
-          jockeyId: p.jockeyId,
-          finishTime: parseFloat(p.finishTime),
-          violation: p.violation,
+        participants: participants.map((participant) => ({
+          horseId: participant.horseId,
+          jockeyId: participant.jockeyId,
+          finishTime: parseFloat(participant.finishTime),
+          violation: participant.violation,
         })),
       };
+
       const res = await refereeApi.submitReport(selectedRaceId, reportData);
       setSubmittedReport(res?.data);
       setSuccess('Race report submitted successfully! Race status is now RESULT_SUBMITTED.');
@@ -97,193 +116,199 @@ const ReportFormPage = () => {
     }
   };
 
-  const selectedRace = races.find(r => r.id === selectedRaceId);
+  const selectedRace = races.find((race) => race.id === selectedRaceId);
 
   return (
-    <div className="flex bg-background py-6">
-      <main className="flex-grow p-md md:p-xl transition-all">
-        <div className="max-w-[1200px] mx-auto">
-          {/* Breadcrumb & Header */}
-          <div className="mb-lg">
-            <nav aria-label="Breadcrumb" className="flex text-on-surface-variant font-label-md text-label-md mb-2">
-              <ol className="inline-flex items-center space-x-1 md:space-x-2">
-                <li className="inline-flex items-center">
-                  <a className="hover:text-secondary transition-colors" href="/referee">Referee</a>
+    <div className="race-report-page">
+      <main className="race-report-main">
+        <div className="race-report-container">
+          <section className="race-report-hero">
+            <nav aria-label="Breadcrumb" className="race-report-breadcrumb">
+              <ol>
+                <li>
+                  <a href="/referee">Referee</a>
                 </li>
                 <li>
-                  <div className="flex items-center">
-                    <span className="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
-                    <span className="text-on-surface font-semibold">Submit Race Report</span>
-                  </div>
+                  <span className="material-symbols-outlined">chevron_right</span>
+                  <span>Submit Race Report</span>
                 </li>
               </ol>
             </nav>
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-              <h2 className="font-display-lg text-display-lg text-on-surface font-bold text-3xl">Submit Race Report</h2>
-              <div className="flex flex-col gap-1">
-                <label className="font-label-md text-on-surface-variant">Select Race:</label>
-                <select
-                  value={selectedRaceId}
-                  onChange={e => setSelectedRaceId(e.target.value)}
-                  className="border border-outline-variant rounded-md px-md py-sm font-body-md bg-white focus:border-secondary outline-none"
-                >
-                  {races.map(r => (
-                    <option key={r.id} value={r.id}>{r.name || r.id}</option>
+
+            <div className="race-report-header">
+              <div>
+                <p>Race Referee</p>
+                <h2>Submit Race Report</h2>
+              </div>
+
+              <label className="race-report-select">
+                <span>Select Race</span>
+                <select value={selectedRaceId} onChange={(event) => setSelectedRaceId(event.target.value)}>
+                  {races.map((race) => (
+                    <option key={race.id} value={race.id}>
+                      {race.name || race.id}
+                    </option>
                   ))}
                 </select>
-              </div>
+              </label>
             </div>
-          </div>
+          </section>
 
-          {error && (
-            <div className="mb-lg p-md bg-red-50 border border-red-200 rounded-lg text-red-700 font-body-md">{error}</div>
-          )}
-          {success && (
-            <div className="mb-lg p-md bg-green-50 border border-green-200 rounded-lg text-green-700 font-body-md">{success}</div>
-          )}
+          {error && <div className="race-report-alert race-report-alert-error">{error}</div>}
+          {success && <div className="race-report-alert race-report-alert-success">{success}</div>}
 
-          {/* Race Info Card */}
           {selectedRace && (
-            <div className="bg-white rounded-xl border border-outline-variant shadow-sm p-lg mb-xl flex flex-col md:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-lg bg-surface-variant flex items-center justify-center flex-shrink-0">
-                  <span className="material-symbols-outlined text-primary-container text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>stadium</span>
+            <section className="race-report-card race-report-race-card">
+              <div className="race-report-race-content">
+                <div className="race-report-race-icon">
+                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>
+                    stadium
+                  </span>
                 </div>
                 <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-headline-sm text-headline-sm text-on-surface font-bold">{selectedRace.name}</h3>
-                    <span className="px-2 py-1 rounded bg-[#ffecd1] text-[#9a5b00] font-label-md text-label-md uppercase tracking-wider">
-                      Pending Report
-                    </span>
+                  <div className="race-report-race-title">
+                    <h3>{selectedRace.name}</h3>
+                    <span className="race-report-status">Pending Report</span>
                   </div>
-                  <p className="font-body-md text-body-md text-on-surface-variant">Distance factor: {selectedRace.distanceFactor || 1.0}</p>
+                  <p>Distance factor: {selectedRace.distanceFactor || 1.0}</p>
                 </div>
               </div>
-            </div>
+            </section>
           )}
 
-          {/* Participants Results Table */}
           {!submittedReport && (
-            <div className="bg-white rounded-xl border-t-4 border-t-secondary border-x border-b border-outline-variant shadow-sm overflow-hidden mb-lg">
-              <div className="p-lg border-b border-outline-variant flex justify-between items-center bg-surface-bright">
-                <div className="flex items-center gap-3">
-                  <span className="material-symbols-outlined text-secondary text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>emoji_events</span>
-                  <h3 className="font-headline-md text-headline-md text-on-surface font-bold text-lg">Race Participants & Results</h3>
+            <section className="race-report-card race-report-results-card">
+              <div className="race-report-card-head">
+                <div>
+                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>
+                    emoji_events
+                  </span>
+                  <h3>Race Participants & Results</h3>
                 </div>
-                <span className="font-label-md text-on-surface-variant">{participants.length} participants</span>
+                <span>{participants.length} participants</span>
               </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
+
+              <div className="race-report-table-wrap">
+                <table className="race-report-table">
                   <thead>
-                    <tr className="bg-[#F7F8FA] border-b border-outline-variant">
-                      <th className="p-4 font-label-md text-label-md text-on-surface uppercase">Horse</th>
-                      <th className="p-4 font-label-md text-label-md text-on-surface uppercase">Jockey</th>
-                      <th className="p-4 font-label-md text-label-md text-on-surface uppercase text-right">Finish Time (s)</th>
-                      <th className="p-4 font-label-md text-label-md text-on-surface uppercase text-center w-32">Violated</th>
+                    <tr>
+                      <th>Horse</th>
+                      <th>Jockey</th>
+                      <th className="race-report-align-right">Finish Time (s)</th>
+                      <th className="race-report-align-center">Violated</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-outline-variant">
+                  <tbody>
                     {participants.length === 0 ? (
                       <tr>
-                        <td colSpan="4" className="p-xl text-center text-on-surface-variant">
+                        <td colSpan="4" className="race-report-empty">
                           No RACE_READY participants found for this race. Make sure pre-race inspection is done.
                         </td>
                       </tr>
-                    ) : participants.map(p => (
-                      <tr key={p.registrationId} className={`hover:bg-surface-container-low transition-colors ${p.violation ? 'bg-error/5 opacity-75' : ''}`}>
-                        <td className={`p-4 font-body-lg text-body-lg text-on-surface font-semibold ${p.violation ? 'line-through opacity-60' : ''}`}>
-                          {p.horseName}
-                        </td>
-                        <td className="p-4 font-body-md text-body-md text-on-surface-variant">{p.jockeyName}</td>
-                        <td className="p-4 text-right">
-                          <input
-                            type="number"
-                            step="0.01"
-                            min="0"
-                            placeholder="e.g. 72.5"
-                            value={p.finishTime}
-                            onChange={e => updateParticipant(p.registrationId, 'finishTime', e.target.value)}
-                            className="border border-outline-variant rounded px-2 py-1 text-right font-tabular-nums w-28 focus:border-secondary outline-none"
-                          />
-                        </td>
-                        <td className="p-4 text-center">
-                          <label className="relative inline-flex items-center cursor-pointer">
+                    ) : (
+                      participants.map((participant) => (
+                        <tr
+                          key={participant.registrationId}
+                          className={participant.violation ? 'race-report-row-violated' : ''}
+                        >
+                          <td className={participant.violation ? 'race-report-horse race-report-struck' : 'race-report-horse'}>
+                            {participant.horseName}
+                          </td>
+                          <td>{participant.jockeyName}</td>
+                          <td className="race-report-align-right">
                             <input
-                              type="checkbox"
-                              checked={p.violation}
-                              onChange={e => updateParticipant(p.registrationId, 'violation', e.target.checked)}
-                              className="sr-only peer"
+                              type="number"
+                              step="0.01"
+                              min="0"
+                              placeholder="e.g. 72.5"
+                              value={participant.finishTime}
+                              onChange={(event) =>
+                                updateParticipant(participant.registrationId, 'finishTime', event.target.value)
+                              }
+                              className="race-report-time-input"
                             />
-                            <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-error"></div>
-                          </label>
-                        </td>
-                      </tr>
-                    ))}
+                          </td>
+                          <td className="race-report-align-center">
+                            <label className="race-report-switch">
+                              <input
+                                type="checkbox"
+                                checked={participant.violation}
+                                onChange={(event) =>
+                                  updateParticipant(participant.registrationId, 'violation', event.target.checked)
+                                }
+                              />
+                              <span aria-hidden="true"></span>
+                            </label>
+                          </td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>
-            </div>
+            </section>
           )}
 
-          {/* Notes */}
           {!submittedReport && (
-            <div className="bg-white rounded-xl border border-outline-variant shadow-sm p-lg mb-lg">
-              <label className="block font-label-md text-on-surface mb-xs">Referee Notes (optional)</label>
+            <section className="race-report-card race-report-notes-card">
+              <label htmlFor="race-report-notes">Referee Notes (optional)</label>
               <textarea
+                id="race-report-notes"
                 rows="3"
                 placeholder="Add any general race observations or notes..."
                 value={notes}
-                onChange={e => setNotes(e.target.value)}
-                className="w-full border border-outline-variant rounded-md px-md py-sm font-body-md focus:border-secondary outline-none resize-none"
+                onChange={(event) => setNotes(event.target.value)}
               />
               <button
                 type="button"
                 onClick={handleSubmit}
                 disabled={loading || participants.length === 0}
-                className="mt-lg w-full bg-[#009488] hover:bg-[#007A70] disabled:opacity-50 text-white font-label-md py-sm px-lg rounded-md transition-colors flex items-center justify-center gap-2 shadow-sm"
+                className="race-report-submit"
               >
-                <span className="material-symbols-outlined text-[18px]">task_alt</span>
+                <span className="material-symbols-outlined">task_alt</span>
                 {loading ? 'Submitting Report...' : 'Submit Race Report'}
               </button>
-            </div>
+            </section>
           )}
 
-          {/* Submitted report results preview */}
           {submittedReport && (
-            <div className="bg-white rounded-xl border border-green-200 shadow-sm p-lg mb-lg">
-              <h3 className="font-headline-sm text-headline-sm text-green-700 mb-md flex items-center gap-2">
+            <section className="race-report-card race-report-submitted-card">
+              <h3>
                 <span className="material-symbols-outlined">check_circle</span>
-                Report Submitted — Final Rankings
+                Report Submitted - Final Rankings
               </h3>
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
+
+              <div className="race-report-table-wrap">
+                <table className="race-report-table">
                   <thead>
-                    <tr className="bg-[#F7F8FA] border-b border-outline-variant">
-                      <th className="p-3 font-label-md text-label-md uppercase text-on-surface">Rank</th>
-                      <th className="p-3 font-label-md text-label-md uppercase text-on-surface">Horse</th>
-                      <th className="p-3 font-label-md text-label-md uppercase text-on-surface">Jockey</th>
-                      <th className="p-3 font-label-md text-label-md uppercase text-on-surface text-right">Finish Time</th>
-                      <th className="p-3 font-label-md text-label-md uppercase text-on-surface text-center">Points</th>
-                      <th className="p-3 font-label-md text-label-md uppercase text-on-surface text-center">Status</th>
+                    <tr>
+                      <th>Rank</th>
+                      <th>Horse</th>
+                      <th>Jockey</th>
+                      <th className="race-report-align-right">Finish Time</th>
+                      <th className="race-report-align-center">Points</th>
+                      <th className="race-report-align-center">Status</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-outline-variant">
-                    {(submittedReport.results || []).map((r) => (
-                      <tr key={r.id} className={r.violation ? 'bg-error/5 opacity-70' : 'hover:bg-surface-container-low'}>
-                        <td className="p-3 text-center">
-                          <div className={`w-7 h-7 rounded-full flex items-center justify-center mx-auto ${r.placement === 1 ? 'bg-[#fef08a] text-[#854d0e]' : r.placement === 2 ? 'bg-[#e5e7eb] text-[#374151]' : r.placement === 3 ? 'bg-[#fed7aa] text-[#9a3412]' : 'bg-surface-variant'} font-bold text-sm`}>
-                            {r.violation ? '—' : r.placement}
+                  <tbody>
+                    {(submittedReport.results || []).map((result) => (
+                      <tr key={result.id} className={result.violation ? 'race-report-row-violated' : ''}>
+                        <td className="race-report-align-center">
+                          <div className={`race-report-rank race-report-rank-${result.placement || 'none'}`}>
+                            {result.violation ? '-' : result.placement}
                           </div>
                         </td>
-                        <td className={`p-3 font-semibold ${r.violation ? 'line-through' : ''}`}>{r.horseName}</td>
-                        <td className="p-3 text-on-surface-variant">{r.jockeyName}</td>
-                        <td className="p-3 text-right font-tabular-nums">{r.finishTime}s</td>
-                        <td className="p-3 text-center font-tabular-nums font-bold text-secondary">{r.points?.toFixed(1)}</td>
-                        <td className="p-3 text-center">
-                          {r.violation ? (
-                            <span className="px-2 py-1 rounded bg-error/10 text-error text-xs font-semibold">DQ</span>
+                        <td className={result.violation ? 'race-report-horse race-report-struck' : 'race-report-horse'}>
+                          {result.horseName}
+                        </td>
+                        <td>{result.jockeyName}</td>
+                        <td className="race-report-align-right race-report-number">{result.finishTime}s</td>
+                        <td className="race-report-align-center race-report-points">{result.points?.toFixed(1)}</td>
+                        <td className="race-report-align-center">
+                          {result.violation ? (
+                            <span className="race-report-result-status race-report-result-dq">DQ</span>
                           ) : (
-                            <span className="px-2 py-1 rounded bg-green-100 text-green-700 text-xs font-semibold">Finished</span>
+                            <span className="race-report-result-status race-report-result-finished">Finished</span>
                           )}
                         </td>
                       </tr>
@@ -291,17 +316,18 @@ const ReportFormPage = () => {
                   </tbody>
                 </table>
               </div>
-              <div className="mt-md text-center">
-                <button onClick={() => navigate('/referee')} className="text-secondary font-label-md hover:underline">
-                  ← Back to Dashboard
+
+              <div className="race-report-back-wrap">
+                <button type="button" onClick={() => navigate('/referee')} className="race-report-back">
+                  Back to Dashboard
                 </button>
               </div>
-            </div>
+            </section>
           )}
 
-          <div className="mt-xl text-center pb-xl">
-            <p className="font-label-md text-label-md text-on-surface-variant flex items-center justify-center gap-2 bg-surface-variant/50 py-3 rounded-lg border border-outline-variant/30">
-              <span className="material-symbols-outlined text-[16px]">info</span>
+          <div className="race-report-info">
+            <p>
+              <span className="material-symbols-outlined">info</span>
               BR-05: Results can only be published after referee report is submitted and Admin approval.
             </p>
           </div>

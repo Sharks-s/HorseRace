@@ -13,6 +13,8 @@ const AdminDashboard = () => {
   const [pendingCount, setPendingCount] = useState(0);
   const [jockeyCount, setJockeyCount] = useState(0);
   const [refereeCount, setRefereeCount] = useState(0);
+  const [assignmentPage, setAssignmentPage] = useState(1);
+  const assignmentPageSize = 5;
 
   useEffect(() => {
     void fetchReferees();
@@ -62,10 +64,10 @@ const AdminDashboard = () => {
       if (tResponse.success) {
         let allRaces = [];
         for (const t of tResponse.data) {
-           const rResponse = await tournamentApi.getRacesByTournament(t.id);
-           if (rResponse.success) {
-               allRaces = [...allRaces, ...rResponse.data];
-           }
+          const rResponse = await tournamentApi.getRacesByTournament(t.id);
+          if (rResponse.success) {
+            allRaces = [...allRaces, ...rResponse.data];
+          }
         }
         setRaces(allRaces);
       }
@@ -107,15 +109,23 @@ const AdminDashboard = () => {
   const handleAssignReferee = async (tournamentId, raceId, refereeId) => {
     if (!refereeId) return;
     try {
-        const response = await tournamentApi.assignReferee(tournamentId, raceId, refereeId);
-        if (response.success) {
-            alert("Referee assigned successfully!");
-            void fetchRaces(); // Refresh races to show updated assignment
-        }
+      const response = await tournamentApi.assignReferee(tournamentId, raceId, refereeId);
+      if (response.success) {
+        alert("Referee assigned successfully!");
+        void fetchRaces(); // Refresh races to show updated assignment
+      }
     } catch (error) {
-        alert(error.response?.data?.message || "Failed to assign referee");
+      alert(error.response?.data?.message || "Failed to assign referee");
     }
   };
+
+  const assignmentTotalPages = Math.max(1, Math.ceil(races.length / assignmentPageSize));
+  const currentAssignmentPage = Math.min(assignmentPage, assignmentTotalPages);
+  const assignmentStartIndex = (currentAssignmentPage - 1) * assignmentPageSize;
+  const paginatedAssignmentRaces = races.slice(
+    assignmentStartIndex,
+    assignmentStartIndex + assignmentPageSize,
+  );
 
   const statsData = [
     {
@@ -236,13 +246,13 @@ const AdminDashboard = () => {
                       </td>
                       <td className="py-3 px-4 whitespace-nowrap text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <button 
+                          <button
                             onClick={() => handleApproveHorse(horse.id)}
                             className="bg-[#004225] text-white font-semibold text-xs px-3 py-1.5 rounded hover:opacity-90 transition-opacity"
                           >
                             Approve
                           </button>
-                          <button 
+                          <button
                             onClick={() => handleRejectHorse(horse.id)}
                             className="border border-outline-variant text-on-surface-variant font-semibold text-xs px-3 py-1.5 rounded hover:bg-surface-container transition-colors"
                           >
@@ -260,14 +270,25 @@ const AdminDashboard = () => {
 
         {/* Right Pane: Referee Assignment */}
         <div className="lg:col-span-1 flex flex-col gap-3">
-          <h2
-            className="text-2xl font-semibold text-on-surface border-b border-outline-variant pb-2"
-            style={{ fontFamily: "'Oswald', sans-serif" }}
-          >
-            Referee Assignment
-          </h2>
+          <div className="flex items-end justify-between gap-3 border-b border-outline-variant pb-2">
+            <div>
+              <h2
+                className="text-2xl font-semibold text-on-surface"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                Referee Assignment
+              </h2>
+              <p className="text-xs text-on-surface-variant mt-1">
+                Showing {races.length === 0 ? 0 : assignmentStartIndex + 1}-
+                {Math.min(assignmentStartIndex + assignmentPageSize, races.length)} of {races.length}
+              </p>
+            </div>
+            <span className="text-xs font-semibold text-on-surface-variant bg-surface-container px-2 py-1 rounded-full whitespace-nowrap">
+              Page {currentAssignmentPage}/{assignmentTotalPages}
+            </span>
+          </div>
           <div className="flex flex-col gap-2">
-            {races.map((race) => (
+            {paginatedAssignmentRaces.map((race) => (
               <div
                 key={race.id}
                 className="bg-surface-container-lowest rounded-xl p-4 shadow-[0_4px_12px_rgba(15,23,42,0.1)] border border-outline-variant/30 flex flex-col gap-3"
@@ -277,7 +298,7 @@ const AdminDashboard = () => {
                     className="bg-tertiary-container text-on-tertiary-container w-10 h-10 rounded-lg flex items-center justify-center font-medium text-[18px]"
                     style={{ fontFamily: "'Oswald', sans-serif" }}
                   >
-                    {race.id}
+                    {/* {race.id} */}
                   </div>
                   <div>
                     <h3 className="font-semibold text-sm text-on-surface leading-tight">
@@ -289,20 +310,63 @@ const AdminDashboard = () => {
                   </div>
                 </div>
                 <div className="w-full">
-                  <select 
+                  <select
                     className="w-full bg-surface border border-outline-variant rounded-lg px-3 py-2 text-sm text-on-surface focus:ring-1 focus:ring-primary focus:border-primary outline-none"
                     value={race.refereeId || ""}
                     onChange={(e) => handleAssignReferee(race.tournamentId, race.id, e.target.value)}
                   >
                     <option value="">Assign Referee...</option>
                     {referees.map(ref => (
-                        <option key={ref.id} value={ref.id}>{ref.fullName}</option>
+                      <option key={ref.id} value={ref.id}>{ref.fullName}</option>
                     ))}
                   </select>
                 </div>
               </div>
             ))}
+            {races.length === 0 && (
+              <div className="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/30 text-center text-sm text-on-surface-variant font-medium">
+                No races available for assignment.
+              </div>
+            )}
           </div>
+          {races.length > assignmentPageSize && (
+            <div className="bg-surface-container-lowest rounded-xl p-3 shadow-[0_4px_12px_rgba(15,23,42,0.1)] border border-outline-variant/30 flex items-center justify-between gap-2">
+              <button
+                type="button"
+                onClick={() => setAssignmentPage(Math.max(1, currentAssignmentPage - 1))}
+                disabled={currentAssignmentPage === 1}
+                className="inline-flex items-center gap-1 rounded-lg border border-outline-variant px-3 py-2 text-xs font-semibold text-on-surface-variant hover:bg-surface-container disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                <span className="material-symbols-outlined text-[16px]">chevron_left</span>
+                Prev
+              </button>
+              <div className="flex items-center gap-1">
+                {Array.from({ length: assignmentTotalPages }, (_, index) => index + 1).map((page) => (
+                  <button
+                    key={page}
+                    type="button"
+                    onClick={() => setAssignmentPage(page)}
+                    className={`w-8 h-8 rounded-lg text-xs font-bold transition-colors ${
+                      page === currentAssignmentPage
+                        ? "bg-secondary-container text-on-secondary-container"
+                        : "text-on-surface-variant hover:bg-surface-container"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => setAssignmentPage(Math.min(assignmentTotalPages, currentAssignmentPage + 1))}
+                disabled={currentAssignmentPage === assignmentTotalPages}
+                className="inline-flex items-center gap-1 rounded-lg border border-outline-variant px-3 py-2 text-xs font-semibold text-on-surface-variant hover:bg-surface-container disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                Next
+                <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </main>

@@ -61,4 +61,14 @@ public class RaceController {
         List<RaceResponse> response = raceService.getRacesByTournament(tournamentId);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
+
+    // @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/{id}/referee")
+    public ResponseEntity<ApiResponse<RaceResponse>> assignReferee(
+            @PathVariable UUID tournamentId,
+            @PathVariable UUID id,
+            @RequestParam UUID refereeId) {
+        RaceResponse response = raceService.assignReferee(id, refereeId);
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
 }
