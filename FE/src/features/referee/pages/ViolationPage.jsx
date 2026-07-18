@@ -1,8 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { refereeApi } from '../../../api/refereeApi';
+import './ViolationPage.css';
+
+const violationTypes = [
+  { value: 'FALSE_START', label: 'False Start' },
+  { value: 'LANE_VIOLATION', label: 'Lane Violation' },
+  { value: 'OBSTRUCTION', label: 'Obstruction' },
+  { value: 'EQUIPMENT_FAULT', label: 'Equipment Fault' },
+];
 
 const ViolationPage = () => {
-  // We grab raceId from query params or state; for now default to first race from inspections
   const [raceId, setRaceId] = useState(null);
   const [availableRaces, setAvailableRaces] = useState([]);
   const [registrations, setRegistrations] = useState([]);
@@ -11,52 +18,63 @@ const ViolationPage = () => {
   const [error, setError] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState(null);
 
-  // Form state
   const [selectedHorseRegId, setSelectedHorseRegId] = useState('');
   const [violationType, setViolationType] = useState('');
   const [occurrenceMinute, setOccurrenceMinute] = useState('');
   const [notes, setNotes] = useState('');
 
-  // Load assigned races from pre-race inspections
   useEffect(() => {
     const loadRaces = async () => {
       try {
         const res = await refereeApi.getAssignedInspections();
         const data = res?.data || [];
-        // Extract unique races
         const raceMap = new Map();
-        data.forEach(r => {
-          if (r.raceId && !raceMap.has(r.raceId)) {
-            raceMap.set(r.raceId, r.raceName || r.raceId);
+
+        data.forEach((entry) => {
+          if (entry.raceId && !raceMap.has(entry.raceId)) {
+            raceMap.set(entry.raceId, entry.raceName || entry.raceId);
           }
         });
+
         const racesArr = [...raceMap.entries()].map(([id, name]) => ({ id, name }));
         setAvailableRaces(racesArr);
-        if (racesArr.length > 0 && !raceId) {
-          setRaceId(racesArr[0].id);
+        if (racesArr.length > 0) {
+          setRaceId((currentRaceId) => currentRaceId || racesArr[0].id);
         }
         setRegistrations(data);
-      } catch (err) {
-        // If API fails use empty state
+      } catch {
         setError('Could not load assigned races.');
       }
     };
-    loadRaces();
+
+    void loadRaces();
   }, []);
 
   const loadViolations = useCallback(async () => {
     if (!raceId) return;
+
     try {
       const res = await refereeApi.getViolations(raceId);
       setViolations(res?.data || []);
-    } catch (err) {
+    } catch {
       setViolations([]);
     }
   }, [raceId]);
 
   useEffect(() => {
-    loadViolations();
-  }, [loadViolations]);
+    if (!raceId) return;
+
+    const loadRaceViolations = async () => {
+      try {
+        const res = await refereeApi.getViolations(raceId);
+        setViolations(res?.data || []);
+      } catch {
+        setViolations([]);
+      }
+    };
+
+    void loadRaceViolations();
+  }, [raceId]);
 
   const handleRaceChange = (newRaceId) => {
     setRaceId(newRaceId);
@@ -67,22 +85,23 @@ const ViolationPage = () => {
   const handleRecordViolation = async () => {
     if (!selectedHorseRegId || !violationType || !raceId) return;
 
-    const reg = registrations.find(r => r.registrationId === selectedHorseRegId);
-    if (!reg) return;
+    const registration = registrations.find((entry) => entry.registrationId === selectedHorseRegId);
+    if (!registration) return;
 
     setLoading(true);
     setError(null);
+
     try {
       await refereeApi.recordViolation(raceId, {
-        horseId: reg.horseId,
-        jockeyId: reg.jockeyId,
+        horseId: registration.horseId,
+        jockeyId: registration.jockeyId,
         type: violationType,
-        notes: notes,
-        occurrenceMinute: parseInt(occurrenceMinute) || 0,
+        notes,
+        occurrenceMinute: parseInt(occurrenceMinute, 10) || 0,
       });
+
       setSubmitSuccess('Violation recorded successfully.');
       setTimeout(() => setSubmitSuccess(null), 3000);
-      // Reset form
       setSelectedHorseRegId('');
       setViolationType('');
       setOccurrenceMinute('');
@@ -99,228 +118,213 @@ const ViolationPage = () => {
     try {
       await refereeApi.deleteViolation(violationId);
       await loadViolations();
-    } catch (err) {
+    } catch {
       setError('Failed to delete violation.');
     }
   };
 
   const violationTypeLabel = (type) => {
-    switch (type) {
-      case 'FALSE_START': return 'False Start';
-      case 'LANE_VIOLATION': return 'Lane Violation';
-      case 'OBSTRUCTION': return 'Obstruction';
-      case 'EQUIPMENT_FAULT': return 'Equipment Fault';
-      default: return type;
-    }
+    return violationTypes.find((item) => item.value === type)?.label || type;
   };
 
   const violationTypeClass = (type) => {
     switch (type) {
-      case 'FALSE_START': return 'bg-red-100 text-red-800 border border-red-200';
-      case 'LANE_VIOLATION': return 'bg-orange-100 text-orange-800 border border-orange-200';
-      case 'OBSTRUCTION': return 'bg-purple-100 text-purple-800 border border-purple-200';
-      default: return 'bg-yellow-100 text-yellow-800 border border-yellow-200';
+      case 'FALSE_START':
+        return 'violation-page-type-false-start';
+      case 'LANE_VIOLATION':
+        return 'violation-page-type-lane';
+      case 'OBSTRUCTION':
+        return 'violation-page-type-obstruction';
+      default:
+        return 'violation-page-type-default';
     }
   };
 
-  // registrations for the selected race
-  const raceRegistrations = registrations.filter(r => r.raceId === raceId);
+  const raceRegistrations = registrations.filter((entry) => entry.raceId === raceId);
 
   return (
-    <div className="bg-[#F7F8FA] text-on-surface flex font-body-md text-body-md overflow-x-hidden py-6">
-      <main className="flex-1">
-        <div className="max-w-container-max mx-auto p-xl">
-          {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="mb-lg flex text-on-surface-variant font-label-md text-label-md">
-            <ol className="inline-flex items-center space-x-2">
-              <li className="inline-flex items-center">
-                <a className="hover:text-secondary transition-colors" href="/referee">Referee</a>
-              </li>
-              <li>
-                <div className="flex items-center">
-                  <span className="material-symbols-outlined text-sm mx-1">chevron_right</span>
-                  <span aria-current="page" className="text-on-surface font-semibold">Record Violations</span>
-                </div>
-              </li>
-            </ol>
-          </nav>
+    <div className="violation-page">
+      <main className="violation-page-main">
+        <div className="violation-page-container">
+          <section className="violation-page-hero">
+            <nav aria-label="Breadcrumb" className="violation-page-breadcrumb">
+              <ol>
+                <li>
+                  <a href="/referee">Referee</a>
+                </li>
+                <li>
+                  <span className="material-symbols-outlined">chevron_right</span>
+                  <span aria-current="page">Record Violations</span>
+                </li>
+              </ol>
+            </nav>
 
-          {/* Page Header */}
-          <div className="mb-xl">
-            <div className="flex items-start justify-between mb-sm">
+            <div className="violation-page-header">
               <div>
-                <h2 className="font-headline-lg text-headline-lg text-primary-container mb-1">Record Violations</h2>
-                {availableRaces.length > 0 && (
-                  <div className="flex items-center gap-md mt-2">
-                    <label className="font-body-md text-on-surface-variant">Select Race:</label>
-                    <select
-                      value={raceId || ''}
-                      onChange={(e) => handleRaceChange(e.target.value)}
-                      className="bg-white border border-[#E2E8F0] rounded-md px-md py-1 font-body-md focus:border-secondary outline-none"
-                    >
-                      {availableRaces.map(r => (
-                        <option key={r.id} value={r.id}>{r.name || r.id}</option>
+                <p>Race Referee</p>
+                <h2>Record Violations</h2>
+              </div>
+
+              {availableRaces.length > 0 && (
+                <label className="violation-page-race-select">
+                  <span>Select Race</span>
+                  <select value={raceId || ''} onChange={(event) => handleRaceChange(event.target.value)}>
+                    {availableRaces.map((race) => (
+                      <option key={race.id} value={race.id}>
+                        {race.name || race.id}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
+            </div>
+          </section>
+
+          {error && <div className="violation-page-alert violation-page-alert-error">{error}</div>}
+          {submitSuccess && <div className="violation-page-alert violation-page-alert-success">{submitSuccess}</div>}
+
+          <section className="violation-page-layout">
+            <div className="violation-page-card violation-page-form-card">
+              <div className="violation-page-card-accent"></div>
+              <div className="violation-page-form-inner">
+                <div className="violation-page-card-head">
+                  <div>
+                    <p>New entry</p>
+                    <h3>
+                      <span className="material-symbols-outlined">add_alert</span>
+                      New Violation
+                    </h3>
+                  </div>
+                </div>
+
+                <form className="violation-page-form" onSubmit={(event) => event.preventDefault()}>
+                  <label>
+                    <span>Select Participant</span>
+                    <select value={selectedHorseRegId} onChange={(event) => setSelectedHorseRegId(event.target.value)}>
+                      <option value="">Choose a horse/jockey...</option>
+                      {raceRegistrations.map((registration) => (
+                        <option key={registration.registrationId} value={registration.registrationId}>
+                          {registration.horseName} / {registration.jockeyName || 'Unassigned'}
+                        </option>
+                      ))}
+                      {raceRegistrations.length === 0 && <option disabled>No registrations for this race</option>}
+                    </select>
+                  </label>
+
+                  <label>
+                    <span>Violation Type</span>
+                    <select value={violationType} onChange={(event) => setViolationType(event.target.value)}>
+                      <option value="">Select type...</option>
+                      {violationTypes.map((type) => (
+                        <option key={type.value} value={type.value}>
+                          {type.label}
+                        </option>
                       ))}
                     </select>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+                  </label>
 
-          {/* Alerts */}
-          {error && (
-            <div className="mb-lg p-md bg-red-50 border border-red-200 rounded-lg text-red-700 font-body-md">{error}</div>
-          )}
-          {submitSuccess && (
-            <div className="mb-lg p-md bg-green-50 border border-green-200 rounded-lg text-green-700 font-body-md">{submitSuccess}</div>
-          )}
+                  <label>
+                    <span>Minute of Occurrence</span>
+                    <input
+                      type="number"
+                      min="0"
+                      placeholder="e.g. 2"
+                      value={occurrenceMinute}
+                      onChange={(event) => setOccurrenceMinute(event.target.value)}
+                    />
+                  </label>
 
-          <div className="grid grid-cols-12 gap-lg">
-            {/* Violation Entry Form */}
-            <div className="col-span-12 lg:col-span-4 h-fit">
-              <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-[0_2px_4px_rgba(0,0,0,0.05)] overflow-hidden">
-                <div className="h-1 bg-secondary w-full text-[#006a61]"></div>
-                <div className="p-lg">
-                  <h3 className="font-headline-sm text-headline-sm text-primary-container border-b border-outline-variant pb-sm mb-md flex items-center gap-xs">
-                    <span className="material-symbols-outlined text-secondary">add_alert</span>
-                    New Violation
-                  </h3>
-                  <form className="space-y-md" onSubmit={(e) => e.preventDefault()}>
-                    <div>
-                      <label className="block font-label-md text-label-md text-on-surface mb-xs">Select Participant</label>
-                      <select
-                        value={selectedHorseRegId}
-                        onChange={(e) => setSelectedHorseRegId(e.target.value)}
-                        className="w-full bg-surface border border-[#E2E8F0] rounded-md px-md py-sm font-body-md focus:border-secondary outline-none"
-                      >
-                        <option value="">Choose a horse/jockey...</option>
-                        {raceRegistrations.map(r => (
-                          <option key={r.registrationId} value={r.registrationId}>
-                            {r.horseName} / {r.jockeyName || 'Unassigned'}
-                          </option>
-                        ))}
-                        {raceRegistrations.length === 0 && (
-                          <option disabled>No registrations for this race</option>
-                        )}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block font-label-md text-label-md text-on-surface mb-xs">Violation Type</label>
-                      <select
-                        value={violationType}
-                        onChange={(e) => setViolationType(e.target.value)}
-                        className="w-full bg-surface border border-[#E2E8F0] rounded-md px-md py-sm font-body-md focus:border-secondary outline-none"
-                      >
-                        <option value="">Select type...</option>
-                        <option value="FALSE_START">False Start</option>
-                        <option value="LANE_VIOLATION">Lane Violation</option>
-                        <option value="OBSTRUCTION">Obstruction</option>
-                        <option value="EQUIPMENT_FAULT">Equipment Fault</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block font-label-md text-label-md text-on-surface mb-xs">Minute of Occurrence</label>
-                      <input
-                        type="number"
-                        min="0"
-                        placeholder="e.g. 2"
-                        value={occurrenceMinute}
-                        onChange={(e) => setOccurrenceMinute(e.target.value)}
-                        className="w-full bg-surface border border-[#E2E8F0] rounded-md px-md py-sm font-tabular-nums focus:border-secondary outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block font-label-md text-label-md text-on-surface mb-xs">Description / Notes</label>
-                      <textarea
-                        rows="3"
-                        placeholder="Enter details of the infraction..."
-                        value={notes}
-                        onChange={(e) => setNotes(e.target.value)}
-                        className="w-full bg-surface border border-[#E2E8F0] rounded-md px-md py-sm font-body-md focus:border-secondary outline-none resize-none"
-                      ></textarea>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={handleRecordViolation}
-                      disabled={loading || !selectedHorseRegId || !violationType}
-                      className="w-full bg-[#009488] hover:bg-[#007A70] disabled:opacity-50 text-white font-label-md text-label-md py-sm px-lg rounded-md transition-colors flex items-center justify-center gap-xs mt-lg shadow-sm"
-                    >
-                      <span className="material-symbols-outlined text-[18px]">gavel</span>
-                      {loading ? 'Recording...' : 'Record Violation'}
-                    </button>
-                  </form>
-                </div>
+                  <label>
+                    <span>Description / Notes</span>
+                    <textarea
+                      rows="3"
+                      placeholder="Enter details of the infraction..."
+                      value={notes}
+                      onChange={(event) => setNotes(event.target.value)}
+                    />
+                  </label>
+
+                  <button
+                    type="button"
+                    onClick={handleRecordViolation}
+                    disabled={loading || !selectedHorseRegId || !violationType}
+                    className="violation-page-submit"
+                  >
+                    <span className="material-symbols-outlined">gavel</span>
+                    {loading ? 'Recording...' : 'Record Violation'}
+                  </button>
+                </form>
               </div>
             </div>
 
-            {/* Violations Log Table */}
-            <div className="col-span-12 lg:col-span-8">
-              <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-[0_2px_4px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col h-full">
-                <div className="p-lg border-b border-outline-variant flex justify-between items-center bg-white">
-                  <h3 className="font-headline-sm text-headline-sm text-primary-container flex items-center gap-xs">
-                    <span className="material-symbols-outlined text-on-surface-variant">history</span>
+            <div className="violation-page-card violation-page-log-card">
+              <div className="violation-page-log-head">
+                <div>
+                  <p>Live log</p>
+                  <h3>
+                    <span className="material-symbols-outlined">history</span>
                     Violations Log ({violations.length})
                   </h3>
-                  <button
-                    onClick={loadViolations}
-                    className="text-secondary font-label-md text-label-md hover:underline flex items-center gap-1"
-                  >
-                    <span className="material-symbols-outlined text-[16px]">refresh</span>
-                    Refresh
-                  </button>
                 </div>
+                <button type="button" onClick={loadViolations} className="violation-page-refresh">
+                  <span className="material-symbols-outlined">refresh</span>
+                  Refresh
+                </button>
+              </div>
 
-                <div className="overflow-x-auto flex-1">
-                  <table className="w-full text-left border-collapse">
-                    <thead className="bg-[#F7F8FA] border-b border-[#E2E8F0]">
+              <div className="violation-page-table-wrap">
+                <table className="violation-page-table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Horse</th>
+                      <th>Jockey</th>
+                      <th>Type</th>
+                      <th>Min</th>
+                      <th>Notes</th>
+                      <th className="violation-page-align-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {violations.length === 0 ? (
                       <tr>
-                        <th className="p-md font-label-md text-label-md text-on-surface-variant">#</th>
-                        <th className="p-md font-label-md text-label-md text-on-surface-variant">Horse</th>
-                        <th className="p-md font-label-md text-label-md text-on-surface-variant">Jockey</th>
-                        <th className="p-md font-label-md text-label-md text-on-surface-variant">Type</th>
-                        <th className="p-md font-label-md text-label-md text-on-surface-variant">Min</th>
-                        <th className="p-md font-label-md text-label-md text-on-surface-variant max-w-[200px]">Notes</th>
-                        <th className="p-md font-label-md text-label-md text-on-surface-variant text-center w-[80px]">Action</th>
+                        <td colSpan="7" className="violation-page-empty">
+                          No violations recorded yet.
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#E2E8F0] font-tabular-nums text-tabular-nums text-on-surface">
-                      {violations.length === 0 ? (
-                        <tr>
-                          <td colSpan="7" className="p-xl text-center text-on-surface-variant">
-                            No violations recorded yet.
-                          </td>
-                        </tr>
-                      ) : violations.map((violation, idx) => (
-                        <tr key={violation.id} className="hover:bg-surface-container-lowest/50 transition-colors group">
-                          <td className="p-md text-on-surface-variant">{idx + 1}</td>
-                          <td className="p-md font-semibold">{violation.horseName}</td>
-                          <td className="p-md text-on-surface-variant">{violation.jockeyName}</td>
-                          <td className="p-md">
-                            <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-semibold ${violationTypeClass(violation.type)}`}>
+                    ) : (
+                      violations.map((violation, index) => (
+                        <tr key={violation.id}>
+                          <td className="violation-page-muted">{index + 1}</td>
+                          <td className="violation-page-horse">{violation.horseName}</td>
+                          <td>{violation.jockeyName}</td>
+                          <td>
+                            <span className={`violation-page-type ${violationTypeClass(violation.type)}`}>
                               {violationTypeLabel(violation.type)}
                             </span>
                           </td>
-                          <td className="p-md">{violation.occurrenceMinute}'</td>
-                          <td className="p-md text-on-surface-variant truncate max-w-[200px]" title={violation.notes}>
-                            {violation.notes || '—'}
+                          <td className="violation-page-number">{violation.occurrenceMinute}'</td>
+                          <td className="violation-page-notes" title={violation.notes}>
+                            {violation.notes || '-'}
                           </td>
-                          <td className="p-md text-center">
+                          <td className="violation-page-align-center">
                             <button
+                              type="button"
                               onClick={() => handleDelete(violation.id)}
-                              className="text-on-surface-variant hover:text-error transition-colors p-1 rounded-md hover:bg-error-container/50"
+                              className="violation-page-delete"
+                              aria-label="Delete violation"
                             >
-                              <span className="material-symbols-outlined text-[20px]">delete</span>
+                              <span className="material-symbols-outlined">delete</span>
                             </button>
                           </td>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      ))
+                    )}
+                  </tbody>
+                </table>
               </div>
             </div>
-          </div>
+          </section>
         </div>
       </main>
     </div>
