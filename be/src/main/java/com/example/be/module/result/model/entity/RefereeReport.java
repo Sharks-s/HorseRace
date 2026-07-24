@@ -1,6 +1,7 @@
 package com.example.be.module.result.model.entity;
 
 import com.example.be.module.auth.model.entity.User;
+import com.example.be.module.result.model.enums.RefereeReportStatus;
 import com.example.be.module.tournament.model.entity.Race;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,8 +33,9 @@ public class RefereeReport {
     @Column(columnDefinition = "TEXT")
     private String notes;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Boolean confirmed;
+    private RefereeReportStatus status;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime submittedAt;
@@ -41,8 +43,8 @@ public class RefereeReport {
     @PrePersist
     protected void onCreate() {
         submittedAt = LocalDateTime.now();
-        if (confirmed == null) {
-            confirmed = true;
+        if (status == null) {
+            status = RefereeReportStatus.DRAFTING;
         }
     }
 }

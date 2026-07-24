@@ -1,5 +1,6 @@
 package com.example.be.common.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,6 +26,11 @@ import java.util.List;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+        // Comma-separated list of allowed browser origins. Override per-environment
+        // with APP_CORS_ALLOWED_ORIGINS (e.g. "http://your-host" for a deployed FE).
+        @Value("${app.cors.allowed-origins}")
+        private List<String> allowedOrigins;
+
         @Bean
         public PasswordEncoder passwordEncoder() {
                 return new BCryptPasswordEncoder();
@@ -42,11 +48,7 @@ public class SecurityConfig {
         @Bean
         public CorsConfigurationSource corsConfigurationSource() {
                 CorsConfiguration configuration = new CorsConfiguration();
-                configuration.setAllowedOrigins(List.of(
-                                "http://localhost:5173",
-                                "http://127.0.0.1:5173",
-                                "http://localhost:5174",
-                                "http://127.0.0.1:5174"));
+                configuration.setAllowedOrigins(allowedOrigins);
                 configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 configuration.setAllowedHeaders(List.of("*"));
                 configuration.setAllowCredentials(true);

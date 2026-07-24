@@ -2,10 +2,12 @@ package com.example.be.module.tournament.model.enums;
 
 public enum RaceStatus {
     SCHEDULED,
-    CLOSED_REGISTRATION,
-    IN_PROGRESS,
+    REGISTRATION_OPEN,
+    REGISTRATION_CLOSED,
+    READY_TO_START,
+    ONGOING,
+    WAITING_FOR_REPORT,
     RESULT_SUBMITTED,
-    FINISHED,
-    OFFICIAL,
+    OFFICIAL_RESULT,
     CANCELLED
 }

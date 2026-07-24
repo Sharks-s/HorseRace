@@ -35,18 +35,18 @@ public class RaceSchedulingJob {
         LocalDateTime deadline = LocalDateTime.now().plusHours(48);
 
         List<Race> racesToClose = raceRepository.findAll().stream()
-                .filter(r -> r.getStatus() == RaceStatus.SCHEDULED)
+                .filter(r -> r.getStatus() == RaceStatus.REGISTRATION_OPEN)
                 .filter(r -> r.getStartTime().isBefore(deadline) || r.getStartTime().isEqual(deadline))
                 .toList();
 
         if (!racesToClose.isEmpty()) {
             racesToClose.forEach(r -> {
-                long acceptedCount = registrationRepository.countByRaceIdAndStatus(r.getId(), RegistrationStatus.ACCEPTED);
+                long acceptedCount = registrationRepository.countByRaceIdAndStatus(r.getId(), RegistrationStatus.APPROVED);
                 if (acceptedCount < MIN_HORSES_PER_RACE) {
                     r.setStatus(RaceStatus.CANCELLED);
                     log.info("Cancelled race due to insufficient horses: {} (Count: {})", r.getId(), acceptedCount);
                 } else {
-                    r.setStatus(RaceStatus.CLOSED_REGISTRATION);
+                    r.setStatus(RaceStatus.REGISTRATION_CLOSED);
                     log.info("Closed registration for race: {}", r.getId());
                 }
             });

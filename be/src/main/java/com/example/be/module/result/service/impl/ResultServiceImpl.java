@@ -42,7 +42,7 @@ public class ResultServiceImpl implements ResultService {
             throw new IllegalArgumentException("Results can only be published for races with SUBMITTED results");
         }
 
-        race.setStatus(RaceStatus.OFFICIAL);
+        race.setStatus(RaceStatus.OFFICIAL_RESULT);
         raceRepository.save(race);
     }
 
@@ -52,7 +52,7 @@ public class ResultServiceImpl implements ResultService {
         Race race = raceRepository.findById(raceId)
                 .orElseThrow(() -> new IllegalArgumentException("Race not found"));
 
-        if (race.getStatus() != RaceStatus.OFFICIAL) {
+        if (race.getStatus() != RaceStatus.OFFICIAL_RESULT) {
             throw new IllegalArgumentException("Results for this race are not official yet");
         }
 
@@ -65,7 +65,7 @@ public class ResultServiceImpl implements ResultService {
     @Transactional(readOnly = true)
     public List<TournamentStandingResponse> getTournamentStandings(UUID tournamentId) {
         List<Race> officialRaces = raceRepository.findByTournamentId(tournamentId).stream()
-                .filter(race -> race.getStatus() == RaceStatus.OFFICIAL)
+                .filter(race -> race.getStatus() == RaceStatus.OFFICIAL_RESULT)
                 .toList();
 
         if (officialRaces.isEmpty()) {

@@ -1,5 +1,7 @@
 package com.example.be.module.result.dto;
 
+import com.example.be.module.result.model.enums.RefereeReportStatus;
+
 import com.example.be.module.result.model.entity.RaceResult;
 import com.example.be.module.result.model.entity.RefereeReport;
 import lombok.AllArgsConstructor;
@@ -21,7 +23,7 @@ public class RefereeReportResponse {
     private UUID raceId;
     private String refereeName;
     private String notes;
-    private Boolean confirmed;
+    private RefereeReportStatus status;
     private LocalDateTime submittedAt;
     private List<RaceResultDetail> results;
 
@@ -61,7 +63,7 @@ public class RefereeReportResponse {
                 .raceId(report.getRace().getId())
                 .refereeName(report.getReferee().getFullName())
                 .notes(report.getNotes())
-                .confirmed(report.getConfirmed())
+                .status(report.getStatus())
                 .submittedAt(report.getSubmittedAt())
                 .results(results.stream().map(RaceResultDetail::fromEntity).toList())
                 .build();

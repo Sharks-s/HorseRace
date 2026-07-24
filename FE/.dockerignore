@@ -1,0 +1,15 @@
+node_modules
+dist
+dist-ssr
+.git
+.gitignore
+*.log
+npm-debug.log*
+# Local dev env — the Docker image is built with VITE_API_BASE_URL=/api (build arg),
+# so local overrides must not leak into the image.
+.env.local
+.env.*.local
+.vscode
+.idea
+Dockerfile
+.dockerignore

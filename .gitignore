@@ -30,3 +30,7 @@ dist-ssr
 # Build output
 target/
 **/target/
+
+# Environment secrets (never commit real credentials — see .env.example)
+.env
+!.env.example
