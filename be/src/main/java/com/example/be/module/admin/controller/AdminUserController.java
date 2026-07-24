@@ -24,7 +24,6 @@ public class AdminUserController {
 	private final AdminUserService adminUserService;
 
 	@GetMapping
-	@PreAuthorize("hasRole('ADMIN')")
 	public ApiResponse<Page<UserAdminResponse>> getUsers(
 			@RequestParam(required = false) Role role,
 			@RequestParam(required = false) UserStatus status,
@@ -33,13 +32,11 @@ public class AdminUserController {
 	}
 
 	@GetMapping("/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
 	public ApiResponse<UserAdminResponse> getUser(@PathVariable UUID id) {
 		return ApiResponse.success(adminUserService.getUser(id));
 	}
 
 	@PutMapping("/{id}/status")
-	@PreAuthorize("hasRole('ADMIN')")
 	public ApiResponse<UserAdminResponse> updateUserStatus(
 			@PathVariable UUID id,
 			@Valid @RequestBody UpdateUserStatusRequest request) {
@@ -47,7 +44,6 @@ public class AdminUserController {
 	}
 
 	@PutMapping("/{id}/role")
-	@PreAuthorize("hasRole('ADMIN')")
 	public ApiResponse<UserAdminResponse> updateUserRole(
 			@PathVariable UUID id,
 			@Valid @RequestBody UpdateUserRoleRequest request) {
