@@ -102,16 +102,16 @@ public class RegistrationServiceImpl implements RegistrationService {
             LocalDate raceDate = registration.getRace().getStartTime().toLocalDate();
             long acceptedRaces = registrationRepository.countByJockey_IdAndStatusAndRace_StartTimeBetween(
                     registration.getJockey().getId(),
-                    RegistrationStatus.ACCEPTED,
+                    RegistrationStatus.APPROVED,
                     raceDate.atStartOfDay(),
                     raceDate.plusDays(1).atStartOfDay()
             );
             if (acceptedRaces >= 3) {
                 throw new IllegalArgumentException("Jockey has reached the maximum limit of 3 races per day.");
             }
-            registration.setStatus(RegistrationStatus.ACCEPTED);
+            registration.setStatus(RegistrationStatus.JOCKEY_ACCEPTED);
         } else {
-            registration.setStatus(RegistrationStatus.DECLINED);
+            registration.setStatus(RegistrationStatus.JOCKEY_REJECTED);
         }
 
         Registration updated = registrationRepository.save(registration);

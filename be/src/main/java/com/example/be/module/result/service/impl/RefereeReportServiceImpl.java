@@ -14,6 +14,7 @@ import com.example.be.module.result.repository.RefereeReportRepository;
 import com.example.be.module.result.service.RefereeReportService;
 import com.example.be.module.result.service.strategy.RankingStrategy;
 import com.example.be.module.tournament.model.entity.Race;
+import com.example.be.module.result.model.enums.RefereeReportStatus;
 import com.example.be.module.tournament.model.enums.RaceStatus;
 import com.example.be.module.tournament.repository.RaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -76,7 +77,7 @@ public class RefereeReportServiceImpl implements RefereeReportService {
                 .race(race)
                 .referee(referee)
                 .notes(request.getNotes())
-                .confirmed(true)
+                .status(RefereeReportStatus.SUBMITTED)
                 .build();
         RefereeReport savedReport = refereeReportRepository.save(report);
 

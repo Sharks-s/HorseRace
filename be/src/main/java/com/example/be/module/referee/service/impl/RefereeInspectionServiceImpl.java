@@ -25,9 +25,9 @@ import java.util.UUID;
 public class RefereeInspectionServiceImpl implements RefereeInspectionService {
 
 	private static final List<RegistrationStatus> INSPECTION_STATUSES = List.of(
-			RegistrationStatus.ACCEPTED,
-			RegistrationStatus.RACE_READY,
-			RegistrationStatus.DISQUALIFIED);
+			RegistrationStatus.HEALTH_CHECK_PENDING,
+			RegistrationStatus.ELIGIBLE_TO_RACE,
+			RegistrationStatus.INELIGIBLE);
 
 	private final RegistrationRepository registrationRepository;
 	private final UserRepository userRepository;
@@ -75,8 +75,8 @@ public class RefereeInspectionServiceImpl implements RefereeInspectionService {
 		}
 
 		registration.setStatus(request.getDecision() == HorseInspectionDecision.PASSED
-				? RegistrationStatus.RACE_READY
-				: RegistrationStatus.DISQUALIFIED);
+				? RegistrationStatus.ELIGIBLE_TO_RACE
+				: RegistrationStatus.INELIGIBLE);
 		registration.setInspectionNote(buildInspectionNote(request.getNote(), br01Passed));
 		registration.setInspectedAt(LocalDateTime.now());
 		registration.setInspectedBy(referee);

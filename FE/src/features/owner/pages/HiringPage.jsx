@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { registrationApi } from "../../../api/registrationApi";
 import { tournamentApi } from "../../../api/tournamentApi";
-import { adminUserApi } from "../../../api/adminUserApi";
 import { api } from "../../../api/axios";
 
 const HiringPage = () => {
@@ -35,9 +34,9 @@ const HiringPage = () => {
 
   const fetchJockeys = async () => {
     try {
-      const res = await adminUserApi.getUsers({ role: 'JOCKEY', size: 50 });
-      if (res.success && res.data?.content) {
-        setJockeys(res.data.content);
+      const res = await api.get("/users", { params: { role: 'JOCKEY' } });
+      if (res.data && res.data.success) {
+        setJockeys(res.data.data);
       }
     } catch (err) {
       console.error("Error fetching jockeys", err);

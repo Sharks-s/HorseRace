@@ -77,7 +77,7 @@ public class JockeyServiceImpl implements JockeyService {
 		return registrationRepository
 				.findByJockey_IdAndStatusAndRace_StartTimeAfterOrderByRace_StartTimeAsc(
 						jockey.getId(),
-						RegistrationStatus.ACCEPTED,
+						RegistrationStatus.APPROVED,
 						LocalDateTime.now())
 				.stream()
 				.map(JockeyScheduleResponse::fromEntity)
@@ -91,7 +91,7 @@ public class JockeyServiceImpl implements JockeyService {
 		LocalDate targetDate = date == null ? LocalDate.now() : date;
 		long acceptedRaceCount = registrationRepository.countByJockey_IdAndStatusAndRace_StartTimeBetween(
 				jockey.getId(),
-				RegistrationStatus.ACCEPTED,
+				RegistrationStatus.APPROVED,
 				targetDate.atStartOfDay(),
 				targetDate.plusDays(1).atStartOfDay());
 		return new DailyRaceLimitResponse(targetDate, acceptedRaceCount, DAILY_RACE_LIMIT, acceptedRaceCount <= DAILY_RACE_LIMIT);
